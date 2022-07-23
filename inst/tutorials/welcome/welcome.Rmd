@@ -1,0 +1,44 @@
+---
+title: "Welcome to Advanced Data Journalism: Doing more with R"
+author: "Andrew Ba Tran"
+output: learnr::tutorial
+runtime: shiny_prerendered
+# Do not index/display tutorial by setting `private: true`
+private: true
+description: >
+  This is welcome module to see if everything is running smoothly.
+---
+
+```{r setup}
+packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes")
+if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
+  install.packages(setdiff(packages, rownames(installed.packages())), repos = "https://cran.us.r-project.org")  
+}
+
+library(learnr)
+```
+
+Welcome to class!
+
+This page checked if the R packages needed for this class were installed on your computer and installed any that were missing.
+
+It's also a way to incorporate each week's lessons and live-coding exercises. 
+
+Every section will be initiated through RStudio in this manner:
+
+`learnr::run_tutorial("welcome", "adjclass")`
+
+or 
+
+`learnr::run_tutorial("class1", "adjclass")`
+
+and so on.
+
+This will allow you to read through the guides and run parts of the R code in the exercises.
+
+The answers needed to answer each week's quiz will be derived from the exercises from these pages.
+
+```{r addition, exercise=TRUE}
+1 + 1
+```
+
