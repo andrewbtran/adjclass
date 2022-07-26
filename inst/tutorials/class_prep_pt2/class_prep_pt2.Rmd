@@ -660,3 +660,19 @@ check_this_code()
 
 *Note:* Is the answer the same as above (correct) or is it 1-5 (false)? 
 
+
+
+## Intro pt III
+
+Stop this tutorial in the `Render` or `Jobs` tab of RStudio (press the stop button).
+
+You did it! Get up and stretch. Take a break from your screen.
+
+Decompress and let what you've just learned settle.
+
+When you're ready to move on to pt. 3 just type this in the console of RStudio:
+
+```
+learnr::run_tutorial("class_prep_pt3", "adjclass")
+```
+
