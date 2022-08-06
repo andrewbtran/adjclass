@@ -17,6 +17,11 @@ description: >
 ---
 
 
+```{css, echo=FALSE}
+.pageContent {
+padding-top: 64px }
+```
+
 ```{r setup, include=FALSE}
 packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
@@ -315,7 +320,9 @@ Compare the column names from this to the ones above. There are no capitalizatio
 
 It's preferable to save data frames as CSVs because it's more open and doesn't require a paid program for others to open.
 
-But if you must, there are some decent walkthroughs:
+But sometimes it's more economicial to push out a bunch of sheets into one workbook (that's the perk of Excel, after all).
+
+We won't get into that now but if you're curious, you can explore that in the the links below.
 
 * [Using the xlsx package](http://www.sthda.com/english/wiki/writing-data-from-r-to-excel-files-xls-xlsx)
 * [Reading and importing Excel files into R](https://www.datacamp.com/community/tutorials/r-tutorial-read-excel-into-r)

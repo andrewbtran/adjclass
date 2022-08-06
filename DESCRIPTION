@@ -1,11 +1,23 @@
 Package: adjclass
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Advanced Data Journalism Walkthroughs
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Andrew Ba Tran
+Maintainer: The package maintainer <abtran@gmail.com>
+Description: Tutorials for Advanced Data Journalism: Doing More with R
+Imports:
+  tidyverse,
+  lubridate,
+  rvest,
+  httr,
+  remotes,
+  usethis
+Remotes:
+  rstudio/gradethis
+  rstudio/learnr
+License: MIT + file LICENSE
+URL: https://journalismcourses.org
+VignetteBuilder:: knitr
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.2.1

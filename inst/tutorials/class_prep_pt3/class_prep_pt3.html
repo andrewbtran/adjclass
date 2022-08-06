@@ -198,20 +198,6 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
@@ -236,26 +222,16 @@ About
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
 
 <div class="pageContent band">
 <main class="bandContent page">
 
 <article class="topics" id="learnr-tutorial-content">
 
+<style type="text/css">
+.pageContent {
+padding-top: 64px }
+</style>
 <p><span style="color:white">welcome to class!</span></p>
 <div id="section-csv-files" class="section level2">
 <h2>CSV files</h2>
@@ -487,7 +463,8 @@ head(df_csv, 10)</code></pre>
 <div id="section-exporting-to-excel" class="section level2">
 <h2>Exporting to Excel</h2>
 <p>It’s preferable to save data frames as CSVs because it’s more open and doesn’t require a paid program for others to open.</p>
-<p>But if you must, there are some decent walkthroughs:</p>
+<p>But sometimes it’s more economicial to push out a bunch of sheets into one workbook (that’s the perk of Excel, after all).</p>
+<p>We won’t get into that now but if you’re curious, you can explore that in the the links below.</p>
 <ul>
 <li><a href="http://www.sthda.com/english/wiki/writing-data-from-r-to-excel-files-xls-xlsx">Using the xlsx package</a></li>
 <li><a href="https://www.datacamp.com/community/tutorials/r-tutorial-read-excel-into-r">Reading and importing Excel files into R</a></li>
@@ -635,19 +612,19 @@ learnr:::store_exercise_cache(structure(list(label = "segment2", global_setup = 
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz1-1", question = structure("If you import a CSV with read.csv(), what argument do you pass to make sure strings are not interpreted as factors?", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_d22efb3", 
+"character")), answers = list(structure(list(id = "lnr_ans_ce70cbc", 
     option = "read.csv(\"data.csv\", stringsAsFactors=F)", value = "read.csv(\"data.csv\", stringsAsFactors=F)", 
     label = structure("read.csv(&quot;data.csv&quot;, stringsAsFactors=F)", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_c623503", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_cb0cc80", 
     option = "read.csv(\"data.csv\", interpretStrings=T)", value = "read.csv(\"data.csv\", interpretStrings=T)", 
     label = structure("read.csv(&quot;data.csv&quot;, interpretStrings=T)", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_5acff2b", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_54d1105", 
     option = "read.csv(\"data.csv\", factors=F)", value = "read.csv(\"data.csv\", factors=F)", 
     label = structure("read.csv(&quot;data.csv&quot;, factors=F)", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_962c886", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_164de99", 
     option = "read.csv(\"data.csv\", strings=T)", value = "read.csv(\"data.csv\", strings=T)", 
     label = structure("read.csv(&quot;data.csv&quot;, strings=T)", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
@@ -658,29 +635,29 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "quiz1-1-answer", question = "quiz1-1"), loading = NULL, 
-    random_answer_order = TRUE, allow_retry = FALSE, seed = 951503717.056922, 
+    random_answer_order = TRUE, allow_retry = FALSE, seed = 1395543642.85015, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz1-2", question = structure("When exporting a csv, how do you get rid of NAs with the readr package?", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_379457f", 
+"character")), answers = list(structure(list(id = "lnr_ans_c47bbd4", 
     option = "write_csv(df_csv, \"data/transformed_data.csv\", na=\"\")", 
     value = "write_csv(df_csv, \"data/transformed_data.csv\", na=\"\")", 
     label = structure("write_csv(df_csv, &quot;data/transformed_data.csv&quot;, na=&quot;&quot;)", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_2f693bd", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_5a222b6", 
     option = "write.csv(df_csv, \"data/transformed_data.csv\", na=\"\")", 
     value = "write.csv(df_csv, \"data/transformed_data.csv\", na=\"\")", 
     label = structure("write.csv(df_csv, &quot;data/transformed_data.csv&quot;, na=&quot;&quot;)", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_8608bbf", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_aee8003", 
     option = "write_csv(df_csv, \"data/transformed_data.csv\", NA=\"\")", 
     value = "write_csv(df_csv, \"data/transformed_data.csv\", NA=\"\")", 
     label = structure("write_csv(df_csv, &quot;data/transformed_data.csv&quot;, NA=&quot;&quot;)", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_68aadf6", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_e45fee7", 
     option = "write.csv(df_csv, \"data/transformed_data.csv\", is.na=F)", 
     value = "write.csv(df_csv, \"data/transformed_data.csv\", is.na=F)", 
     label = structure("write.csv(df_csv, &quot;data/transformed_data.csv&quot;, is.na=F)", html = TRUE, class = c("html", 
@@ -692,26 +669,26 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "quiz1-2-answer", question = "quiz1-2"), loading = NULL, 
-    random_answer_order = TRUE, allow_retry = FALSE, seed = 1365819277.86399, 
+    random_answer_order = TRUE, allow_retry = FALSE, seed = 1751442884.68442, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz2-1", question = structure("If you import an Excel file and it has 5 buffer rows at the top before the real data starts, how do you deal with that using the <strong>readxl<\u002fstrong> package?", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_7dbe3bd", 
+"character")), answers = list(structure(list(id = "lnr_ans_496c65c", 
     option = "read_excel(\"stats.xls\", sheet=1, skip=5)", value = "read_excel(\"stats.xls\", sheet=1, skip=5)", 
     label = structure("read_excel(&quot;stats.xls&quot;, sheet=1, skip=5)", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_cfb8e1c", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_d59fa2", 
     option = "read_excel(\"stats.xls\", sheet=1, row=5)", value = "read_excel(\"stats.xls\", sheet=1, row=5)", 
     label = structure("read_excel(&quot;stats.xls&quot;, sheet=1, row=5)", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_3cf8902", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_1ebbc49", 
     option = "read_excel(\"stats.xls\", sheet=1, row=6)", value = "read_excel(\"stats.xls\", sheet=1, row=6)", 
     label = structure("read_excel(&quot;stats.xls&quot;, sheet=1, row=6)", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_ec87587", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_6ccb3e6", 
     option = "read_excel(\"stats.xls\", sheet=1, row=4)", value = "read_excel(\"stats.xls\", sheet=1, row=4)", 
     label = structure("read_excel(&quot;stats.xls&quot;, sheet=1, row=4)", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
@@ -722,23 +699,23 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "quiz2-1-answer", question = "quiz2-1"), loading = NULL, 
-    random_answer_order = TRUE, allow_retry = FALSE, seed = 1734395384.19236, 
+    random_answer_order = TRUE, allow_retry = FALSE, seed = 250838341.883194, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz2-2", question = structure("What is the function from the janitor package that eliminates spaces and lowercases the text in the column names?", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_5197b2f", 
+"character")), answers = list(structure(list(id = "lnr_ans_4129bf5", 
     option = "clean_names()", value = "clean_names()", label = structure("clean_names()", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_58e9f4c", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_d857b39", 
     option = "make.names()", value = "make.names()", label = structure("make.names()", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_cd0d834", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_6160011", 
     option = "fix_columns()", value = "fix_columns()", label = structure("fix_columns()", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_b1084cf", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_c76ffdb", 
     option = "janitor()", value = "janitor()", label = structure("janitor()", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
 "tutorial_quiz_answer"))), button_labels = list(submit = structure("<span data-i18n=\"button.questionsubmit\">Submit Answer<\u002fspan>", html = TRUE, class = c("html", 
@@ -748,7 +725,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "quiz2-2-answer", question = "quiz2-2"), loading = NULL, 
-    random_answer_order = TRUE, allow_retry = FALSE, seed = 615243921.713505, 
+    random_answer_order = TRUE, allow_retry = FALSE, seed = 549721529.744016, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>

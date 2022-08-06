@@ -16,6 +16,12 @@ description: >
   Lessons and exercises to catch you up what R is and how to use it.
 ---
 
+
+```{css, echo=FALSE}
+.pageContent {
+padding-top: 64px }
+```
+
 ```{r setup, include=FALSE}
 packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
