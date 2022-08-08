@@ -117,7 +117,11 @@ Or we could drill down and find the average deaths by disaster broken out by sta
 
 To do that we'll need to use a couple of **dplyr** verbs: `group_by()` and `summarize()`.
 
-These functions do the aggregation process in two steps. 
+Summarizing data in R typically takes two steps: 1) Group the rows based on some value in the data, 2) Summarize those groups by counting the rows or doing math on values.
+
+The Group and Summarize combo can be confusing. Here's a video from Christian McDonald that explains it [with candy](https://youtu.be/a3VNWYJoy5A).
+
+So the `group_by()` and `summarize()` functions do the aggregation process in two steps. 
 
 First we use `group_by()` to tell R which columns we want to group our data by - these are the higher level of aggregation columns so in our case will be the year of data. 
 

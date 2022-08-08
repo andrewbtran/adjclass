@@ -11,7 +11,10 @@ Imports:
   rvest,
   httr,
   remotes,
-  usethis
+  usethis,
+  flair,
+  DT,
+  knitr
 Remotes:
   rstudio/gradethis
   rstudio/learnr
