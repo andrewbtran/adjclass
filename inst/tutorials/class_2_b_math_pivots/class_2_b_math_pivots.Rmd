@@ -175,7 +175,7 @@ Okay, we have tidy data! Each variable is in its own column. Each case is in its
 
 This makes it easier to mutate and manipulate (and is also the preferable data structure for most data viz tools).
 
-However, if we wanted to compare 2020 declaratin counts to 2020 in each state, that would be difficult.
+However, if we wanted to compare 2020 declaration counts to 2020 in each state, that would be difficult.
 
 ## pivot_wider()
 
