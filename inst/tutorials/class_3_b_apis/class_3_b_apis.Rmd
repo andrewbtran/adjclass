@@ -13,7 +13,7 @@ runtime: shiny_prerendered
 # Do not index/display tutorial by setting `private: true`
 private: true
 description: >
-  Lessons and exercises to catch you up what R is and how to use it.
+  Accessing APIs with R
 ---
 
 
@@ -23,7 +23,8 @@ padding-top: 64px }
 ```
 
 ```{r setup, include=FALSE}
-packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes")
+packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes",
+              "jsonlite", "utils")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())), repos = "https://cran.us.r-project.org")  
 }
@@ -47,6 +48,36 @@ info_key <- 'key=WaPo'
 API_URL <- str_c(base, "?county=", county, "&state=", state, "&", info_key)
 
 
+```
+
+
+```{css, echo=FALSE}
+.pageContent {
+padding-top: 64px }
+
+.cell-left {
+  text-align: left;
+}
+
+.cell-right {
+  text-align: right;
+}
+
+.cell-center {
+  text-align: center;
+}
+
+table {
+    margin: auto;
+    border-top: 1px solid rgb(102, 102, 102);
+    border-bottom: 1px solid rgb(102, 102, 102);
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    border-spacing: 2px;
+    border-color: grey;
+    padding-bottom:5px;
+}
 ```
 
 <span style="color:white">welcome to class!</span>

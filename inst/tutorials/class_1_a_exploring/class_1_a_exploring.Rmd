@@ -13,7 +13,7 @@ runtime: shiny_prerendered
 # Do not index/display tutorial by setting `private: true`
 private: true
 description: >
-  Lessons and exercises to catch you up what R is and how to use it.
+  First steps in exploring data
 ---
 
 

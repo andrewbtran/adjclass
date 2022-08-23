@@ -190,7 +190,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li><a href="https://journalismcourses.org">Class 2: Visualization</a></li>
+        <li><a href="https://journalismcourses.org">Class 2: Visualizations</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="https://journalismcourses.org">journalismcourses.org</a></li>
@@ -214,7 +214,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li><a href="https://journalismcourses.org">Class 2: Visualization</a></li>
+        <li><a href="https://journalismcourses.org">Class 2: Visualizations</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="https://journalismcourses.org">journalismcourses.org</a></li>
@@ -859,7 +859,7 @@ ggplot() +
 <p>See you next time when we start trying to use R to obtain difficult data.</p>
 <p>
 <script type="application/shiny-prerendered" data-context="server-start">
-packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes")
+packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes", "knitr", "DT", "flair")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())), repos = "https://cran.us.r-project.org")  
 }
@@ -925,7 +925,7 @@ output$`tutorial-exercise-glimpse-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "glimpse", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "glimpse", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"knitr\", \"DT\", \"flair\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -978,7 +978,7 @@ output$`tutorial-exercise-annual_disasters-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "annual_disasters", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "annual_disasters", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"knitr\", \"DT\", \"flair\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -1035,7 +1035,7 @@ output$`tutorial-exercise-fires-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "fires", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "fires", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"knitr\", \"DT\", \"flair\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -1090,7 +1090,7 @@ output$`tutorial-exercise-first_chart-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "first_chart", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "first_chart", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"knitr\", \"DT\", \"flair\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -1143,7 +1143,7 @@ output$`tutorial-exercise-first_chart_geoms-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "first_chart_geoms", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "first_chart_geoms", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"knitr\", \"DT\", \"flair\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -1196,7 +1196,7 @@ output$`tutorial-exercise-scented2-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "scented2", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "scented2", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"knitr\", \"DT\", \"flair\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -1253,7 +1253,7 @@ output$`tutorial-exercise-facet_example1-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "facet_example1", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "facet_example1", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"knitr\", \"DT\", \"flair\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -1314,7 +1314,7 @@ output$`tutorial-exercise-facet_example1-solution-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "facet_example1-solution", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "facet_example1-solution", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"knitr\", \"DT\", \"flair\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -1370,7 +1370,7 @@ output$`tutorial-exercise-facet_example2-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "facet_example2", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "facet_example2", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"knitr\", \"DT\", \"flair\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -1432,7 +1432,7 @@ output$`tutorial-exercise-labels_example-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "labels_example", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "labels_example", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"knitr\", \"DT\", \"flair\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -1498,7 +1498,7 @@ output$`tutorial-exercise-themes-example-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "themes-example", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "themes-example", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"knitr\", \"DT\", \"flair\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -1558,7 +1558,7 @@ output$`tutorial-exercise-themes_example2-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "themes_example2", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "themes_example2", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"knitr\", \"DT\", \"flair\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 

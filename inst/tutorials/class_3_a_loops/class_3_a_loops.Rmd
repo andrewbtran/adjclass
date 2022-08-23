@@ -13,17 +13,40 @@ runtime: shiny_prerendered
 # Do not index/display tutorial by setting `private: true`
 private: true
 description: >
-  Lessons and exercises to catch you up what R is and how to use it.
+  Loops for advanced programming
 ---
-
 
 ```{css, echo=FALSE}
 .pageContent {
 padding-top: 64px }
+
+.cell-left {
+  text-align: left;
+}
+
+.cell-right {
+  text-align: right;
+}
+
+.cell-center {
+  text-align: center;
+}
+
+table {
+    margin: auto;
+    border-top: 1px solid rgb(102, 102, 102);
+    border-bottom: 1px solid rgb(102, 102, 102);
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    border-spacing: 2px;
+    border-color: grey;
+    padding-bottom:5px;
+}
 ```
 
 ```{r setup, include=FALSE}
-packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes")
+packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes", "usethis", "doParallel")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())), repos = "https://cran.us.r-project.org")  
 }
@@ -332,9 +355,8 @@ Please open up a script in RStudio and type out these lines and then run it.
 We're going to load the package and see how many cores your computer's working with.
 
 ```{r parallel, eval=F}
-# if you haven't installed doParallel yet, run this first.
-# Otherwise, you can comment it out by adding a # in front of the line
-install.packages("doParallel")
+# if you haven't installed doParallel yet, uncomment and run this first.
+# install.packages("doParallel")
 
 library(doParallel)
 

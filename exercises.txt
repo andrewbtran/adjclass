@@ -1,0 +1,18 @@
+
+```{r range, exercise=TRUE}
+_____df_incidentBeginDate_
+```
+
+```{r range-solution}
+range(df$declarationDate)
+```
+
+```{r range-hint}
+function starts with an *r*.
+Also, in Base R, to focus on a single column in a data frame,
+you need a dollar sign between the data frame name and column name
+```
+
+```{r range-check}
+grade_this_code()
+```

@@ -232,6 +232,34 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 .pageContent {
 padding-top: 64px }
 </style>
+<style type="text/css">
+.pageContent {
+padding-top: 64px }
+
+.cell-left {
+  text-align: left;
+}
+
+.cell-right {
+  text-align: right;
+}
+
+.cell-center {
+  text-align: center;
+}
+
+table {
+    margin: auto;
+    border-top: 1px solid rgb(102, 102, 102);
+    border-bottom: 1px solid rgb(102, 102, 102);
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    border-spacing: 2px;
+    border-color: grey;
+    padding-bottom:5px;
+}
+</style>
 <p><span style="color:white">welcome to class!</span></p>
 <div id="section-apis-explained" class="section level2">
 <h2>APIs explained</h2>
@@ -509,7 +537,8 @@ tidy_df</code></pre>
 <pre><code>learnr::run_tutorial(&quot;class_3_c_html_scraping&quot;, &quot;adjclass&quot;)</code></pre>
 <p>
 <script type="application/shiny-prerendered" data-context="server-start">
-packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes")
+packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes",
+              "jsonlite", "utils")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())), repos = "https://cran.us.r-project.org")  
 }
@@ -561,8 +590,8 @@ output$`tutorial-exercise-new_import-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "new_import", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
-"if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
+learnr:::store_exercise_cache(structure(list(label = "new_import", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\",", 
+"              \"jsonlite\", \"utils\")", "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
 "#remotes::install_github(\"rstudio/learnr\", upgrade=\"always\", quiet=TRUE)", 
@@ -612,8 +641,8 @@ output$`tutorial-exercise-test-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "test", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
-"if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
+learnr:::store_exercise_cache(structure(list(label = "test", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\",", 
+"              \"jsonlite\", \"utils\")", "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
 "#remotes::install_github(\"rstudio/learnr\", upgrade=\"always\", quiet=TRUE)", 
@@ -655,19 +684,19 @@ learnr:::store_exercise_cache(structure(list(label = "test", global_setup = stru
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz1-1", question = structure("What&#39;s the output for asking for Palm Beach, FL?", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_78a65e1", 
+"character")), answers = list(structure(list(id = "lnr_ans_f5dbaea", 
     option = "URL using bad/illegal format or missing URL", value = "URL using bad/illegal format or missing URL", 
     label = structure("URL using bad/illegal format or missing URL", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_788d176", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_9e05133", 
     option = "data with 6 columns and 9 rows", value = "data with 6 columns and 9 rows", 
     label = structure("data with 6 columns and 9 rows", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_f4d2096", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_d52cd36", 
     option = "Palm Beach in California, not Florida", value = "Palm Beach in California, not Florida", 
     label = structure("Palm Beach in California, not Florida", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_64e9401", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_35c4929", 
     option = "404 error", value = "404 error", label = structure("404 error", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
 "tutorial_quiz_answer"))), button_labels = list(submit = structure("<span data-i18n=\"button.questionsubmit\">Submit Answer<\u002fspan>", html = TRUE, class = c("html", 
@@ -677,7 +706,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "quiz1-1-answer", question = "quiz1-1"), loading = NULL, 
-    random_answer_order = TRUE, allow_retry = FALSE, seed = 1308244877.8908, 
+    random_answer_order = TRUE, allow_retry = FALSE, seed = 1001463499.53366, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
@@ -690,8 +719,8 @@ output$`tutorial-exercise-url_encode-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "url_encode", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
-"if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
+learnr:::store_exercise_cache(structure(list(label = "url_encode", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\",", 
+"              \"jsonlite\", \"utils\")", "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
 "#remotes::install_github(\"rstudio/learnr\", upgrade=\"always\", quiet=TRUE)", 
@@ -743,8 +772,8 @@ output$`tutorial-exercise-API_loops-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "API_loops", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
-"if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
+learnr:::store_exercise_cache(structure(list(label = "API_loops", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\",", 
+"              \"jsonlite\", \"utils\")", "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
 "#remotes::install_github(\"rstudio/learnr\", upgrade=\"always\", quiet=TRUE)", 

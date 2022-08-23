@@ -190,7 +190,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li><a href="https://journalismcourses.org">Class 3: Loops, parallel</a></li>
+        <li><a href="https://journalismcourses.org">Class 3: Loops, parallelization</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="https://journalismcourses.org">journalismcourses.org</a></li>
@@ -214,7 +214,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li><a href="https://journalismcourses.org">Class 3: Loops, parallel</a></li>
+        <li><a href="https://journalismcourses.org">Class 3: Loops, parallelization</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="https://journalismcourses.org">journalismcourses.org</a></li>
@@ -231,6 +231,30 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <style type="text/css">
 .pageContent {
 padding-top: 64px }
+
+.cell-left {
+  text-align: left;
+}
+
+.cell-right {
+  text-align: right;
+}
+
+.cell-center {
+  text-align: center;
+}
+
+table {
+    margin: auto;
+    border-top: 1px solid rgb(102, 102, 102);
+    border-bottom: 1px solid rgb(102, 102, 102);
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    border-spacing: 2px;
+    border-color: grey;
+    padding-bottom:5px;
+}
 </style>
 <p><span style="color:white">welcome to class!</span></p>
 <div id="section-loops" class="section level2">
@@ -419,13 +443,12 @@ View(df)</code></pre>
 <p>There are <a href="https://nceas.github.io/oss-lessons/parallel-computing-in-r/parallel-computing-in-r.html">many ways</a> to run loops in parallel in R, but we’re going to use a package called <strong>doParallel</strong>.</p>
 <p>Please open up a script in RStudio and type out these lines and then run it.</p>
 <p>We’re going to load the package and see how many cores your computer’s working with.</p>
-<div class="sourceCode" id="section-cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb22-1"><a href="#section-cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># if you haven&#39;t installed doParallel yet, run this first.</span></span>
-<span id="section-cb22-2"><a href="#section-cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Otherwise, you can comment it out by adding a # in front of the line</span></span>
-<span id="section-cb22-3"><a href="#section-cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;doParallel&quot;</span>)</span>
-<span id="section-cb22-4"><a href="#section-cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="section-cb22-5"><a href="#section-cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
-<span id="section-cb22-6"><a href="#section-cb22-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="section-cb22-7"><a href="#section-cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">detectCores</span>()</span></code></pre></div>
+<div class="sourceCode" id="section-cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb22-1"><a href="#section-cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># if you haven&#39;t installed doParallel yet, uncomment and run this first.</span></span>
+<span id="section-cb22-2"><a href="#section-cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;doParallel&quot;)</span></span>
+<span id="section-cb22-3"><a href="#section-cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="section-cb22-4"><a href="#section-cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
+<span id="section-cb22-5"><a href="#section-cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="section-cb22-6"><a href="#section-cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">detectCores</span>()</span></code></pre></div>
 <p>Okay, hopefully you’ve got more than one.</p>
 <p>If you do, let’s move to the next step and tell R how many cores we want to use.</p>
 <div class="sourceCode" id="section-cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb23-1"><a href="#section-cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### How many cores do you want to use?</span></span>
@@ -479,7 +502,7 @@ View(df)</code></pre>
 <pre><code>learnr::run_tutorial(&quot;class_3_b_apis&quot;, &quot;adjclass&quot;)</code></pre>
 <p>
 <script type="application/shiny-prerendered" data-context="server-start">
-packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes")
+packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes", "usethis", "doParallel")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())), repos = "https://cran.us.r-project.org")  
 }
@@ -521,7 +544,7 @@ output$`tutorial-exercise-loop1-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "loop1", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "loop1", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"usethis\", \"doParallel\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -564,7 +587,7 @@ output$`tutorial-exercise-loop2-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "loop2", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "loop2", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"usethis\", \"doParallel\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -611,7 +634,7 @@ output$`tutorial-exercise-loop3-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "loop3", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "loop3", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"usethis\", \"doParallel\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -658,7 +681,7 @@ output$`tutorial-exercise-loop2a-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "loop2a", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "loop2a", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"usethis\", \"doParallel\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -695,16 +718,16 @@ learnr:::store_exercise_cache(structure(list(label = "loop2a", global_setup = st
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz1-1", question = structure("What&#39;s the command to figure out how many objects are in the array <code>sheets<\u002fcode>?", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_bc15158", 
+"character")), answers = list(structure(list(id = "lnr_ans_1287d64", 
     option = "ncol(sheets)", value = "ncol(sheets)", label = structure("ncol(sheets)", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_fea39d6", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_f315e12", 
     option = "nrow(sheets", value = "nrow(sheets", label = structure("nrow(sheets", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_837841d", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_d2490e3", 
     option = "length(sheets)", value = "length(sheets)", label = structure("length(sheets)", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_9e6d62", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_17545e7", 
     option = "width(sheets)", value = "width(sheets)", label = structure("width(sheets)", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
 "tutorial_quiz_answer"))), button_labels = list(submit = structure("<span data-i18n=\"button.questionsubmit\">Submit Answer<\u002fspan>", html = TRUE, class = c("html", 
@@ -714,7 +737,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "quiz1-1-answer", question = "quiz1-1"), loading = NULL, 
-    random_answer_order = TRUE, allow_retry = FALSE, seed = 1914292854.10859, 
+    random_answer_order = TRUE, allow_retry = FALSE, seed = 424133464.802497, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>

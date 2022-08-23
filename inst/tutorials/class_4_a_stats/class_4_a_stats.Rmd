@@ -1,0 +1,187 @@
+---
+title: "Class 4: Statistics"
+author: "Andrew Ba Tran"
+output: 
+  learnr::tutorial:
+      theme: lumen
+      highlight: espresso
+      progressive: true
+      allow_skip: false
+      includes:
+        before_body: _navbar.html
+runtime: shiny_prerendered
+# Do not index/display tutorial by setting `private: true`
+private: true
+description: >
+  Brief statistical concepts
+---
+
+
+```{css, echo=FALSE}
+.pageContent {
+padding-top: 64px }
+```
+
+```{r setup, include=FALSE}
+packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes",
+            "stargazer", "tidymodels")
+if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
+  install.packages(setdiff(packages, rownames(installed.packages())), repos = "https://cran.us.r-project.org")  
+}
+
+#remotes::install_github("rstudio/gradethis", upgrade="always", quiet=TRUE)
+#remotes::install_github("rstudio/learnr", upgrade="always", quiet=TRUE)
+
+library(tidyverse)
+library(learnr)
+library(gradethis)
+library(tidymodels)
+library(stargazer)
+
+gd_data = read_csv("https://glassdoor.box.com/shared/static/beukjzgrsu35fqe59f7502hruribd5tt.csv")
+
+
+# Base pay summary stats.
+gd_data_clean <-  gd_data %>%
+  # Age brackets
+  mutate(age_bin = cut(age,
+                       breaks = c(0, 25, 35, 45, 55, Inf),
+                       right = FALSE)) %>%
+  # Total compensation
+  mutate(total_pay = basePay + bonus) %>%
+  # Log of compensation
+  mutate(log_base = log(basePay, base = exp(1)),
+         log_total = log(total_pay, base = exp(1)),
+         # Adds 1 to allow for log of 0 bonus values.
+         log_bonus = log(bonus + 1, base = exp(1))) %>%
+  # Make flags
+  mutate_if(is_character, fct_infreq) %>%
+  mutate(age_bin = fct_infreq(age_bin))
+
+# No controls. ("unadjusted" pay gap.)
+lm_gender <- lm(log_base ~ gender, data = gd_data_clean)
+
+# Adding "human capital" controls (performance evals, age and education).
+lm_humancapital <- lm(log_base ~ gender + perfEval + age_bin + edu, data = gd_data_clean)
+
+# Adding all controls. ("adjusted" pay gap.)
+lm_allcontrols <- lm(log_base ~ gender + perfEval + age_bin + edu + dept + seniority + jobTitle, data = gd_data_clean)
+```
+
+
+```{css, echo=FALSE}
+.pageContent {
+padding-top: 64px }
+
+.cell-left {
+  text-align: left;
+}
+
+.cell-right {
+  text-align: right;
+}
+
+.cell-center {
+  text-align: center;
+}
+
+table {
+    margin: auto;
+    border-top: 1px solid rgb(102, 102, 102);
+    border-bottom: 1px solid rgb(102, 102, 102);
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    border-spacing: 2px;
+    border-color: grey;
+    padding-bottom:5px;
+}
+```
+
+<span style="color:white">welcome to class!</span>
+
+## Statistical concepts
+
+### Check summary stats
+
+
+## correlation
+
+We're going to work with Amazon data!
+
+Correlation between numeric variables can be investigated using the tidyverse corrr package. It allows you to compute correlations using Pearson, Kendall tau or Spearman rho. The package creates a table and also has a function to automatically plot the values.
+
+```
+correlation_tab <- linelist %>% 
+  select(generation, age, ct_blood, days_onset_hosp, wt_kg, ht_cm) %>%   # keep numeric variables of interest
+  correlate()      # create correlation table (using default pearson)
+
+correlation_tab    # print
+```
+
+```
+rplot(correlation_tab)
+
+```
+
+[#]https://corrr.tidymodels.org/articles/using-corrr.html
+
+Interpreting the scores.
+
+
+
+CORRELATION != CAUSATION
+
+## Plot it
+
+## How to phrase it in a story
+
+"There is a strong relationship between X and Y."
+
+
+
+
+
+
+## linear modeling
+
+### Important to clean up data to work in a model
+
+
+```{r glimpse, exercise=TRUE}
+stargazer(gd_data_clean, type="text")
+```
+
+Linear regression
+The base R function lm() perform linear regression, assessing the relationship between numeric response and explanatory variables that are assumed to have a linear relationship.
+
+Provide the equation as a formula, with the response and explanatory column names separated by a tilde ~. Also, specify the dataset to data =. Define the model results as an R object, to use later.
+
+```{r star, exercise=TRUE}
+# No controls. ("unadjusted" pay gap.)
+lm_gender <- lm(log_base ~ gender, data = gd_data_clean)
+
+lm_gender
+```
+
+```{r star2, exercise=TRUE}
+# Adding "human capital" controls (performance evals, age and education).
+lm_humancapital <- lm(log_base ~ gender + perfEval + age_bin + edu, data = gd_data_clean)
+
+lm_humancapital
+```
+
+```{r star3, exercise=TRUE}
+# Adding all controls. ("adjusted" pay gap.)
+lm_allcontrols <- lm(log_base ~ gender + perfEval + age_bin + edu + dept + seniority + jobTitle, data = gd_data_clean)
+
+lm_allcontrols
+```
+
+```{r stargazer}
+stargazer(lm_gender, lm_humancapital, lm_allcontrols, type="text", single.row=TRUE)
+```
+
+## Crosstabs
+
+

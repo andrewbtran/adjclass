@@ -6,15 +6,33 @@ Author: Andrew Ba Tran
 Maintainer: The package maintainer <abtran@gmail.com>
 Description: Tutorials for Advanced Data Journalism: Doing More with R
 Imports:
+  devtools,
   tidyverse,
+  knitr,
   lubridate,
   rvest,
-  httr,
+  knitr,
   remotes,
   usethis,
   flair,
   DT,
-  knitr
+  readxl,
+  janitor,
+  flair,
+  usethis,
+  jsonlite,
+  viridis,
+  utils,
+  rvest,
+  tigris,
+  sf,
+  cowplot,
+  gridGraphics,
+  biscale,
+  ggspatial,
+  tidymodels,
+  stargazer,
+  leaflet
 Remotes:
   rstudio/gradethis
   rstudio/learnr

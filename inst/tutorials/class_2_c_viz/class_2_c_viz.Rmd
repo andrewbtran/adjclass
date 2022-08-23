@@ -13,7 +13,7 @@ runtime: shiny_prerendered
 # Do not index/display tutorial by setting `private: true`
 private: true
 description: >
-  How to join data.
+  Visualizing data with ggplot2
 ---
 
 
@@ -47,7 +47,7 @@ table {
 ```
 
 ```{r setup, include=FALSE}
-packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes")
+packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes", "knitr", "DT", "flair")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())), repos = "https://cran.us.r-project.org")  
 }

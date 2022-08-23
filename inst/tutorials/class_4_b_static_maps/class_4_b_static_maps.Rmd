@@ -1,0 +1,386 @@
+---
+title: "Class 4: Static maps"
+author: "Andrew Ba Tran"
+output: 
+  learnr::tutorial:
+      theme: lumen
+      highlight: espresso
+      progressive: true
+      allow_skip: false
+      includes:
+        before_body: _navbar.html
+runtime: shiny_prerendered
+# Do not index/display tutorial by setting `private: true`
+private: true
+description: >
+  Making static choropleth maps
+---
+
+
+```{css, echo=FALSE}
+.pageContent {
+padding-top: 64px }
+```
+
+```{r setup, include=FALSE}
+packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes",
+              "tigris", "sf", "cowplot", "gridGraphics", "biscale",
+              "ggspatial", "viridis")
+if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
+  install.packages(setdiff(packages, rownames(installed.packages())), repos = "https://cran.us.r-project.org")  
+}
+
+#remotes::install_github("rstudio/gradethis", upgrade="always", quiet=TRUE)
+#remotes::install_github("rstudio/learnr", upgrade="always", quiet=TRUE)
+
+library(tidyverse)
+library(learnr)
+library(gradethis)
+library(lubridate)
+library(sf)
+library(tigris)
+library(cowplot)
+library(biscale)
+library(gridGraphics)
+library(ggspatial)
+
+us_states <- states(cb = TRUE, resolution = "20m") %>%
+     shift_geometry()
+
+
+us_counties <- counties(cb = TRUE, resolution = "20m") %>%
+     shift_geometry()
+
+df <- read_csv("https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv")
+df_new <- df %>% 
+  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))
+
+county_pop <- read_csv("data/county_population.csv")
+
+fema_counties <- left_join(df_new, county_pop, by="GEOID")
+
+fema_counties_count <- fema_counties %>%
+  filter(incidentType!="Biological") %>% 
+  group_by(GEOID) %>% 
+  summarize(disasters=n())
+
+fema_map <- left_join(us_counties, fema_counties_count)
+#fema stuff
+
+
+disaster_count <- fema_counties %>% 
+  filter(incidentType=="Hurricane") %>% 
+  mutate(year=year(incidentBeginDate)) %>% 
+  filter(year %in% c(2017:2022)) %>% 
+  group_by(GEOID) %>% 
+  summarize(total=n())
+
+disaster_counties <- left_join(us_counties, disaster_count) %>% 
+  select(-NAME)
+disaster_counties <- left_join(disaster_counties, county_pop)
+
+bi_df <- bi_class(disaster_counties, x = estimate, y = total, style = "quantile", dim = 3)
+
+map <- ggplot() +
+  geom_sf(data = bi_df, mapping = aes(fill = bi_class), color = "white", size = 0.1, show.legend = FALSE) +
+  bi_scale_fill(pal = "GrPink", dim = 3) +
+  labs(
+    title = "Hurricanes and population"
+  ) +
+  bi_theme()
+
+  
+legend <- bi_legend(pal = "GrPink",
+                    dim = 3,
+                    xlab = "Higher population ",
+                    ylab = "Higher disasters ",
+                    size = 8)
+
+legend <- bi_legend(pal = "GrPink",
+                    dim = 3,
+                    xlab = "Higher population ",
+                    ylab = "Higher disasters ",
+                    size = 8)
+
+```
+
+
+```{css, echo=FALSE}
+.pageContent {
+padding-top: 64px }
+
+.cell-left {
+  text-align: left;
+}
+
+.cell-right {
+  text-align: right;
+}
+
+.cell-center {
+  text-align: center;
+}
+
+table {
+    margin: auto;
+    border-top: 1px solid rgb(102, 102, 102);
+    border-bottom: 1px solid rgb(102, 102, 102);
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    border-spacing: 2px;
+    border-color: grey;
+    padding-bottom:5px;
+}
+```
+
+<span style="color:white">welcome to class!</span>
+
+
+## Intro to sf
+
+
+Builds on top of ggplot
+
+
+## Get shapefiles
+
+If you had the shapefiles locally, you could import it in using `st_read()`.
+
+But because this is R, someone's already come up with a package to download the most-common ones from the cloud.
+
+
+## Tigris
+
+The Census has a server of all the most common boundary files.
+
+We're going to work with the **tigris** package to download the shapefiles for counties and work with FEMA data!.
+
+TIGRIS COMMANDS LIST GOES HERE
+
+
+```{r tigris, exercise=TRUE}
+library(tigris)
+us_states <- states(cb = TRUE, resolution = "20m") %>%
+     shift_geometry()
+
+glimpse(us_states)
+```
+
+## sf
+
+
+
+```{r tigris2, exercise=TRUE}
+
+ggplot(us_states) + geom_sf()
+
+```
+
+```{r tigris4, exercise=TRUE}
+
+us_counties <- counties(cb = TRUE, resolution = "20m") %>%
+     shift_geometry()
+
+glimpse(us_counties)
+
+```
+
+```{r tigris5, exercise=TRUE}
+ggplot(us_counties) + 
+  geom_sf() +
+  theme_void()
+```
+
+
+
+```{r tigris6, exercise=TRUE}
+df <- read_csv("https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv")
+df_new <- df %>% 
+  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))
+
+county_pop <- read_csv("data/county_population.csv")
+
+fema_counties <- left_join(df_new, county_pop, by="GEOID")
+
+glimpse(fema_counties)
+```
+
+
+```{r tigris7, exercise=TRUE}
+fema_counties_count <- fema_counties %>%
+  filter(incidentType!="Biological") %>% 
+  group_by(GEOID) %>% 
+  summarize(disasters=n())
+
+fema_map <- left_join(us_counties, fema_counties_count)
+
+glimpse(fema_map)
+```
+
+
+```{r tigris8, exercise=TRUE}
+ggplot(fema_map) +
+  geom_sf(aes(fill=disasters)) +
+  theme_void()
+```
+
+## Styling maps
+
+```{r tigris9, exercise=TRUE}
+library(viridis)
+
+ggplot(fema_map) +
+  geom_sf(aes(fill=disasters), color=NA) +
+  scale_fill_viridis() +
+  theme_void()
+```
+
+
+```{r tigris10, exercise=TRUE}
+fema_map %>% 
+ ggplot() +
+  geom_sf(aes(fill=disasters), color=NA) +
+  scale_fill_viridis(direction=-1) +
+  theme_void()
+```
+
+
+```{r tigris11, warning=F, message=F, exercise=TRUE}
+fema_map %>% 
+  filter(STUSPS=="LA") %>% 
+ ggplot() +
+  geom_sf(aes(fill=disasters), color=NA) +
+  scale_fill_viridis(direction=-1) +
+  theme_void() +
+  labs(title="Hurricane declared disasters since 1954")
+```
+
+## Small multiples maps
+
+```{r tigris11b, warning=F, message=F, exercise=TRUE}
+fema_counties_count_fi <- fema_counties %>%
+  filter(incidentType=="Fire") %>% 
+  mutate(year=year(incidentBeginDate)) %>% 
+  group_by(GEOID, year) %>% 
+  summarize(disasters=n())
+
+fema_map_fi <- left_join(us_counties, fema_counties_count_fi)
+
+fema_map_fi %>% 
+  filter(STUSPS=="CA") %>% 
+  filter(year %in% 2017:2022) %>% 
+ ggplot() +
+  geom_sf(aes(fill=disasters), color=NA) +
+  scale_fill_viridis(direction=-1, na.value="red") +
+  facet_wrap(~year) +
+  theme_void()
+```
+
+
+
+```{r tigris12, exercise=TRUE}
+fema_counties_count_fi <- fema_counties %>%
+  filter(incidentType=="Fire") %>% 
+  mutate(year=year(incidentBeginDate)) %>% 
+  group_by(GEOID, year) %>% 
+  summarize(disasters=n())
+
+fema_map_fi <- left_join(us_counties, fema_counties_count_fi)
+
+fema_map_fi %>% 
+  filter(STUSPS=="CA") %>% 
+  filter(year %in% 2017:2022) %>% 
+ ggplot() +
+  geom_sf(data=filter(us_counties, STUSPS=="CA"), fill="gray", color=NA) +
+  geom_sf(aes(fill=disasters), color=NA) +
+  scale_fill_viridis(direction=-1, na.value="red") +
+  facet_wrap(~year) +
+  theme_void()
+```
+
+## Bivariate maps
+
+*install just cowplot and sf*
+`install.packages(c("cowplot", "sf"))`
+
+*install all suggested dependencies*
+`install.packages("biscale", dependencies = TRUE)`
+
+
+```{r tigris13, exercise=TRUE}
+
+disaster_count <- fema_counties %>% 
+  filter(incidentType=="Hurricane") %>% 
+  mutate(year=year(incidentBeginDate)) %>% 
+  filter(year %in% c(2017:2022)) %>% 
+  group_by(GEOID) %>% 
+  summarize(total=n())
+
+disaster_counties <- left_join(us_counties, disaster_count) %>% 
+  select(-NAME)
+disaster_counties <- left_join(disaster_counties, county_pop)
+  
+glimpse(disaster_counties)
+```
+
+
+
+```{r tigris14, exercise=TRUE}
+library(biscale)
+
+bi_df <- bi_class(disaster_counties, x = estimate, y = total, style = "quantile", dim = 3)
+
+glimpse(bi_df)
+```
+
+
+```{r tigris15, exercise=TRUE}
+map <- ggplot() +
+  geom_sf(data = bi_df, mapping = aes(fill = bi_class), color = "white", size = 0.1, show.legend = FALSE) +
+  bi_scale_fill(pal = "GrPink", dim = 3) +
+  labs(
+    title = "Race and Income in St. Louis, MO",
+    subtitle = "Gray Pink (GrPink) Palette"
+  ) +
+  bi_theme()
+
+map
+```
+
+```{r tigris16, exercise=TRUE}
+
+legend <- bi_legend(pal = "GrPink",
+                    dim = 3,
+                    xlab = "Higher population ",
+                    ylab = "Higher disasters ",
+                    size = 8)
+
+legend
+```
+
+
+```{r tigris17, exercise=TRUE}
+
+finalPlot <- ggdraw() +
+  draw_plot(map, 0, 0, 1, 1) +
+  draw_plot(legend, 0.82, .2, 0.2, 0.2)
+
+finalPlot
+
+## WHY DOESNT THIS WORK. REPLACE WITH IMAGE :(
+```
+
+## save it
+
+```{r, eval=F}
+#ggsave(finalPlot, "test.svg", device="svg")
+save_plot("test.png", finalPlot, base_height = NULL, base_width = 12)
+#install.packages("svglite") to make this work
+save_plot("test.svg", finalPlot, base_height = NULL, base_width = 12)
+
+#as a shapefile?
+st_write(map, "map.geojson")
+st_write(map, "map.shp")
+
+```

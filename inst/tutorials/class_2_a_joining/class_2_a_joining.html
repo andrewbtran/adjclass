@@ -311,7 +311,7 @@ padding-top: 64px }
 <p>So let’s try to create a new dataframe object starting with the disaster declarations of <code>df</code>.</p>
 <p>If you looked at the two dataframes in the last exercise, you saw that there were similarities in the county names.</p>
 <div class="sourceCode" id="section-cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb11-1"><a href="#section-cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(df)</span></code></pre></div>
-<pre><code>## Rows: 63,180
+<pre><code>## Rows: 63,215
 ## Columns: 24
 ## $ femaDeclarationString    &lt;chr&gt; &quot;FM-5444-TX&quot;, &quot;FM-5436-NE&quot;, &quot;FM-5444-TX&quot;, &quot;FM…
 ## $ disasterNumber           &lt;dbl&gt; 5444, 5436, 5444, 5436, 5436, 5435, 5434, 543…
@@ -580,7 +580,7 @@ glimpse(joined_new)              </code></pre>
 <span id="section-cb33-13"><a href="#section-cb33-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">median_pop=</span><span class="fu">median</span>(estimate, <span class="at">na.rm=</span>T))</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["year"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["declarations"],"name":[2],"type":["int"],"align":["right"]},{"label":["avg_pop"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["median_pop"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"2021","2":"50","3":"33468.4","4":"22181.5"},{"1":"2022","2":"14","3":"21058.0","4":"17575.5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["year"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["declarations"],"name":[2],"type":["int"],"align":["right"]},{"label":["avg_pop"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["median_pop"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"2021","2":"50","3":"33468.40","4":"22181.5"},{"1":"2022","2":"18","3":"19185.33","4":"13921.5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p>To answer the quiz, use this exercise box below.</p>
@@ -617,7 +617,7 @@ glimpse(joined_new)              </code></pre>
 <pre><code>learnr::run_tutorial(&quot;class_2_b_math_pivots&quot;, &quot;adjclass&quot;)</code></pre>
 <p>
 <script type="application/shiny-prerendered" data-context="server-start">
-packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes")
+packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes", "readxl", "janitor")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())), repos = "https://cran.us.r-project.org")  
 }
@@ -671,7 +671,7 @@ output$`tutorial-exercise-glimpse_county_pop-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "glimpse_county_pop", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "glimpse_county_pop", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"readxl\", \"janitor\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -723,7 +723,7 @@ output$`tutorial-exercise-glimpse-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "glimpse", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "glimpse", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"readxl\", \"janitor\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -768,19 +768,19 @@ learnr:::store_exercise_cache(structure(list(label = "glimpse", global_setup = s
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz1-1", question = structure("In each data set, which columns share the most similarity?", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_28a12b3", 
+"character")), answers = list(structure(list(id = "lnr_ans_f45fc0a", 
     option = "GEOID in county_pop and placeCode in df", value = "GEOID in county_pop and placeCode in df", 
     label = structure("GEOID in county_pop and placeCode in df", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_c9a702", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_5159147", 
     option = "designatedArea in df and NAME in county_pop", value = "designatedArea in df and NAME in county_pop", 
     label = structure("designatedArea in df and NAME in county_pop", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_d3e613f", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_737d477", 
     option = "variable in county_pop and id in df", value = "variable in county_pop and id in df", 
     label = structure("variable in county_pop and id in df", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_28ba0a0", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_8a93eda", 
     option = "estimate incounty_pop and disasterNumber in county_pop", 
     value = "estimate incounty_pop and disasterNumber in county_pop", 
     label = structure("estimate incounty_pop and disasterNumber in county_pop", html = TRUE, class = c("html", 
@@ -792,7 +792,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "quiz1-1-answer", question = "quiz1-1"), loading = NULL, 
-    random_answer_order = TRUE, allow_retry = FALSE, seed = 873142091.093412, 
+    random_answer_order = TRUE, allow_retry = FALSE, seed = 1302143487.89364, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
@@ -805,7 +805,7 @@ output$`tutorial-exercise-left_join-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "left_join", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "left_join", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"readxl\", \"janitor\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -858,7 +858,7 @@ output$`tutorial-exercise-closer-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "closer", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "closer", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"readxl\", \"janitor\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -915,7 +915,7 @@ output$`tutorial-exercise-str_c-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "str_c", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "str_c", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"readxl\", \"janitor\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -972,7 +972,7 @@ output$`tutorial-exercise-left_join2-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "left_join2", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "left_join2", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"readxl\", \"janitor\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -1026,7 +1026,7 @@ output$`tutorial-exercise-summarize-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "summarize", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "summarize", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"readxl\", \"janitor\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -1083,7 +1083,7 @@ output$`tutorial-exercise-summarize_again-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "summarize_again", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "summarize_again", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"readxl\", \"janitor\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -1140,7 +1140,7 @@ output$`tutorial-exercise-difference-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "difference", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\")", 
+learnr:::store_exercise_cache(structure(list(label = "difference", global_setup = structure(c("packages <- c(\"tidyverse\", \"lubridate\", \"rvest\", \"httr\", \"remotes\", \"readxl\", \"janitor\")", 
 "if (length(setdiff(packages, rownames(installed.packages()))) > 0) {", 
 "  install.packages(setdiff(packages, rownames(installed.packages())), repos = \"https://cran.us.r-project.org\")  ", 
 "}", "", "#remotes::install_github(\"rstudio/gradethis\", upgrade=\"always\", quiet=TRUE)", 
@@ -1183,16 +1183,16 @@ learnr:::store_exercise_cache(structure(list(label = "difference", global_setup 
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz2-1", question = structure("How many more county Flood declarations were there in Kentucky in 2021 compared to 2022?", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_8e5ec7d", 
+"character")), answers = list(structure(list(id = "lnr_ans_5a77f88", 
     option = "3", value = "3", label = structure("3", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_fcc2cc5", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_9172d59", 
     option = "36", value = "36", label = structure("36", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_1c341a8", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_abdab0e", 
     option = "-19", value = "-19", label = structure("-19", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_11d95bf", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_f0716ef", 
     option = "-5", value = "-5", label = structure("-5", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
 "tutorial_quiz_answer"))), button_labels = list(submit = structure("<span data-i18n=\"button.questionsubmit\">Submit Answer<\u002fspan>", html = TRUE, class = c("html", 
@@ -1202,23 +1202,23 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "quiz2-1-answer", question = "quiz2-1"), loading = NULL, 
-    random_answer_order = TRUE, allow_retry = FALSE, seed = 997705044.535407, 
+    random_answer_order = TRUE, allow_retry = FALSE, seed = 579726425.730044, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz3-1", question = structure("What&#39;s the percent change between county flood declarations in Kentucky between 2022 and 2021?", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_3607dc5", 
+"character")), answers = list(structure(list(id = "lnr_ans_42c29b", 
     option = "-72", value = "-72", label = structure("-72", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_6b18301", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_8fcb2c1", 
     option = "72", value = "72", label = structure("72", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_a596594", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_9addd2b", 
     option = "50", value = "50", label = structure("50", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_db0110c", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_1663217", 
     option = "-100", value = "-100", label = structure("-100", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
 "tutorial_quiz_answer"))), button_labels = list(submit = structure("<span data-i18n=\"button.questionsubmit\">Submit Answer<\u002fspan>", html = TRUE, class = c("html", 
@@ -1228,7 +1228,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "quiz3-1-answer", question = "quiz3-1"), loading = NULL, 
-    random_answer_order = TRUE, allow_retry = FALSE, seed = 1728477105.69512, 
+    random_answer_order = TRUE, allow_retry = FALSE, seed = 140985700.434348, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
