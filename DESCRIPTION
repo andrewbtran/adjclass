@@ -32,9 +32,11 @@ Imports:
   ggspatial,
   tidymodels,
   stargazer,
-  leaflet
+  leaflet,
+  crosstalk,
+  flexdashboard
 Remotes:
-  rstudio/gradethis
+  rstudio/gradethis,
   rstudio/learnr
 License: MIT + file LICENSE
 URL: https://journalismcourses.org
