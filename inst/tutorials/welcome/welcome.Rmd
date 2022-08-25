@@ -114,7 +114,7 @@ You'll know this has been successful if your browser tab with the tutorial goes 
 If you're new to R or you'd like a refresher before class officially begins, please run the following command in your console and run through the exercises (be sure to stop this particular tutorial first otherwise you won't be able to run any code in the console):
 
 ```
-learnr::run_tutorial("class_prep", "adjclass")
+learnr::run_tutorial("class_prep_pt1", "adjclass")
 ```
 
 

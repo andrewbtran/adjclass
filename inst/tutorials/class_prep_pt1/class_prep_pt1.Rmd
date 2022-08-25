@@ -41,6 +41,12 @@ b <- c(300,4000,50)
 
 <span style="color:white">welcome to class!</span>
 
+## Welcome!
+
+Before we officially get started, please be sure you followed the [setup instructions](https://www.kccourses.org/mod/page/view.php?id=17952) to install R and RStudio on your computer and have already run `learnr::run_tutorial("welcome", "adjclass")` so that you understand how these tutorials work.
+
+Ready? Okay, let's go!
+
 ## Tour of R and RStudio
 
 R is just a programming language and can be open in any coding program like Sublime or Visual Code Studio. But we're going to focus on using R in the environment known as RStudio because it easily shows all the different parts, like plots and objects, well.
