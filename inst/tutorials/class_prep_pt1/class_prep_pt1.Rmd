@@ -399,6 +399,14 @@ Here are [some](http://faculty.nps.edu/sebuttre/home/R/missings.html) [links](ht
 
 ## Base R versus Tidyverse
 
+I will often mention "Base R" and "Tidyverse" throughout the course.
+
+Base R is what you get when you install R and don't install anything extra.
+
+Everything you do in Tidyverse-- the importing and wrangling of data, as well as the visualizations-- can be done with Base R. It's just older, the syntax is trickier, and it unfortunately has huge learning curve.
+
+For the purposes of this class, you'll learn just enough Base R to get things done but we'll spend most of our time using functions in packages that have since been created by users to make our lives easier and have a good history of support from their creators.
+
 
 ## Intro pt II
 

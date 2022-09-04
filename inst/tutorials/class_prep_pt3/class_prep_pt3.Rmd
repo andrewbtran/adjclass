@@ -231,9 +231,9 @@ Unlike a csv, you can't just copy and paste the URL for an Excel sheet.
 
 You gotta download the file first.
 
-Right click the link of the [Excel data link](http://www.ct.gov/ocme/cwp/view.asp?a=2165&Q=295128&ocmeNav=|) and click **Save File As...**
+Visit this link of [Excel data link](https://www.dropbox.com/scl/fi/sf7rjfsstsm1520z0xhum/StatisticsSummary.xls?dl=0&rlkey=j8frar23albdjx1b006onm48s) on Dropbox and click **Download**
 
-![](images/saveexcel.png?classes=shadow){width=100%}
+
 
 ### read_excel()
 
