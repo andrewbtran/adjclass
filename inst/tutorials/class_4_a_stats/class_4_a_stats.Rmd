@@ -100,9 +100,54 @@ table {
 
 <span style="color:white">welcome to class!</span>
 
-## Statistical concepts
+## Descriptive statistics
+
+You could spend a whole semester going over all the different statistical methods but there are a handful that are useful to journalists-- though there are more that are being used in stories in an effort to push the limit on data literacy. 
+
+Let's work with some data of reviews I've scraped from Amazon: Scented candles.
+
+```{r scented1}
+candles <- read_csv("data/scented.csv")
+```
+
+In the past few modules you've learned how to do some of the basic statistical methods to summarize and describe the data.
+
+### mean and median
+
+Let's calculate the mean and median.
+
+```{r mean_median}
+
+```
+
+### percent and rate
+
+Okay, let's calculate the percent
+
+```{r percent}
+
+```
+
+### standard deviation
+
+And now the percent over time and the standard deviation
+
+.png(https://miro.medium.com/max/1400/1*ojzbhJwvCyX5eYz9H2_d2g.png)
+
+```{r percent_time_sd}
+
+```
+
+
+### percentiles and quantiles
+
+### ratios, rates, andper capita
+
+no example here, but we've done it before
 
 ### Check summary stats
+
+please visualize your data, because summary statistics can tell you weird stuff.
 
 
 ## correlation
@@ -110,6 +155,10 @@ table {
 We're going to work with Amazon data!
 
 Correlation between numeric variables can be investigated using the tidyverse corrr package. It allows you to compute correlations using Pearson, Kendall tau or Spearman rho. The package creates a table and also has a function to automatically plot the values.
+
+Some authors consider a strong correlation over [.6, -.6] and over [.8/, -.8] is a very strong correlation. However, in this case, strong is over [.7, -.7]; while in this other is over [.5, -.5].
+
+The second key was that “correlation does not mean causation.” And the third one was the variation of small samples. For another project I ran cor.test in R with only seven observations and, although the correlation coefficient was around .5, the results went from -.3 to .9.
 
 ```
 correlation_tab <- linelist %>% 

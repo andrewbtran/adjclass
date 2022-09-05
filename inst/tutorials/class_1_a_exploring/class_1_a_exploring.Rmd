@@ -440,7 +440,7 @@ states_count_sorted
 #states_count_sorted
 
 states_count_sorted <- df %>% 
-  count(name="total") %>% 
+  count(state, name="total") %>% 
   arrange(desc(total))
 
 states_count_sorted

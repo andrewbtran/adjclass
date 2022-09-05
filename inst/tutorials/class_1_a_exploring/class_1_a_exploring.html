@@ -502,7 +502,7 @@ states_count_sorted</code></pre>
 #states_count_sorted
 
 states_count_sorted &lt;- df %&gt;% 
-  count(name=&quot;total&quot;) %&gt;% 
+  count(state, name=&quot;total&quot;) %&gt;% 
   arrange(desc(total))
 
 states_count_sorted</code></pre>
@@ -1091,7 +1091,7 @@ learnr:::store_exercise_cache(structure(list(label = "pipes_test", global_setup 
     check = structure("grade_this_code()", chunk_opts = list(
         label = "pipes_test-check")), solution = structure(c("#states_count <- count(df, name=\"total\")", 
     "#states_count_sorted <- arrange(desc(total))", "", "#states_count_sorted", 
-    "", "states_count_sorted <- df %>% ", "  count(name=\"total\") %>% ", 
+    "", "states_count_sorted <- df %>% ", "  count(state, name=\"total\") %>% ", 
     "  arrange(desc(total))", "", "states_count_sorted"), chunk_opts = list(
         label = "pipes_test-solution")), tests = NULL, options = list(
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
