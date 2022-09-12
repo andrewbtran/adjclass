@@ -24,7 +24,7 @@ padding-top: 64px }
 
 ```{r setup, include=FALSE}
 packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes",
-            "stargazer", "tidymodels")
+            "vtable", "tidymodels")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())), repos = "https://cran.us.r-project.org")  
 }
@@ -36,36 +36,129 @@ library(tidyverse)
 library(learnr)
 library(gradethis)
 library(tidymodels)
-library(stargazer)
+library(vtable)
+library(lubridate)
+library(knitr)
 
-gd_data = read_csv("https://glassdoor.box.com/shared/static/beukjzgrsu35fqe59f7502hruribd5tt.csv")
+salaries = read_csv("https://glassdoor.box.com/shared/static/beukjzgrsu35fqe59f7502hruribd5tt.csv")
 
-
-# Base pay summary stats.
-gd_data_clean <-  gd_data %>%
+salaries_adjusted1 <-  salaries %>%
   # Age brackets
-  mutate(age_bin = cut(age,
-                       breaks = c(0, 25, 35, 45, 55, Inf),
-                       right = FALSE)) %>%
+  mutate(age_bin = case_when(
+    age < 25 ~ 1, #Below age 25 
+    age >= 25 & age < 35 ~ 2, #Age 25-34 
+    age >= 35 & age < 45 ~ 3, #Age 25-34 
+    age >= 45 & age < 55 ~ 4, #Age 25-34 
+    age >= 55 ~ 5, #Age 25-34 
+  ))
+
+
+salaries_adjusted2 <- salaries_adjusted1 %>% 
   # Total compensation
   mutate(total_pay = basePay + bonus) %>%
   # Log of compensation
   mutate(log_base = log(basePay, base = exp(1)),
          log_total = log(total_pay, base = exp(1)),
          # Adds 1 to allow for log of 0 bonus values.
-         log_bonus = log(bonus + 1, base = exp(1))) %>%
+         log_bonus = log(bonus + 1, base = exp(1)))
+
+salaries_adjusted3 <- salaries_adjusted2 %>%
   # Make flags
-  mutate_if(is_character, fct_infreq) %>%
-  mutate(age_bin = fct_infreq(age_bin))
+  mutate(male = case_when(
+    gender=="Male" ~ 1,
+    TRUE ~ 0
+  ))
 
 # No controls. ("unadjusted" pay gap.)
-lm_gender <- lm(log_base ~ gender, data = gd_data_clean)
+lm_gender <- lm(log_base ~ gender, data = salaries_adjusted3)
 
 # Adding "human capital" controls (performance evals, age and education).
-lm_humancapital <- lm(log_base ~ gender + perfEval + age_bin + edu, data = gd_data_clean)
+lm_humancapital <- lm(log_base ~ gender + perfEval + age_bin + edu, data = salaries_adjusted3)
 
 # Adding all controls. ("adjusted" pay gap.)
-lm_allcontrols <- lm(log_base ~ gender + perfEval + age_bin + edu + dept + seniority + jobTitle, data = gd_data_clean)
+lm_allcontrols <- lm(log_base ~ gender + perfEval + age_bin + edu + dept + seniority + jobTitle, data = salaries_adjusted3)
+
+
+candles <- read_csv("data/scented.csv")
+
+candles_weekly <- candles %>% 
+    mutate(year=year(Date)) %>% 
+    mutate(week=week(Date)) %>% 
+  group_by(year, week) %>% 
+  summarize(avg_rating=mean(Rating, na.rm=T))
+
+candles_monthly <- candles %>% 
+    mutate(year=year(Date)) %>% 
+    mutate(month=month(Date)) %>% 
+  group_by(year, month) %>% 
+  summarize(avg_rating=mean(Rating, na.rm=T))
+
+scented_timeline_monthly1 <- candles %>% 
+  filter(Date>ymd("2020-01-21")) %>% 
+  mutate(no_scent=case_when(
+    str_detect(Review, "[Nn]o scent") ~ 1, 
+    str_detect(Review, "[Nn]o smell") ~ 1,
+    str_detect(Review, "[Dd]oes not smell like") ~ 1,
+    str_detect(Review, "[Dd]oesn't smell like") ~ 1,
+    str_detect(Review, "[Cc]an't smell") ~ 1,
+    str_detect(Review, "[Cc]annot smell") ~ 1,
+    str_detect(Review, "[Ff]aint smell") ~ 1,
+    str_detect(Review, "[Ff]aint scent") ~ 1,
+    str_detect(Review, "[Dd]on't smell") ~ 1,
+    str_detect(Review, "[Ll]ike nothing") ~ 1,
+    TRUE ~ 0
+  ))
+
+
+scented_timeline_monthly2 <- scented_timeline_monthly1 %>% 
+  mutate(year=year(Date),
+         month=month(Date)) %>% 
+  # let's aggregate around year and month
+  group_by(year, month) %>% 
+  # we just need to add up the 1s in no_scent and count up the total reviews with n()
+  summarize(no_scent=sum(no_scent), reviews=n()) %>% 
+  # and do some math
+  mutate(percent=no_scent/reviews*100) %>% 
+  select(year, month, value=percent) %>% 
+  mutate(type="percent no smell") %>% 
+  ungroup() %>% 
+  mutate(row=row_number())
+
+boston_salaries <- read_csv("https://data.boston.gov/datastore/dump/ec5aaf93-1509-4641-9310-28e62e028457?q=&sort=_id+asc&fields=NAME%2CDEPARTMENT_NAME%2CTITLE%2CREGULAR%2CRETRO%2COTHER%2COVERTIME%2CINJURED%2CDETAIL%2CQUINN_EDUCATION_INCENTIVE%2CTOTAL_GROSS%2CPOSTAL&filters=%7B%7D&format=csv") %>% 
+  select(DEPARTMENT_NAME, TITLE, REGULAR, OTHER, OVERTIME, DETAIL, TOTAL_GROSS, POSTAL)
+
+set.seed(2022)
+
+boston16 <- boston_salaries %>% 
+  sample_n(16)
+
+covid <- read_csv("https://github.com/CSSEGISandData/COVID-19/raw/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")
+
+covid_long <- covid %>% 
+  pivot_longer(cols=12:ncol(covid), names_to="date", values_to="cases") %>% 
+  mutate(date=mdy(date)) %>% 
+  group_by(FIPS) %>% 
+  arrange(date) %>% 
+  # this is a way to create a value from the previous value (lagged)
+  mutate(positive = c(cases[1],diff(cases))) %>% 
+  group_by(date) %>% 
+  summarize(value=sum(positive, na.rm=T)) %>% 
+  mutate(type="Covid cases")
+
+covid_long_monthly <- covid_long %>% 
+  mutate(year=year(date),
+         month=month(date)) %>% 
+  group_by(year, month) %>% 
+  summarize(value=sum(value, na.rm=T)/1000000) %>% 
+  mutate(type="Covid cases") %>% 
+  ungroup() %>% 
+  mutate(row=row_number())
+
+monthly <- rbind(covid_long_monthly, scented_timeline_monthly2)
+
+monthly_wide <- monthly %>% 
+  pivot_wider(names_from="type", values_from="value") %>% 
+  filter(!is.na(`percent no smell`))
 ```
 
 
@@ -102,135 +195,1082 @@ table {
 
 ## Descriptive statistics
 
-You could spend a whole semester going over all the different statistical methods but there are a handful that are useful to journalists-- though there are more that are being used in stories in an effort to push the limit on data literacy. 
+There are so many different statistical methods we could spend several months learning but only a handful that have been used often by journalists— though there are admirable efforts by some to use and explain more complicated techniques that raise the bar for data literacy. 
 
-Let's work with some data of reviews I've scraped from Amazon: Scented candles.
+Building on what we learned in module 3, let's work with some data of reviews I've scraped from Amazon: Scented candles.
 
-```{r scented1}
+I'll load the data for you below.
+
+```{r scented1, eval=F}
+library(tidyverse)
+library(lubridate)
+
 candles <- read_csv("data/scented.csv")
 ```
 
-In the past few modules you've learned how to do some of the basic statistical methods to summarize and describe the data.
+```{r glimpsed}
+glimpse(candles)
+```
+
+In the past few modules you've already learned how to do some of the basic statistical methods to summarize and describe the data.
+
+Let's go over some of them again
 
 ### mean and median
 
-Let's calculate the mean and median.
+Some of the most common basic descriptive stats you can do is calculating mean and median.
 
-```{r mean_median}
+Mean or average is the sum of the values and dividing by how many values there were. So (4+4+7+7+8+9+10+10+11+100)/14 or 170/14=17.
+
+The median is the middle number in that list, so it'd be between 8 and 9, so 8.5. They have their uses, to deal with outliers, for example.
+
+Let's calculate the mean and median of the ratings.
+
+```{r mean_median, exercise=TRUE}
+candles %>% 
+  _________(avg_rating=____(Rating),
+            median_rating=_____(Rating))
 
 ```
+
+
+```{r mean_median-solution}
+candles %>% 
+  summarize(avg_rating=mean(Rating),
+            median_rating=median(Rating))
+```
+
+```{r mean_median-hint}
+What's the dplyr verb to aggregate?
+```
+
+```{r mean_median-check}
+grade_this_code()
+```
+
 
 ### percent and rate
 
-Okay, let's calculate the percent
+We've got a good baseline now from the average and median.
 
-```{r percent}
+Next, let's calculate the distribution of the rating scores by percent. This is another form of descriptive statistics common in data journalism.
 
-```
-
-### standard deviation
-
-And now the percent over time and the standard deviation
-
-.png(https://miro.medium.com/max/1400/1*ojzbhJwvCyX5eYz9H2_d2g.png)
-
-```{r percent_time_sd}
-
+```{r percent, exercise=TRUE}
+candles %>% 
+  ________(Rating) %>% 
+  _________(total=___) %>% 
+  mutate(percent=round(total/sum(_____)*100,1))
 ```
 
 
-### percentiles and quantiles
-
-### ratios, rates, andper capita
-
-no example here, but we've done it before
-
-### Check summary stats
-
-please visualize your data, because summary statistics can tell you weird stuff.
-
-
-## correlation
-
-We're going to work with Amazon data!
-
-Correlation between numeric variables can be investigated using the tidyverse corrr package. It allows you to compute correlations using Pearson, Kendall tau or Spearman rho. The package creates a table and also has a function to automatically plot the values.
-
-Some authors consider a strong correlation over [.6, -.6] and over [.8/, -.8] is a very strong correlation. However, in this case, strong is over [.7, -.7]; while in this other is over [.5, -.5].
-
-The second key was that “correlation does not mean causation.” And the third one was the variation of small samples. For another project I ran cor.test in R with only seven observations and, although the correlation coefficient was around .5, the results went from -.3 to .9.
-
-```
-correlation_tab <- linelist %>% 
-  select(generation, age, ct_blood, days_onset_hosp, wt_kg, ht_cm) %>%   # keep numeric variables of interest
-  correlate()      # create correlation table (using default pearson)
-
-correlation_tab    # print
+```{r percent-solution}
+candles %>% 
+  group_by(Rating) %>% 
+  summarize(total=n()) %>% 
+  mutate(percent=round(total/sum(total)*100,1))
 ```
 
+```{r percent-hint}
+This is a bunch of dplyr verbs!
 ```
-rplot(correlation_tab)
 
+```{r percent-check}
+grade_this_code()
 ```
 
-[#]https://corrr.tidymodels.org/articles/using-corrr.html
+## Standard deviation
 
-Interpreting the scores.
+Excellent, based on this, we know that nearly 70% of the reviews for this candle were for 5 stars.
+
+Could these reviews be consistently like this week over week? 
+
+Let's start seeing if we can look for outliers. If we zero in on them maybe we can investigate what's going on. 
+
+
+```{r outlier2-image, out.width = "600px", echo=F}
+knitr::include_graphics("https://imgs.xkcd.com/comics/boyfriend.png
+")
+```
 
 
 
-CORRELATION != CAUSATION
+We'll use a statistical measure called **Standard Deviation**.
+
+This determines how spread out the numbers are.
+
+Here's an example of that with the distribution of salaries between two companies illustrated with a boxplot chart.
+
+```{r outlier-image, out.width = "450px", echo=F}
+knitr::include_graphics("https://www.statology.org/wp-content/uploads/2021/08/sdImportance-1024x1003.png
+")
+```
+
+Notice that the length of the boxplot for company A is so much greater because the standard deviation of salaries is so much higher.
+
+Both companies have the same average salary, but the spread of salaries is much higher at company A.
+
+The formula is essentially the **square root** of the **Variance**. And the variance is*the average of the **squared** differences from the Mean*.
+
+The function we'll use is simply `sd()` instead of the complicated formula.
+
+Let's see what the spread is reviews within a month! Maybe we'll see something interesting.
+
+First, we'll need to transform the reviews data into monthly groupings.
+
+Which 10 months had the greatest deviation?
+
+*Fix line 7, 8, and 11, please.*
+
+Note, be sure to use `ungroup()` in line 10 otherwise the sorting will only occur in the individual months and not as a whole.
+
+```{r percent_time_sd, exercise=TRUE}
+candles_monthly <- candles %>% 
+    mutate(year=year(Date)) %>% 
+    mutate(month=month(Date)) %>% 
+  group_by(year, month) %>% 
+  summarize(ratings=n(),
+            avg_rating=mean(Rating, na.rm=T),
+            sd_rating=__(Rating, na.rm=T)) %>% 
+  _______(____(sd_rating)) %>% 
+  filter(year>2018) %>% 
+  ________() %>% 
+  _____(1_10)
+
+candles_monthly
+```
+
+
+```{r percent_time_sd-solution}
+candles_monthly <- candles %>% 
+    mutate(year=year(Date)) %>% 
+    mutate(month=month(Date)) %>% 
+  group_by(year, month) %>% 
+  summarize(ratings=n(),
+            avg_rating=mean(Rating, na.rm=T),
+            sd_rating=sd(Rating, na.rm=T)) %>% 
+  filter(year>2018) %>% 
+  ungroup() %>% 
+  arrange(desc(sd_rating)) %>% 
+  slice(1:10)
+
+candles_monthly
+```
+
+```{r percent_time_sd-hint}
+What's the dplyr verb to sort and to cut out specific rows?
+```
+
+```{r percent_time_sd-check}
+grade_this_code()
+```
+
+```{r quiz1, echo=FALSE}
+quiz(caption = "Quiz 1",
+  question("Half of the 10 months with the biggest standard deviations occurred in what year?",
+    answer('2021', correct=T),
+    answer('2020'),
+    answer('2022'),
+    answer('2019'),
+    random_answer_order= TRUE
+  ))
+```
+
+This may be worth investigating.
+
+## Correlation
+
+Basically, we're looking to see if there's a connection between negative Amazon reviews of scented candles with Covid-19 cases. This is based on viral [twitter threads](https://twitter.com/kate_ptrv/status/1332398737604431874?lang=en) from folks who noticed this trend.
+
+Before we begin, we need to question how useful our data is.
+
+How can we adjust for seasonality? There may be more complaints about lack of smell from a candle because more candles may be bought in the winter, right?
+
+So let's calculate the percent of reviews by month that mention not having a smell.
+
+We'll use some regex and `str_detect()` from the **stringr** package.
+
+Some notes about the code below:
+
+* The [Nn] means either upper case N or lower case n in this spot.
+* We'll filter the reviews to after the first cases were tracked by the CDC, January 2020
+
+Fill in the appropriate code in lines 3-14
+
+```{r weekly_am1, exercise=TRUE}
+scented_timeline_monthly1 <- candles %>% 
+  filter(Date>ymd("2020-01-21")) %>% 
+  mutate(no_scent=_________(
+    __________(Review, "[Nn]o scent") ~ 1, 
+    __________(Review, "[Nn]o smell") ~ 1,
+    __________(Review, "[Dd]oes not smell like") ~ 1,
+    __________(Review, "[Dd]oesn't smell like") ~ 1,
+    __________(Review, "[Cc]an't smell") ~ 1,
+    __________(Review, "[Cc]annot smell") ~ 1,
+    __________(Review, "[Ff]aint smell") ~ 1,
+    __________(Review, "[Ff]aint scent") ~ 1,
+    __________(Review, "[Dd]on't smell") ~ 1,
+    __________(Review, "[Ll]ike nothing") ~ 1,
+    TRUE ~ _
+  ))
+
+scented_timeline_monthly1
+```
+
+
+```{r weekly_am1-solution}
+scented_timeline_monthly1 <- candles %>% 
+  filter(Date>ymd("2020-01-21")) %>% 
+  mutate(no_scent=case_when(
+    str_detect(Review, "[Nn]o scent") ~ 1, 
+    str_detect(Review, "[Nn]o smell") ~ 1,
+    str_detect(Review, "[Dd]oes not smell like") ~ 1,
+    str_detect(Review, "[Dd]oesn't smell like") ~ 1,
+    str_detect(Review, "[Cc]an't smell") ~ 1,
+    str_detect(Review, "[Cc]annot smell") ~ 1,
+    str_detect(Review, "[Ff]aint smell") ~ 1,
+    str_detect(Review, "[Ff]aint scent") ~ 1,
+    str_detect(Review, "[Dd]on't smell") ~ 1,
+    str_detect(Review, "[Ll]ike nothing") ~ 1,
+    TRUE ~ 0
+  ))
+
+scented_timeline_monthly1
+```
+
+```{r weekly_am1-hint}
+You'll need to use a lot of functions you've learned about in previous modules. Read the comments in the code chunk, too.
+```
+
+```{r weekly_am1-check}
+grade_this_code()
+```
+
+We've got a new column called **no_scent** so let's continue wrangling this data so we have a percent for each month and year.
+
+Fill in lines 5, 7 and 9.
+
+```{r weekly_am2, exercise=TRUE}
+scented_timeline_monthly2 <- scented_timeline_monthly1 %>% 
+  mutate(year=year(Date),
+         month=month(Date)) %>% 
+  # let's aggregate around year and month
+  group_by(____, _____) %>% 
+  # we just need to add up the 1s in no_scent and count up the total reviews with n()
+  summarize(no_scent=sum(________), reviews=___) %>% 
+  # and do some math
+  mutate(percent=________/_______*100) %>% 
+  select(year, month, value=percent) %>% 
+  mutate(type="percent no smell") %>% 
+  ungroup() %>% 
+  mutate(row=row_number())
+
+scented_timeline_monthly2
+```
+
+
+```{r weekly_am2-solution}
+scented_timeline_monthly2 <- scented_timeline_monthly1 %>% 
+  mutate(year=year(Date),
+         month=month(Date)) %>% 
+  # let's aggregate around year and month
+  group_by(year, month) %>% 
+  # we just need to add up the 1s in no_scent and count up the total reviews with n()
+  summarize(no_scent=sum(no_scent), reviews=n()) %>% 
+  # and do some math
+  mutate(percent=no_scent/reviews*100) %>% 
+  select(year, month, value=percent) %>% 
+  mutate(type="percent no smell") %>% 
+  ungroup() %>% 
+  mutate(row=row_number())
+
+scented_timeline_monthly2
+```
+
+```{r weekly_am2-hint}
+You'll need to use a lot of functions you've learned about in previous modules. Read the comments in the code chunk, too.
+```
+
+```{r weekly_am2-check}
+grade_this_code()
+```
+
+### Plot it
+
+How does this look visually?
+
+Make a line chart!
+
+```{r ggplot1, exercise=TRUE}
+ggplot(__________________________, aes(x=row, y=value)) +
+      _________() +
+      theme_minimal() +
+  labs(title="Percent of Yankee Candle reviews mentioning no smell",
+       y="Percent", x="")
+```
+
+
+```{r ggplot1-solution}
+ggplot(scented_timeline_monthly2, aes(x=row, y=value)) +
+      geom_line() +
+      theme_minimal() +
+  labs(title="Percent of Yankee Candle reviews mentioning no smell",
+       y="Percent", x="")
+```
+
+```{r ggplot1-hint}
+The first argument in ggplot needs to be the data frame. Also, what's the geometry for line chart?
+```
+
+```{r ggplot1-check}
+grade_this_code()
+```
+
+To throw in a trend line, add in `geom_smooth()` into line 3.
+
+```{r ggplot1t, exercise=TRUE}
+ggplot(__________________________, aes(x=row, y=value)) +
+      _________() +
+  ___________() +
+  theme_minimal() +
+  labs(title="Percent of Yankee Candle reviews mentioning no smell",
+       y="Percent", x="")
+```
+
+
+```{r ggplot1t-solution}
+ggplot(scented_timeline_monthly2, aes(x=row, y=value)) +
+      geom_line() +
+    geom_smooth() +
+      theme_minimal() +
+  labs(title="Percent of Yankee Candle reviews mentioning no smell",
+       y="Percent", x="")
+```
+
+```{r ggplot1t-hint}
+The first argument in ggplot needs to be the data frame. What's the geometry for line chart and smooth?
+```
+
+```{r ggplot1t-check}
+grade_this_code()
+```
+
+Okay, well, you know what we're going to do now.
+
+### Covid-19 data
+
+Bring in a second data set: Covid-19 infections.
+
+We're going to use data from [John Hopkins University](https://github.com/CSSEGISandData/COVID-19). Many of you are probably really familiar with it.
+
+Their data is very wide. And their daily cases are cumulative.
+
+So let's transform it and also adjust the data so we get daily case counts.
+
+
+```{r covid, warning=F, message=F, exercise=TRUE}
+covid <- read_csv("https://github.com/CSSEGISandData/COVID-19/raw/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")
+
+covid_long <- covid %>% 
+  ____________(cols=12:ncol(covid), names_to="date", values_to="cases") %>% 
+  mutate(date=mdy(date)) %>% 
+  group_by(FIPS) %>% 
+  arrange(date) %>% 
+  # this is a way to create a value from the previous value (lagged)
+  mutate(positive = c(cases[1],diff(cases))) %>% 
+  group_by(date) %>% 
+  summarize(value=sum(positive, na.rm=T)) %>% 
+  mutate(type="Covid cases")
+
+covid_long
+```
+
+
+
+```{r covid-solution}
+covid <- read_csv("https://github.com/CSSEGISandData/COVID-19/raw/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")
+
+covid_long <- covid %>% 
+  pivot_longer(cols=12:ncol(covid), names_to="date", values_to="cases") %>% 
+  mutate(date=mdy(date)) %>% 
+  group_by(FIPS) %>% 
+  arrange(date) %>% 
+  # this is a way to create a value from the previous value (lagged)
+  mutate(positive = c(cases[1],diff(cases))) %>% 
+  group_by(date) %>% 
+  summarize(value=sum(positive, na.rm=T)) %>% 
+  mutate(type="Covid cases")
+
+covid_long
+```
+
+```{r covid-hint}
+What's the function to pivot wide data to long?
+```
+
+```{r covid-check}
+grade_this_code()
+```
+
+### More summarizing
+
+Alright, we've transformed the data to be long for daily cases but now we need it to match our monthly reviews data.
+
+And we need to adjust the high numbers a bit so we'll divide the case count by a million.
+
+```{r covid_monthly}
+covid_long_monthly <- covid_long %>% 
+  mutate(year=year(date),
+         month=month(date)) %>% 
+  group_by(year, month) %>% 
+  summarize(value=sum(value, na.rm=T)/1000000) %>% 
+  mutate(type="Covid cases") %>% 
+  ungroup() %>% 
+  mutate(row=row_number())
+
+covid_long_monthly
+```
+
+Ok, let's stack these together to make a tidy data set combining reviews with Covid-19 cases!
+
+And then visualize it with small multiples.
+
+Add the right code in line 1 and 6.
+
+```{r covid_stack, exercise=TRUE}
+monthly <- _____(covid_long_monthly, scented_timeline_monthly2)
+
+monthly %>% 
+  ggplot(aes(x=row, y=value)) +
+  geom_line() +
+  __________(vars(type), scale="free_y") +
+  geom_smooth()
+```
+
+
+
+```{r covid_stack-solution}
+monthly <- rbind(covid_long_monthly, scented_timeline_monthly2)
+
+monthly %>% 
+  ggplot(aes(x=row, y=value)) +
+  geom_line() +
+  facet_wrap(vars(type), scale="free_y") +
+  geom_smooth()
+```
+
+```{r covid_stack-hint}
+What's the function to bind rows? And what's the line to create small multiples, aka facets?
+```
+
+```{r covid_stack-check}
+grade_this_code()
+```
+
+Aha! Okay, based on the trend lines we can see there are some surges occurring at the same time.
+
+### Alternate visualization
+
+Let's make sure and visualize the data another way.
+
+Instead of separating the lines, like let's layer them on top of each other.
+
+Update line 2 below.
+
+```{r together, exercise=TRUE}
+monthly %>% 
+  ggplot(aes(x=row, y=value, color=____)) +
+  geom_line() +
+  geom_smooth() +
+  theme_minimal() +
+  labs(title="Covid cases versus Amazon 'no scent' candle reviews")
+```
+
+
+```{r together-solution}
+monthly %>% 
+  ggplot(aes(x=row, y=value, color=type)) +
+  geom_line() +
+  geom_smooth() +
+  theme_minimal() +
+  labs(title="Covid cases versus Amazon 'no scent' candle reviews")
+```
+
+```{r together-hint}
+You're not using the facet_wrap function this time but you'll need the variable from it.
+```
+
+```{r together-check}
+grade_this_code()
+```
+
+Okay, unfortunately the trend lines don't seem to line up as well after month 20.
+
+The function to check for a correlation between two arrays is `cor()`.
+
+The base R function `cor()` allows you to compute correlations using Pearson, Kendall tau or Spearman rho.
+
+Some authors consider a strong correlation over [.6, -.6] and over [.8/, -.8] is a very strong correlation. 
+
+Let's transform our data a bit from long to wide so we can compare the two columns and see what we have.
+
+```{r }
+monthly_wide <- monthly %>% 
+  pivot_wider(names_from="type", values_from="value") %>% 
+  filter(!is.na(`percent no smell`))
+
+glimpse(monthly_wide)
+```
+
+Okay, now that we've done that, run the correlation function on the two columns!
+
+```{r correl, exercise=TRUE}
+___(monthly_wide$`______ _____`, monthly_wide$`_______ __ _____`, method="pearson") 
+```
+
+```{r correl-solution}
+cor(monthly_wide$`Covid cases`, monthly_wide$`percent no smell`, method="pearson") 
+```
+
+```{r correl-hint}
+Use the function and column names
+```
+
+```{r correl-check}
+grade_this_code()
+```
+
+As you can see, the correlation score is pretty weak. 
+
+We can see the trend line with our eyes but the score doesn't exactly match up after a certain point.
+
+However, this may be because we do not have enough reviews! We're only looking at data for one scented candle. If we brought in several more, we could have a more robust data set to create percents over time with to compare against Covid-19 cases.
+
+Also, the Covid-19 cases may not be as accurate anymore if people are self-testing and not reporting it to their county health department. 
+
+There is a certain point where the lines no longer seem in sync. There could be any number of explanations.
+
+That being said, CORRELATION DOES NOT EQUAL CAUSATION.
+
+If you use this technique to explore the relationship between two variables, please, please run it by a statistician or researcher.
+
+**Phrasing**
+
+If this is something you'd like to include and you've vetted it appropriately, narrative techniques include:
+
+* "An analysis shows that there is a strong/significant relationship between X and Y"
+* "An analysis suggests that X predicts Y. For every X, Y increased by ___."
+
+This is very squishy language and every effort should be taken to not include it! 
+
+That being said, a political scientist did do [this analysis and found](https://news.northeastern.edu/2022/06/10/yankee-candle-reviews-and-covid-19-trends/) that after controlling for seasonality, it appeared that COVID-19 cases predicted more “no smell” reviews. For every 100,000 new COVID-19 cases per week, he found, “no smell” reviews increased by a quarter of a percentage point in the next week. 
+
+“When I added those next six months, which includes the Omicron wave, it is now predictive in the sense that, in theory, the reviews give us a slight heads up,” said Nicholas Beauchamp.
+
+## Percentiles and quantiles
+
+If you're comparing numbers with numbers, it's easier to turn one set of numbers into quantiles, for example taking a range of numbers and grouping them into "low", "medium", or "high" categories.
+
+This way you can create crosstabs and get around having to use correlations in your narrative.
+
+Quantiles are a range from any value to any other value.
+
+Percentiles and Quartiles are simply types of Quantiles. 
+
+* 4-quantiles are called quartiles
+* 5-quintiles are called quintiles
+* 10-quantiles are called deciles
+* 100-quantiles are called percentiles
+
+To illustrate the concept, let's start out with some City of Boston salaries.
+
+I've saved it and deleted identifying information as **boston_salaries**:
+
+```{r}
+glimpse(boston_salaries)
+```
+
+Now, let's take 20 of them randomly for our purposes (I'll use the `sample_n()` function:
+
+```{r}
+# this makes it random but consistent for all of us
+set.seed(2022)
+
+boston16 <- boston_salaries %>% 
+  sample_n(16)
+
+boston16
+```
+
+Let's look specifically at the overall salaries (I'm using the `kable()` function from the **knitr** package to present the data frame so we don't have to scroll to see the whole thing:
+
+```{r}
+boston16 %>% 
+  select(TOTAL_GROSS, POSTAL) %>% 
+  arrange(TOTAL_GROSS) %>% 
+  kable()
+```
+
+To group these salaries into sections, we'll use the `ntile()` function.
+
+The way `ntile()` works is the first argument is the column you'd like to evaluate and the second argument is the number of groups you'd like.
+
+Because we're creating 4 groups, we'll add a column called **quartile**.
+
+Go for it below. 
+
+```{r ntile, exercise=TRUE}
+boston16 %>% 
+  select(TOTAL_GROSS, POSTAL) %>% 
+  arrange(TOTAL_GROSS) %>% 
+  mutate(quartile=_____(TOTAL_GROSS, _)) %>% 
+  kable()
+```
+
+
+```{r ntile-solution}
+boston16 %>% 
+  select(TOTAL_GROSS, POSTAL) %>% 
+  arrange(TOTAL_GROSS) %>% 
+  mutate(quartile=ntile(TOTAL_GROSS, 4)) %>% 
+  kable()
+```
+
+```{r ntile-hint}
+Use the new function and remember we want four groups
+```
+
+```{r ntile-check}
+grade_this_code()
+```
+
+Now, you can use `case_when()` to create a new column for lowest salary, lower salary, higher salary, and highest salary based on the quartile column you created.
+
+What if you joined median income for zip codes from the Census to this data? 
+
+If you joined additional numerical data to this you could use `group_by()` on the quartile column to calculate the percent of workers living in poor or rich neighborhoods. Or perhaps even those who live outside Boston city borders?
+
+Anyway, that's the benefit of adding quartiles via mutate.
+
+What if we just wanted to know what salary someone in Boston would need to earn to be in the top 75% of all workers paid by the city? 
+
+### Summarized quantiles
+
+We're going to use a different function this time, `quantile()` which is nearly the same thing but takes percentiles as inputs.
+
+Check it out below.
+
+```{r quant1, exercise=TRUE}
+boston16 %>% 
+  select(TOTAL_GROSS) %>% 
+  arrange(TOTAL_GROSS) %>% 
+  summarize(value=________(TOTAL_GROSS, c(0, .25, .5, .75, 1))) %>% 
+  mutate(percentile=c(0,25,50,75, 100),
+         quartile=c(0,1,2,3,4)) %>% 
+  select(percentile, quartile, value)
+```
+
+
+```{r quant1-solution}
+boston16 %>% 
+  select(TOTAL_GROSS) %>% 
+  arrange(TOTAL_GROSS) %>% 
+  summarize(value=quantile(TOTAL_GROSS, c(0, .25, .5, .75, 1))) %>% 
+  mutate(percentile=c(0,25,50,75, 100),
+         quartile=c(0,1,2,3,4)) %>% 
+  select(percentile, quartile, value)
+```
+
+```{r quant1-hint}
+Use the new function
+```
+
+```{r quant1-check}
+grade_this_code()
+```
+
+Alright, so within this 16 employee sample, you'll need to make $127,692 to be in the top 75% of earners.
+
+(Sometimes there may be an issue with progressing past this point-- if you can't continue, click on "Plot it" to the left to move on manually).
 
 ## Plot it
 
-## How to phrase it in a story
+I wanted to take this moment to emphasize how important it is to visualize your analysis.
 
-"There is a strong relationship between X and Y."
+Summarized data could look completely the same in a table or numeric form but when visualized, it could show completely different patterns.
 
+For example, this is an example of the Datasaurus data (created by [Alberto Cairo](http://albertocairo.com/)) with the same statistical properties when it comes to mean, median, standard deviation, and correlation figures. But the underlying data are all completely different.
 
-
-
-
-
-## linear modeling
-
-### Important to clean up data to work in a model
-
-
-```{r glimpse, exercise=TRUE}
-stargazer(gd_data_clean, type="text")
+```{r datasaurus-image, out.width = "700px", echo=F}
+knitr::include_graphics("https://damassets.autodesk.net/content/dam/autodesk/research/publications-assets/gifs/same-stats-different-graphs/DinoSequentialSmaller.gif")
 ```
 
-Linear regression
-The base R function lm() perform linear regression, assessing the relationship between numeric response and explanatory variables that are assumed to have a linear relationship.
+
+## Linear modeling
+
+Let's take it a step further.
+
+Sometimes it's important to account for confounding factors that may better explain relationships between data points. A popular example is if you have data on sunburns and ice cream purchases. You may find that people buy more ice cream when a lot of people have sunburns. But it'd be incorrect to say ice cream purchases cause sunburns. 
+
+Let's work with some a fake data set on employee salaries so we can investigate whether or not there is a gender pay gap. 
+
+The most basic way to investigate would be to take the average salary for men and compare it with the average salary for women. But this could be misleading. 
+
+*Note: I just realized "this could be misleading" is like the data journalism unofficial motto.*
+
+For example, men and women may work in different job roles inside companies — the company may have more men in high paying software engineering jobs and more women in lower paying administrative assistant positions. Not having enough representation in various positions could be analyzed but it would account for the disparity in pay.
+
+Many factors affect pay, so we should attempt to separately measure them to understand how each impacts it at this company.
+
+It's good to have both results from the "unadjusted" and "adjusted" versions of the pay gap analysis.
+
+```{r glimpsed2, warning=F, message=F}
+
+salaries = read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQOWZc9xjBuYzmPvodkfKE7EJpsd1JbSSwaw0VT3GwAwUtloXFmXkom8OVIB5YMsPaUQD2HbzGwOB2n/pub?output=csv")
+
+glimpse(salaries)
+```
+
+After importing our data, the next step is to do some clean-up to prepare it for regression analysis.
+First, we'll create five employee age groups for simplicity.
+
+Fill in line 3.
+
+```{r base, exercise=TRUE}
+# Base pay summary stats.
+salaries_adjusted1 <-  salaries %>%
+  # Age brackets
+  mutate(age_bin = ________(
+    age < 25 ~ 1, #Below age 25 
+    age >= 25 & age < 35 ~ 2, #Age 25-34 
+    age >= 35 & age < 45 ~ 3, #Age 25-34 
+    age >= 45 & age < 55 ~ 4, #Age 25-34 
+    age >= 55 ~ 5, #Age 25-34 
+  ))
+
+```
+
+
+```{r base-solution}
+# Base pay summary stats.
+salaries_adjusted1 <-  salaries %>%
+  # Age brackets
+  mutate(age_bin = case_when(
+    age < 25 ~ 1, #Below age 25 
+    age >= 25 & age < 35 ~ 2, #Age 25-34 
+    age >= 35 & age < 45 ~ 3, #Age 25-34 
+    age >= 45 & age < 55 ~ 4, #Age 25-34 
+    age >= 55 ~ 5, #Age 25-34 
+  ))
+```
+
+```{r base-hint}
+What's the dplyr function for if/else?
+```
+
+```{r base-check}
+grade_this_code()
+```
+
+
+### Logarithms
+
+Next, create a new variable for the natural log of base pay. 
+
+Why do this? By estimating gender pay gaps using the log of pay, it provides a simple and useful interpretation of our regression results. Essentially, logs are a simpler way to represent large numbers.
+
+For example, 10,000,000,000 can be written as 10¹⁰.
+
+The new function we'll use is predictably called `log()` and we'll pass it the argument of how many exponents we want (just 1).
+
+```{r salaries2, exercise=TRUE}
+salaries_adjusted2 <- salaries_adjusted1 %>% 
+  # Total compensation
+  mutate(total_pay = basePay + bonus) %>%
+  # Log of compensation
+  mutate(log_base = ___(basePay, base = exp(1)),
+         log_total = ___(total_pay, base = exp(1)),
+         # Adds 1 to allow for log of 0 bonus values.
+         log_bonus = ___(bonus + 1, base = exp(1)))
+
+salaries_adjusted2
+```
+
+```{r salaries2-solution}
+salaries_adjusted2 <- salaries_adjusted1 %>% 
+  # Total compensation
+  mutate(total_pay = basePay + bonus) %>%
+  # Log of compensation
+  mutate(log_base = log(basePay, base = exp(1)),
+         log_total = log(total_pay, base = exp(1)),
+         # Adds 1 to allow for log of 0 bonus values.
+         log_bonus = log(bonus + 1, base = exp(1)))
+
+salaries_adjusted2
+```
+
+```{r salaries2-hint}
+What's the new function called?
+```
+
+```{r salaries2-check}
+grade_this_code()
+```
+
+
+Creating models is all about cleaning and prepping the data.
+
+So we'll continue doing so by adding a new numerical variable to change Male to 1 and Female to 0. 
+
+
+```{r salaries3}
+salaries_adjusted3 <- salaries_adjusted2 %>%
+  # Make flags
+  mutate(male = case_when(
+    gender=="Male" ~ 1,
+    TRUE ~ 0
+  ))
+
+```
+
+Let's take a look at what we've got.
+
+```{r glass_door}
+glimpse(salaries_adjusted3)
+```
+
+To look at summarized statistics of our transformed data, we'll use a new packages called **vtable** and use the function `st()`
+
+```{r glimpse, exercise=TRUE}
+__(salaries_adjusted3)
+```
+
+```{r glimpse-solution}
+st(salaries_adjusted3)
+```
+
+```{r glimpse-hint}
+What's the new function called?
+```
+
+```{r glimpse-check}
+grade_this_code()
+```
+
+Standard deviations, percentiles, averages, counts, max.
+
+So many things we've done manually quickly done with one function!
+
+Amazing.
+
+But let's move on to our unadjusted comparison of pay between men and women.
+
+Let's calculate the average and median for base pay by gender.
+
+```{r summary, exercise=TRUE}
+summary_base <- salaries_adjusted3 %>% 
+  group_by(______) %>% 
+  summarise(meanBasePay = _____(basePay, na.rm = TRUE),
+            medianBasePay = ______(basePay, na.rm = TRUE),
+            employees = n())
+
+summary_base
+```
+
+```{r summary-solution}
+summary_base <- salaries_adjusted3 %>% 
+  group_by(gender) %>% 
+  summarise(meanBasePay = mean(basePay, na.rm = TRUE),
+            medianBasePay = median(basePay, na.rm = TRUE),
+            employees = n())
+
+summary_base
+```
+
+```{r summary-hint}
+Some old functions we've used before. Also what are you grouping by?
+```
+
+```{r summary-check}
+grade_this_code()
+```
+
+For our hypothetical employer, men on average are paid $98,458 per year while women on average earn $89,943 per year — an overall or “unadjusted” pay gap of $8,515 or about 8.6 percent of male pay.
+
+Let's look at whether men and women are clustered into certain job titles or departments. If so, we'll need to control for that in our analysis.
+
+```{r adjusted}
+unadjusted_jobs <- salaries_adjusted3 %>% 
+  group_by(jobTitle, gender) %>% 
+  summarise(meanTotalPay = mean(total_pay, na.rm = TRUE), 
+            employees =n())
+
+unadjusted_jobs
+```
+
+Looks like men are very overrepresented in management and software roles, which are more highly paying, while women seem overrepresented among marketing associate roles. 
+
+### Linear regression
+
+The base R function `lm()` perform linear regression, assessing the relationship between numeric response and explanatory variables that are assumed to have a linear relationship.
 
 Provide the equation as a formula, with the response and explanatory column names separated by a tilde ~. Also, specify the dataset to data =. Define the model results as an R object, to use later.
 
+First, we'll run the simplest possible model with no controls at all, regressing salary only on a male-female gender dummy. This is equivalent to calculating the approximate overall percentage pay gap between men and women — what we call the “unadjusted” pay gap.
+
+We're looking for the relationship between log_base and gender.
+
+Then use the `summary()` function to output the results!
+
 ```{r star, exercise=TRUE}
 # No controls. ("unadjusted" pay gap.)
-lm_gender <- lm(log_base ~ gender, data = gd_data_clean)
+lm_gender <- lm(________ ~ ______, data = salaries_adjusted3)
 
-lm_gender
+_______(lm_gender)
 ```
+
+```{r star-solution}
+# No controls. ("unadjusted" pay gap.)
+lm_gender <- lm(log_base ~ gender, data = salaries_adjusted3)
+
+summary(lm_gender)
+```
+
+```{r star-hint}
+The first argument is log_base
+```
+
+```{r star-check}
+grade_this_code()
+```
+
+A coefficient of 0.095 means there is approximately 9.5 percent “unadjusted” gender pay gap in this theoretical company. In a story, you would write that men on average earn about 9.5 percent more than women on average in this company. 
+
+The estimates that are statistically significant have *, ** or *** next to them.
+
+So this model currently says that gender is a statistically significant factor when it comes to pay.
+
+### Adjusted linear model
+
+Next, we'll run a more complete model that adds in variables for employee characteristics like highest education, years of experience and performance evaluation scores. These are some variablesn that management would accuse you of not taking into consideration if you're doing a pay study (and then not provide to you even if you request it).
+
+Let's add performance evals, the age buckets, and education to our linear model function.
+
+We do so by adding them with a `+` after the second variable behind the ~ tilde sign.
 
 ```{r star2, exercise=TRUE}
 # Adding "human capital" controls (performance evals, age and education).
-lm_humancapital <- lm(log_base ~ gender + perfEval + age_bin + edu, data = gd_data_clean)
+lm_humancapital <- lm(log_base ~ gender + ________ + _______ + ___, data = salaries_adjusted3)
 
-lm_humancapital
+summary(lm_humancapital)
 ```
+
+
+```{r star2-solution}
+# Adding "human capital" controls (performance evals, age and education).
+lm_humancapital <- lm(log_base ~ gender + perfEval + age_bin + edu, data = salaries_adjusted3)
+
+summary(lm_humancapital)
+```
+
+```{r star2-hint}
+Make sure you use the correct column names.
+```
+
+```{r star2-check}
+grade_this_code()
+```
+
+The gender pay gap hasn’t changed much with these adjustments. It’s still a 10.1 percent pay gap, which is still highly statistically significant. Whatever is causing the pay gap in our hypothetical employer isn’t due to differences in education, age or performance evaluations of men and women. 
+
+### Final adjustment linear model
+
+Finally, we recommend running a model with all of the controls that you have access to, including job
+title, department and more. 
 
 ```{r star3, exercise=TRUE}
 # Adding all controls. ("adjusted" pay gap.)
-lm_allcontrols <- lm(log_base ~ gender + perfEval + age_bin + edu + dept + seniority + jobTitle, data = gd_data_clean)
+lm_allcontrols <- lm(log_base ~ ______ + ________ + _______ + ___ + 
+                       ____ + _________ + ________, 
+                     data = salaries_adjusted3)
 
-lm_allcontrols
+summary(lm_allcontrols)
 ```
 
-```{r stargazer}
-stargazer(lm_gender, lm_humancapital, lm_allcontrols, type="text", single.row=TRUE)
+
+```{r star3-solution}
+# Adding "human capital" controls (performance evals, age and education).
+lm_allcontrols <- lm(log_base ~ gender + perfEval + age_bin + edu + dept + seniority + jobTitle, data = salaries_adjusted3)
+
+summary(lm_allcontrols)
 ```
 
-## Crosstabs
+```{r star3-hint}
+Make sure you use the correct column names.
+```
+
+```{r star3-check}
+grade_this_code()
+```
+
+In this case, we see the gender pay gap shrinks to 1.1 percent after controlling for job title, job
+seniority and company department.
+
+As we suspected, there are more men in higher-paying software engineer and manager roles, while they are underrepresented in lower-paying marketing roles. 
+
+Even if this company doesn't have an overall pay gap between men and women, it’s still possible
+that gender pay gaps are hidden only within certain job titles or departments.
+
+To test for differences in the gender pay gap among departments or job titles in your company, we
+make a slight adjustment to the models above. In addition to including a “male” dummy, we include
+interaction terms for male x department, or male x job title. By looking at whether the coefficients on these interaction terms are statistically significant or not, we can test whether the gender pay gap within certain job titles or departments differs from the overall company average.
+
+To include *jobTitle* in  our regression measurement, we use `*` after the **male** column as a second variable.
+
+It'd look like this. Go ahead and run the code below.
+
+```{r job_titles, exercise=TRUE}
+# All controls with job title interaction terms.
+job_results <- lm(log_base ~ male*jobTitle + perfEval + age_bin + edu + seniority + dept, data = salaries_adjusted3)
+# Publish a clean table of regression results.
+summary(job_results)
+```
+
+After running this code, examine each of the coefficients in the table of results for the male x job
+title interaction terms. If they’re statistically significant, that means the gender pay gap in that
+particular job title is different from the overall company average, and it’s worth investigating why.
+
+If they’re not significant, there’s no evidence of differences in pay gaps by job title.
+
+If you want to see what the estimated gender pay gap is for each job title, you’ll simply need to
+combine two numbers from your regression output. For the gender pay gap in a particular job title,
+add together the coefficient from the male variable plus the coefficient from the male x job title
+variable for that job title. That tells you the gender gap from being both male and working in that
+particular role.
+
+
+## Class IV - Part 2
+
+
+Stop this tutorial in the `Render` tab of RStudio (press the stop button).
+
+Whew, this was a very long one. Thanks for sticking with it!
+
+Take a look at this diagram.
+
+```{r outlier12-image, out.width = "700px", echo=F}
+knitr::include_graphics("https://josiahparry.com/slides/tidymodels/images/r4ds_data-science.png")
+```
+
+You've essentially gone through all these steps in this class at this point!
+
+And you can see why it's so important to know all these steps because it takes constant tweaking to wrangling and visualizing and modeling the data. And now you know how! 
+
+Take a long break. Because now we're moving onto some fun stuff: maps!
+
+When you're ready to move on the last section of the week just type this in the console of RStudio:
+
+```
+learnr::run_tutorial("class_4_b_static_maps", "adjclass")
+```
 
 

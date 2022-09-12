@@ -128,7 +128,7 @@ grade_this_code()
 
 Okay, let's transform the data like we did before. 
 
-Can you count up how many disasters there have been per year? Not total disasters. Individual disasters.
+Can you count up how many **disasters** there have been **per year**? Not total disasters. Individual disasters.
 
 Call the new column "total".
 
@@ -485,10 +485,10 @@ annual_disasters %>%
 ggplot() +
   geom_col(mapping=aes(x= year, y= total)) +
   scale_x_continuous(limits=c(2010, 2022), breaks=2010:2022) +
-
+  ______________________________
 ```
 
-```{r facet_example1-solution, exercise=TRUE}
+```{r facet_example1-solution}
 annual_disasters %>% 
   filter(incidentType %in% c("Hurricane", "Fire", "Flood")) %>% 
 ggplot() +
@@ -611,7 +611,7 @@ ggplot() +
 
 ```{r labels_example-hint}
 You only need to call labs() once.
-Just separate the arguments with commas.
+Within parentheses, just separate the arguments with commas. You don't use the plus signs.
 ```
 
 ```{r labels_example-check}
@@ -729,8 +729,7 @@ ggplot() +
     caption= "Data: FEMA"
   ) +
   theme_bw() + 
-  theme(legend.position = "bottom",
-        plot.title = element_text(face = "bold"),
+  theme(plot.title = element_text(face = "bold"),
         panel.grid = element_blank(),
         axis.title.y = element_text(face = "italic"))
 ```
@@ -754,6 +753,6 @@ Congrats on completing the walkthroughs for Module 2!
 
 Fill in the quiz answers and be sure to participate in the discussion boards if you haven't yet.
 
-See you next time when we start trying to use R to obtain difficult data.
+See you next time for Module 3 when we start trying to use R to obtain difficult data.
 
 

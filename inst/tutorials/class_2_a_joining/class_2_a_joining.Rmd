@@ -65,11 +65,12 @@ Last time, we added some decades categories using the `case_when()` and `mutate(
 
 But let's go even further by adding an additional data set.
 
-Let's bring in county populatoin data from the U.S. Census so we can estimate how many people were affected by different disasters.
+Let's bring in county population data from the U.S. Census so we can estimate how many people were affected by different disasters.
 
 For this exercise, the data's already pre-loaded but these are the commands to bring it in yourself using the excellent package called [**tidycensus**](https://learn.r-journalism.com/en/mapping/static_maps/static-maps/) (you'll need to sub in your own Census [API key](https://api.census.gov/data/key_signup.html)). Usually, you'd have to search for and download this from data.census.gov and do some manual cleaning up before using. But using this package that interfaces with the Census API using the lines of code below gives you the data cleaned up and in a **tidy** format.
 
 ```{r tidycensus, eval=FALSE}
+# this is the code to bring in the data but it's already preloaded in this tutorial
 library(tidycensus)
 census_api_key("API_KEY_GOES_HERE")
 
@@ -116,7 +117,7 @@ df <- read_csv("https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.c
 ```
 
 ```{r glimpse, exercise=TRUE}
-glimpse(df)
+______(df)
 ```
 
 ```{r glimpse-solution}
@@ -134,8 +135,8 @@ grade_this_code()
 
 ```{r quiz1, echo=FALSE}
 quiz(caption = "Quiz 1",
-  question("In each data set, which columns share the most similarity?",
-    answer('GEOID in county_pop and placeCode in df'),
+  question("In each data set, which columns share the most similarity for locations?",
+    answer('GEOID in df and placeCode in county_pop'),
     answer('designatedArea in df and NAME in county_pop', correct=T),
     answer('variable in county_pop and id in df'),
     answer('estimate incounty_pop and disasterNumber in county_pop'),
@@ -373,11 +374,11 @@ Fill in the missing code.
 ```{r summarize, exercise=TRUE}
 joined_new %>% 
   mutate(year=____(incidentBeginDate)) %>% 
-  filter() %>% 
-  group_by() %>% 
+  filter(______) %>% 
+  group_by(______) %>% 
   summarize(population=sum(estimate, na.rm=T)) %>% 
-  arrange() %>% 
-  slice()
+  arrange(______) %>% 
+  slice(___)
 ```
 
 ```{r summarize-solution}
@@ -429,12 +430,12 @@ Arrange it high to low (on avg_pop) and slice out the top 5 rows.
 
 ```{r summarize_again, exercise=TRUE}
 joined_new %>% 
-  group_by() %>% 
+  group_by(_____) %>% 
   summarize(declarations=___,
             avg_pop=____(estimate, na.rm=T),
             median_pop=______(estimate, na.rm=T)) %>% 
-  arrange() %>% 
-  slice()
+  arrange(_____) %>% 
+  slice(___)
 ```
 
 
@@ -509,7 +510,7 @@ To answer the quiz, use this exercise box below.
 quiz(caption = "Quiz 2",
   question("How many more county Flood declarations were there in Kentucky in 2021 compared to 2022?",
     answer('3'),
-    answer('36', correct=T),
+    answer('30', correct=T),
     answer('-19'),
     answer('-5'),
     random_answer_order= TRUE
@@ -519,8 +520,8 @@ quiz(caption = "Quiz 2",
 ```{r quiz3, echo=FALSE}
 quiz(caption = "Quiz 3",
   question("What's the percent change between county flood declarations in Kentucky between 2022 and 2021?",
-    answer('-72', correct=T),
-    answer('72'),
+    answer('-60', correct=T),
+    answer('60'),
     answer('50'),
     answer('-100'),
     random_answer_order= TRUE

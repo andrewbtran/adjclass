@@ -127,7 +127,6 @@ And in the 10th line, add "state" as a second `group_by()` option after "year".
 
 ```{r what, exercise=TRUE}
 long_flood <- joined_new %>% 
-  filter(state=="KY") %>% 
   filter(incidentType=="Flood") %>% 
   mutate(year=year(incidentBeginDate)) %>% 
   # extracting months
@@ -145,7 +144,6 @@ long_flood
 
 ```{r what-solution}
 long_flood <- joined_new %>% 
-  #filter(state=="KY") %>% 
   filter(incidentType=="Flood") %>% 
   mutate(year=year(incidentBeginDate)) %>% 
   # extracting months
@@ -215,7 +213,7 @@ grade_this_code()
 
 Great job! We can clearly see most states had flooding in only one year. 
 
-Kentucky had 50 in 2021 and 14 in 2022. 
+Kentucky had 50 in 2021 and 20 in 2022 (Okay, the number may change in 2022 depending on when you pull this data and how unlucky Kentucky continues to be). 
 
 We knew that from our last section but now we can see that it's the only state that had floods in both years.
 
@@ -267,7 +265,7 @@ flood_percent_change
 ```
 
 ```{r wide_flood_summary-hint}
-The formula for percent change is (new-old)/old*100.
+The formula for percent change is (new-old)/old*100. Also remember the differences between aggregating a data frame and adding a column to an existing data frame.
 ```
 
 ```{r wide_flood_summary-check}
@@ -278,8 +276,8 @@ grade_this_code()
 ```{r quiz2, echo=FALSE}
 quiz(caption = "Quiz 2",
   question("What's the percent change in flood disaster declarations between 2021 and 2022 so far this year",
-    answer('42'),
-    answer('-41.6', correct=T),
+    answer('25'),
+    answer('-24.7', correct=T),
     answer('150'),
     answer('-5'),
     random_answer_order= TRUE
@@ -299,9 +297,9 @@ See what happens. *Also, type it in, don't copy and paste otherwise you'll run i
 
 ```{r pivot_wider_more, exercise=TRUE}
 wide_flood_more <- long_flood %>% 
-  select(-avg_pop, -median_pop) %>% 
+  select(-median_pop) %>% 
   pivot_wider(names_from="____",
-              values_from="____________")
+              values_from=____________)
 
 wide_flood_more
 ```
@@ -310,7 +308,7 @@ wide_flood_more
 ```{r pivot_wider_more-solution}
 wide_flood_more <- long_flood %>% 
   select(-median_pop) %>% 
-  pivot_wider(names_from="years",
+  pivot_wider(names_from="year",
               values_from=c("declarations", "avg_pop"))
 
 wide_flood_more
