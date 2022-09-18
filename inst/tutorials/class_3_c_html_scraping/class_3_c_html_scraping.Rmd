@@ -142,7 +142,7 @@ Web pages are usually built using Hypertext Markup Language (HTML) and Cascading
 * CSS provide the style and look, like fonts and colors
 * Javascript provides functionality
 
-Javascript-generated data is a whole other endeavor that you'll have to learn on your own. Try [RSelenium](http://joshuamccrain.com/tutorials/web_scraping_R_selenium.html)!
+Javascript-generated data is a whole other endeavor that you'll have to learn on your own. Try [RSelenium](http://joshuamccrain.com/tutorials/web_scraping_R_selenium.html) once you master this module!
 
 ## HTML
 
@@ -518,10 +518,14 @@ Okay, let's clean it up a bit with some **stringr** and **lubridate** functions.
 
 ```{r clean, exercise=TRUE}
 some_reviews <- some_reviews %>% 
-  mutate(ratings=str_replace(ratings, " out of 5 stars", ""),
+  mutate(
+         # Need to get the ratings into a numeric format instead of sentence format
+         ratings=str_replace(ratings, " out of 5 stars", ""),
          ratings=as.numeric(ratings),
+         # Need to turn the dates into a date format instead of sentence format
          dates=str_replace(dates, ".* on ", ""),
          dates=mdy(dates),
+         # Let's get rid of extra spaces and \ns taht indicate line breaks in the html code
          review_text=str_trim(review_text))
 
 glimpse(some_reviews)
@@ -573,7 +577,16 @@ If you click around, you'll get `#filter-info-section .a-size-base`.
 
 Let's pull that out and see what that looks like.
 
-```{r final}
+```{r final, exercise=TRUE}
+total_reviews <- amazon %>% 
+  html_nodes("#____________ .________") %>% 
+  html_text()
+
+total_reviews
+```
+
+
+```{r final-solution}
 total_reviews <- amazon %>% 
   html_nodes("#filter-info-section .a-size-base") %>% 
   html_text()
@@ -581,13 +594,34 @@ total_reviews <- amazon %>%
 total_reviews
 ```
 
+```{r final-hint}
+Put in what was located with the select gadget.
+
+```
+
+```{r final-check}
+grade_this_code()
+```
+
 Yuck, that's messy. This is all the code behind what's displayed!
 
 `\n`s are pretty much line breaks (enters).
 
-Let's use a **stringr** function, `str_trim()` and then get rid of the text so we only have the number. These functions should look really familiar to you!
+Let's use a **stringr** function, `str_trim()` and then get rid of the text so we only have the number. These functions should look really familiar to you! And then use the function to replace parts of the string with another.
 
-```{r final2}
+```{r final2, exercise=TRUE}
+total_reviews <- amazon %>% 
+  html_nodes("#filter-info-section .a-size-base") %>% 
+  html_text() %>% 
+  _______() %>% 
+  ___________(".*ratings, ", "") %>% 
+  parse_number()
+
+total_reviews
+```
+
+
+```{r final2-solution}
 total_reviews <- amazon %>% 
   html_nodes("#filter-info-section .a-size-base") %>% 
   html_text() %>% 
@@ -598,7 +632,16 @@ total_reviews <- amazon %>%
 total_reviews
 ```
 
-We know there are 10 reviews per page. and 332 total.
+```{r final2-hint}
+Use the stringr functions
+```
+
+```{r final2-check}
+grade_this_code()
+```
+
+
+We know there are 10 reviews per page. and more than 360 total.
 
 We can use that in our loop.
 
@@ -651,3 +694,76 @@ for (i in 1:round(total_reviews/10)) {
 
 all_reviews
 ```
+
+## Intercepting the JSON
+
+Sometimes you may not need to scrape a website if you can find the JSON a website loads to run.
+
+If you enable ["Inspect Element"](https://sbgi.net/tv-stations/) in your browser, ou can see all the pieces that a website needs to run when you reload it.
+
+For example, what if you wanted to get the locations of all Sinclair Broadcast Group television stations if you were writing a story about the consolidation of local news?
+
+You'd visit [this website](https://sbgi.net/tv-stations/) and find an interactive map of all the stations and their addresses.
+
+But scraping this would not be easy.
+
+So this is what you could do instead:
+
+1) Visit https://sbgi.net/tv-stations/
+
+
+```{r files_png1, out.width = "80%", echo=F}
+knitr::include_graphics("images/json1.png")
+```
+
+2) Right click until you have options at the bottom that says "Inspect" and click that
+
+```{r files_png2, out.width = "80%", echo=F}
+knitr::include_graphics("images/json2.png")
+```
+
+3) Switch from the "Elements" tab over to the "Network" tab-- these are all the various files that load. Do a search for json until only MetaverseStationData.json? shows up
+
+
+```{r files_png3, out.width = "80%", echo=F}
+knitr::include_graphics("images/json3.png")
+```
+
+4) Right click and open that in a new tab
+
+
+```{r files_png4, out.width = "80%", echo=F}
+knitr::include_graphics("images/json4.png")
+```
+
+5) Now you have the [json url](https://sinclairresources.s3.amazonaws.com/assets/sbgi/MetaverseStationData.json?1663533398739) to use with fromJSON if you wanted to bring it into R
+
+
+```{r files_png5, out.width = "80%", echo=F}
+knitr::include_graphics("images/json5.png")
+```
+
+If you wanted to map it, I came up with a [walkthrough](https://r-journalism.com/posts/2018-07-17-sf-sinclair-map/map/) a few years ago (the links are outdated but you have the latest version of the JSON to sub it out).
+
+## Ethical considerations
+
+As The Markup staff [note](https://themarkup.org/news/2020/12/03/why-web-scraping-is-vital-to-democracy), "journalists have used scrapers to collect data that rooted out extremist cops, tracked lobbyists, and uncovered an underground market for adopted children."
+
+If you scrape data, try to follow these general rules:
+
+1) Do not overwhelm their servers. Put in pauses so you're not effectively running a distributed denial of service attack on them.
+2) Do not display any raw data that could identify individuals in the data
+3) Only show data relevant to your story and proves your methodology and not any proprietary information
+
+Scraping is up for deeper discussion and debate so feel free to agree/disagree, offer other considerations in the discussion board!
+
+## Done!
+
+Congrats on completing the walkthroughs for Module 3!
+
+Fill in the quiz answers and be sure to participate in the discussion boards if you haven't yet.
+
+See you next time for Module 4 when we dig into statistics and mapping!
+
+
+

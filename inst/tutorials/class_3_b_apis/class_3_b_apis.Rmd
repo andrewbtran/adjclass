@@ -147,11 +147,11 @@ There are several pieces to this API call. The first is the base URL:
 
 This part of the URL will be the same for all our calls to this API.
 
-The  `/v1/combined_county_annual` is the type of data we're callling from the api. 
+The  `/v1/combined_county_annual` is the type of data we're calling from the api. 
 
-There were dozens of others
+There were dozens of others. 
 
-.In the portal, you could see there were three inputs
+In the portal, you could see there were three inputs:
 
 **Key, County, and State.**
 
@@ -219,6 +219,8 @@ grade_this_code()
 
 Wow, that was pretty easy, right?
 
+The jsonlite package just transformed all the squiggles and commas from what you saw in the browser output and gave you a clean looking data frame.
+
 Well, don't get used to it because JSON structures can get pretty complicated.
 
 Each structure can be pretty unique, especially nested JSON. 
@@ -264,6 +266,8 @@ quiz(caption = "1",
   ))
 ```
 
+Uh oh, error.
+
 Let's troubleshoot what happened.
 
 Look at the URL we created.
@@ -285,15 +289,17 @@ Look closer at what you pasted into the browser bar and how it appears when it l
 knitr::include_graphics("images/special_chars.gif")
 ```
 
-Aha! It's because URLs do not like spaces. Here's some more info from Google's [developer page](https://developers.google.com/maps/url-encoding). URLs require special characters like spaces, quotation marks, and percent signs to be converted into UTF-encoded values.
+Aha! It's because URLs **do not like spaces**. Here's some more info from Google's [developer page](https://developers.google.com/maps/url-encoding). URLs require special characters like spaces, quotation marks, and percent signs to be converted into UTF-encoded values.
 
-Your browser, if it loaded the URL, automatically replaced the space with a special character `%20`.
+Your browser, if it loaded the URL, **automatically replaced** the space with a special character `%20`.
 
 So, in our R code, `Palm Beach` needs to be `Palm%20Beach`
 
-The function `URLencode()` from the **utils** package should set this up.
+The function `URLencode()` from the **utils** package should set this up for us.
 
 ```{r}
+library(utils)
+
 URLencode("Palm Beach")
 ```
 
@@ -415,11 +421,14 @@ You've gone through all the basic steps of pulling data from APIs.
 * Write a loop to "page" through that data and retrieve the full data set
 
 
-Now, go forth and apply the same methodology to other [APIs](https://apilist.fun/)!
+Now, go forth and apply the same methodology to other [APIs](https://apilist.fun/)! Congress.gov just recently unveiled a new [legislative API](https://api.congress.gov/) that could be useful to reporters.
 
 I suggest you copy and paste the last chunk of code you ran into a script and save it so you can refer to it later! 
 
 If you want to explore the ARCOS data further, there's actually an [R](https://wpinvestigative.github.io/arcos/) and [Python](https://pypi.org/project/arcospy/) package that convert the API calls into functions so it's easier to use!
+
+
+**Warning:** Not all JSON is similar. It can get pretty gnarly and complicated, as I've complained about before. If you ever find yourself dealing with some oddly structured JSON, there are [good methods](https://jennybc.github.io/purrr-tutorial/) to get around it but it's going to involve some custom parsing.
 
 ## Class III - Part 3
 

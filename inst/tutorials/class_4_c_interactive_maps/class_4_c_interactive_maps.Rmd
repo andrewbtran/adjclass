@@ -399,7 +399,7 @@ glimpse(state)
 
 It’s every store in the country. It has total pills (oxycodone and hydrocodone) within the time span of our data. And it has `per_person` which adjusts total for population by county. **Most importantly**, each pharmacy has latitude and longitude data so we can use to put these locations on a map.
 
-## Set up structure
+### Set up structure
 
 This section is in `crosstalk_1.Rmd`.
 
@@ -468,7 +468,7 @@ Pretty nice, right?
 
 Even nicer considering how we typed zero HTML and CSS.
 
-## Loading and displaying data pt 1
+## Loading and displaying data
 
 This section is in `crosstalk_2.Rmd`.
 
@@ -582,3 +582,14 @@ knitr::include_graphics("images/flexdash5.png")
 
 Beautiful!
 
+## Done!
+
+You're done! 
+
+This final module is over!
+
+It was an extra long one but I hope you were able to learn a lot.
+
+Your learning journey is not done, though.
+
+Try to find ways to keep practicing what you've learned, to apply these new skills on your next stories.
