@@ -43,6 +43,10 @@ library(cowplot)
 library(biscale)
 library(gridGraphics)
 library(ggspatial)
+library(viridis)
+
+world <- st_read("TM_WORLD_BORDERS_SIMPL-0.3.shp")
+
 
 us_states <- states(cb = TRUE, resolution = "20m") %>%
      shift_geometry()
@@ -67,6 +71,16 @@ fema_counties_count <- fema_counties %>%
 fema_map <- left_join(us_counties, fema_counties_count)
 #fema stuff
 
+fema_counties_count_fi <- fema_counties %>%
+  filter(incidentType=="Fire") %>% 
+  mutate(year=year(incidentBeginDate)) %>% 
+  group_by(GEOID, year) %>% 
+  summarize(disasters=n())
+
+fema_map_fi <- left_join(us_counties, fema_counties_count_fi)
+
+us_states <- states(cb = TRUE, resolution = "20m") %>%
+     shift_geometry()
 
 disaster_count <- fema_counties %>% 
   filter(incidentType=="Hurricane") %>% 
@@ -92,16 +106,9 @@ map <- ggplot() +
   
 legend <- bi_legend(pal = "GrPink",
                     dim = 3,
-                    xlab = "Higher population ",
-                    ylab = "Higher disasters ",
+                    xlab = "+ population ",
+                    ylab = "+ disasters ",
                     size = 8)
-
-legend <- bi_legend(pal = "GrPink",
-                    dim = 3,
-                    xlab = "Higher population ",
-                    ylab = "Higher disasters ",
-                    size = 8)
-
 ```
 
 
@@ -139,60 +146,229 @@ table {
 
 ## Intro to sf
 
+Mapping is really fun to do in R. You don't need to pay crazy amounts of money to use ArcGIS. And while QGIS is excellent it has the drawbacks of most click-buttons-to-create programs: You can't write a script to process the data, transform it, and visualize it in multiple ways.
 
-Builds on top of ggplot
+We're going to use the **sf** package that will essentially let you treat maps like a geometry in ggplot2. It can be as simple as creating a bar chart or line chart.
 
+So **sf** stands for [Simple Features](https://r-spatial.github.io/sf/) which is a set of standards the community have agreed upon to create a uniform way to store types of spatial data with different geometries, like points, lines, polygons, etc.
+
+```{r files-image1b, out.width = "90%", echo=F}
+knitr::include_graphics("https://user-images.githubusercontent.com/520851/50280460-e35c1880-044c-11e9-9ed7-cc46754e49db.jpg")
+```
+
+What this means is when you import maps into R, it will be treated like a data frame. With rows and columns that you can summarize or join with other data sets for enhanced analysis.
+
+Bringing in a shape file is as similar as importing a csv! It just as an extra column called **geometry**.
+
+Here's [a pdf](https://github.com/rstudio/cheatsheets/blob/main/sf.pdf) of functions you can use as a reference later on.
 
 ## Get shapefiles
 
-If you had the shapefiles locally, you could import it in using `st_read()`.
+If you had the shapefiles locally, you could import it in using `st_read()` from the package **sf**.
 
-But because this is R, someone's already come up with a package to download the most-common ones from the cloud.
+```{r, eval=F}
+# Download the shapefile. (note that I store it in a folder called DATA. You have to change that if needed.)
+download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip" , destfile="world_shape_file.zip")
+# You now have it in your current working directory, have a look!
 
+# Unzip this file. You can do it with R (as below), or clicking on the object you downloaded.
+system("unzip world_shape_file.zip")
+#  -- > You now have 4 files. One of these files is a .shp file! (TM_WORLD_BORDERS_SIMPL-0.3.shp)
+
+world <- st_read("TM_WORLD_BORDERS_SIMPL-0.3")
+
+```
+
+Let's take a look at the shapefile we've imported.
+
+```{r import}
+glimpse(world)
+```
+
+Okay, 246 countries.
+
+Notice the `geometry` column! It says "MULTIPOLYGON". Polygon is another word for shape.
+
+Let's map it real quick. The geometry function for a polygon is `geom_sf()`.
+
+Try it out with ggplot below.
+
+```{r int_map, exercise=TRUE}
+ggplot(_____) +
+  _______() +
+  theme_minimal()
+```
+
+
+```{r int_map-solution}
+ggplot(world) +
+  geom_sf() +
+  theme_minimal()
+```
+
+```{r int_map-hint}
+The function starts with a g.
+```
+
+```{r int_map-check}
+grade_this_code()
+```
+
+It is kind of a process to download a shapefile, locate it locally, and then import it.
+
+Because this is R, someone's already come up with a package to download the most-common U.S. borders from the cloud.
 
 ## Tigris
 
-The Census has a server of all the most common boundary files.
+The Census has [a server](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html) of all the most common boundary files.
 
-We're going to work with the **tigris** package to download the shapefiles for counties and work with FEMA data!.
+We're going to work with the [**tigris** package](https://github.com/walkerke/tigris) to download the shapefiles for counties and work with FEMA data!.
 
-TIGRIS COMMANDS LIST GOES HERE
+**Note**: For European countries, you can use the [giscoR](https://ropengov.github.io/giscoR/articles/giscoR.html) package!
 
+For Brazil, there's the [geobr](https://ipeagit.github.io/geobr/) package. 
+
+There are so many more probably! If your country has some special library that imports shapefiles, let us know in the discussion board.
+
+Here are some of the shapefiles you can access!
+
+| Function | Datasets available | Years available |
+|------------------------------------------|------------------------------------------------|------------------------------|
+| `nation()` | cartographic (1:5m; 1:20m) | 2013-2021 |
+| `divisions()` | cartographic (1:500k; 1:5m; 1:20m) | 2013-2021 |
+| `regions()` | cartographic (1:500k; 1:5m; 1:20m) | 2013-2021 |
+| `states()` | TIGER/Line; cartographic (1:500k; 1:5m; 1:20m) | 1990, 2000, 2010-2021 |
+| `counties()` | TIGER/Line; cartographic (1:500k; 1:5m; 1:20m) | 1990, 2000, 2010-2021 |
+| `tracts()` | TIGER/Line; cartographic (1:500k) | 1990, 2000, 2010-2021 |
+| `block_groups()` | TIGER/Line; cartographic (1:500k) | 1990, 2000, 2010-2021 |
+| `blocks()` | TIGER/Line | 2000, 2010-2021 |
+| `places()` | TIGER/Line; cartographic (1:500k) | 2011-2021 |
+| `pumas()` | TIGER/Line; cartographic (1:500k) | 2012-2021 |
+| `school_districts()` | TIGER/Line; cartographic | 2011-2021 |
+
+Okay, to start out with, we'll load the library and call in the shapes of all the states.
+
+And something else that the community built into this package is the ability to move Alaska and Hawaii underneath the map, which is a common headache when creating maps for presentation.
+
+Use the function to download state shapefiles and then pipe it to the shift_geometry() function so it shifts the locations of Alaska and Hawaii, please.
 
 ```{r tigris, exercise=TRUE}
 library(tigris)
+
+us_states <- ______(cb = TRUE, resolution = "20m") %>%
+     _______________()
+
+glimpse(us_states)
+```
+
+
+```{r tigris-solution}
+library(tigris)
+
 us_states <- states(cb = TRUE, resolution = "20m") %>%
      shift_geometry()
 
 glimpse(us_states)
 ```
 
+```{r tigris-hint}
+don't forget the _
+```
+
+```{r tigris-check}
+grade_this_code()
+```
+
+
 ## sf
 
+Great, now let's start mapping!
 
+Use the geometry for polygons in line 2.
 
 ```{r tigris2, exercise=TRUE}
-
-ggplot(us_states) + geom_sf()
+ggplot(us_states) + 
+  geom_sf()
 
 ```
 
-```{r tigris4, exercise=TRUE}
 
+```{r tigris2-solution}
+ggplot(us_states) + 
+  geom_sf()
+
+```
+
+```{r tigris2-hint}
+starts with a g and ends with an f
+```
+
+```{r tigris2-check}
+grade_this_code()
+```
+
+Pretty nice! It also moved Puerto Rico. And it shifted the [projection](https://xkcd.com/977/) from the default Mercator to Albers.
+
+### Counties
+
+Okay, we have us_states, let's bring in the shapefiles for counties in the U.S.
+
+And adjust the geometry, too.
+
+```{r tigris4, exercise=TRUE}
+us_counties <- ________(cb = TRUE, resolution = "20m") %>%
+     ______________()
+
+glimpse(us_counties)
+```
+
+
+```{r tigris4-solution}
 us_counties <- counties(cb = TRUE, resolution = "20m") %>%
      shift_geometry()
 
 glimpse(us_counties)
-
 ```
 
+```{r tigris4-hint}
+Starts with a c
+```
+
+```{r tigris4-check}
+grade_this_code()
+```
+
+Map it out, now!
+
 ```{r tigris5, exercise=TRUE}
+ggplot(___________) + 
+  ________() +
+  theme_void()
+```
+
+
+```{r tigris5-solution}
 ggplot(us_counties) + 
   geom_sf() +
   theme_void()
 ```
 
+```{r tigris5-hint}
+Starts with a g and ends with an f
+and what's the name of the new downloaded shapefile as an object?
+```
 
+```{r tigris5-check}
+grade_this_code()
+```
+
+### Bring in the data
+
+Now that we have the shapes, we need to bring in the data to join to it so we can make a choropleth.
+
+I'm going to write out some code for you that downloads the FEMA disaster declaration data we've worked with in the past, cleans it up, and joins it with county population data.
+
+Click "RUN CODE" below.
 
 ```{r tigris6, exercise=TRUE}
 df <- read_csv("https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv")
@@ -206,28 +382,93 @@ fema_counties <- left_join(df_new, county_pop, by="GEOID")
 glimpse(fema_counties)
 ```
 
+Next, let's get rid of the Biological incidents (aka Covid-19) and summarize the data by counting up the number of disasters by county (aka GEOID for easy joining with the map).
+
+Finally, we'll join this summarized data to the map data we brought in: us_counties.
+
+We'll call this new object "fema_map".
 
 ```{r tigris7, exercise=TRUE}
 fema_counties_count <- fema_counties %>%
-  filter(incidentType!="Biological") %>% 
+  filter(incidentType__ "__________") %>% 
   group_by(GEOID) %>% 
-  summarize(disasters=n())
+  summarize(disasters=___)
 
-fema_map <- left_join(us_counties, fema_counties_count)
+fema_map <- left_join(us_counties, ___________________)
 
 glimpse(fema_map)
 ```
 
 
+```{r tigris7-solution}
+fema_counties_count <- fema_counties %>%
+  filter(incidentType!= "Biological") %>% 
+  group_by(GEOID) %>% 
+  summarize(disasters=n())
+
+fema_map <- left_join(us_counties, fema_counties_count )
+
+glimpse(fema_map)
+```
+
+```{r tigris7-hint}
+What's the name of the new object with the summarized FEMA data?
+What's the operators for doesn't equal?
+What's the function to count something in summarize? it's one letter long.
+```
+
+```{r tigris7-check}
+grade_this_code()
+```
+
+### Map with fill
+
+Now we can add some aesthetics to our ggplot map!
+
+Add `aes(fill=disasters)` in the `geom_sf()` function.
+
 ```{r tigris8, exercise=TRUE}
+ggplot(fema_map) +
+  geom_sf(__________________) +
+  theme_void()
+```
+
+
+```{r tigris8-solution}
 ggplot(fema_map) +
   geom_sf(aes(fill=disasters)) +
   theme_void()
 ```
 
+```{r tigris8-hint}
+nest it in geom_sf()
+```
+
+```{r tigris8-check}
+grade_this_code()
+```
+
+Let's make it look prettier.
+
 ## Styling maps
 
+We'll use the [viridis](https://www.thinkingondata.com/something-about-viridis-library/) package which is colorblind friendly.
+
+And we'll get rid of the colors for the state borders (or you could change `NA` to a color of your choice if you do want a color).
+
+Run the code below with `scale_fill_viridis() +` in line 5, please.
+
 ```{r tigris9, exercise=TRUE}
+library(viridis)
+
+ggplot(fema_map) +
+  geom_sf(aes(fill=disasters), color=NA) +
+  __________________() +
+  theme_void()
+```
+
+
+```{r tigris9-solution}
 library(viridis)
 
 ggplot(fema_map) +
@@ -236,8 +477,29 @@ ggplot(fema_map) +
   theme_void()
 ```
 
+```{r tigris9-hint}
+  scale_fill_viridis() +
+```
+
+```{r tigris9-check}
+grade_this_code()
+```
+
+Alright, this is a bit counter intuitive. Darker should be higher numbers.
+
+So let's reverse the order by adding an argument to `scale_fill_viridis()`:
+`direction=-1`.
 
 ```{r tigris10, exercise=TRUE}
+fema_map %>% 
+ ggplot() +
+  geom_sf(aes(fill=disasters), color=NA) +
+  scale_fill_viridis(_____________) +
+  theme_void()
+```
+
+
+```{r tigris10-solution}
 fema_map %>% 
  ggplot() +
   geom_sf(aes(fill=disasters), color=NA) +
@@ -245,8 +507,33 @@ fema_map %>%
   theme_void()
 ```
 
+```{r tigris10-hint}
+direction=-1
+```
+
+```{r tigris10-check}
+grade_this_code()
+```
+
+Now we're getting somewhere!
+
+### Filtering
+
+Let's take a look at disasters in Louisiana.
 
 ```{r tigris11, warning=F, message=F, exercise=TRUE}
+fema_map %>% 
+  filter(STUSPS==____) %>% 
+ ggplot() +
+  geom_sf(aes(fill=disasters), color=NA) +
+  scale_fill_viridis(direction=-1) +
+  theme_void() +
+  labs(title="Hurricane declared disasters since 1954")
+```
+
+
+
+```{r tigris11-solution}
 fema_map %>% 
   filter(STUSPS=="LA") %>% 
  ggplot() +
@@ -256,9 +543,29 @@ fema_map %>%
   labs(title="Hurricane declared disasters since 1954")
 ```
 
+```{r tigris11-hint}
+String and abbreviate Louisiana.
+```
+
+```{r tigris11-check}
+grade_this_code()
+```
+
+How cool is that? 
+
+With one extra line in our code we zoomed in on Louisiana.
+
 ## Small multiples maps
 
-```{r tigris11b, warning=F, message=F, exercise=TRUE}
+Let's look for geographic trends over time!
+
+That's the cool thing about making maps with R.
+
+You can't do this easily in QGIS!
+
+First, I'll prep the data so we're counting up Fire disaster declarations by county.
+
+```{r tigris11b, warning=F, message=F}
 fema_counties_count_fi <- fema_counties %>%
   filter(incidentType=="Fire") %>% 
   mutate(year=year(incidentBeginDate)) %>% 
@@ -267,66 +574,168 @@ fema_counties_count_fi <- fema_counties %>%
 
 fema_map_fi <- left_join(us_counties, fema_counties_count_fi)
 
+glimpse(fema_map_fi)
+```
+
+Okay, let's zero in on California and the years between 2017 and 2022.
+
+```{r tigris11c, exercise=TRUE}
+fema_map_fi %>% 
+  filter(STUSPS__ ____) %>% 
+  filter(year ____ 2017_2022) %>% 
+ ggplot() +
+  geom_sf(aes(fill=disasters), color=NA) +
+  scale_fill_viridis(direction=-1, na.value="red") +
+  ___________(vars(year)) +
+  theme_void()
+```
+
+
+```{r tigris11c-solution}
 fema_map_fi %>% 
   filter(STUSPS=="CA") %>% 
   filter(year %in% 2017:2022) %>% 
  ggplot() +
   geom_sf(aes(fill=disasters), color=NA) +
   scale_fill_viridis(direction=-1, na.value="red") +
-  facet_wrap(~year) +
+  facet_wrap(vars(year)) +  
   theme_void()
 ```
 
+```{r tigris11c-hint}
+What's the operator for equals and don't forget
+to abbreviate and use quotation marks for strings.
+And what's the filter operator for multiple things?
+And what's the operator for "through"?
+What's the function for small multiples?
+```
+
+```{r tigris11c-check}
+grade_this_code()
+```
+
+Okay, well, this worked, but it doesn't really work as a visualization, right?
+
+It's just missing too many counties! The ones with zero disasters!
+
+So let's lean into the perks of working with ggplot2: Layers!
+
+Let's bring in a layer of the entire state of California as a background to these counties.
+
+Uncomment line 5 and run the code below.
+
+Do you understand what is happening in the code?
 
 
 ```{r tigris12, exercise=TRUE}
-fema_counties_count_fi <- fema_counties %>%
-  filter(incidentType=="Fire") %>% 
-  mutate(year=year(incidentBeginDate)) %>% 
-  group_by(GEOID, year) %>% 
-  summarize(disasters=n())
-
-fema_map_fi <- left_join(us_counties, fema_counties_count_fi)
-
 fema_map_fi %>% 
   filter(STUSPS=="CA") %>% 
   filter(year %in% 2017:2022) %>% 
  ggplot() +
-  geom_sf(data=filter(us_counties, STUSPS=="CA"), fill="gray", color=NA) +
+  #geom_sf(data=filter(us_states, STUSPS=="CA"), fill="gray", color=NA) +
   geom_sf(aes(fill=disasters), color=NA) +
   scale_fill_viridis(direction=-1, na.value="red") +
-  facet_wrap(~year) +
+  facet_wrap(vars(year)) +
   theme_void()
 ```
 
+
+```{r tigris12-solution}
+fema_map_fi %>% 
+  filter(STUSPS=="CA") %>% 
+  filter(year %in% 2017:2022) %>% 
+ ggplot() +
+  geom_sf(data=filter(us_states, STUSPS=="CA"), fill="gray", color=NA) +
+  geom_sf(aes(fill=disasters), color=NA) +
+  scale_fill_viridis(direction=-1, na.value="red") +
+  facet_wrap(vars(year)) +
+  theme_void()
+```
+
+```{r tigris12-hint}
+Just uncomment and run
+```
+
+```{r tigris12-check}
+grade_this_code()
+```
+
+So we're using two different shapefiles! **fema_map_fi** (that is a transformed version of **us_counties**) and **us_states**.
+
+And in line 5, we're saying we only want the California state from **us_states** and we're not giving it any aesthetics. We're saying give it a flat fill of gray.
+
+Looking much cleaner!
+
 ## Bivariate maps
 
-*install just cowplot and sf*
-`install.packages(c("cowplot", "sf"))`
+Alright, let's talk about making some cutting edge maps.
 
-*install all suggested dependencies*
-`install.packages("biscale", dependencies = TRUE)`
+The choropleths we've made so far have been univarate maps, as in it visualizes one column of data.
 
+A bivariate map involves visualizing two columns of data!
 
-```{r tigris13, exercise=TRUE}
+This is pretty rare and difficult to make because it requires calculating quartiles of data and the relationship between the two variables.
 
+But you've gone on this journey in this Advanced Data Journalism course that I think you deserve the payoff of being able to make one of these! Because you understand what's going on!
+
+These are the packages you'll need to install:
+
+```{r, eval=F}
+#install just cowplot and sf*
+install.packages(c("cowplot", "sf"))
+
+#install all suggested dependencies
+install.packages("biscale", dependencies = TRUE)
+```
+
+Cowplot lets you combine different chart types into one and biscale is the bivariate calulating package.
+
+We know areas that have been hit by Hurricanes most frequently but do we know that number in relation to population?
+
+I'm going to prepare the data for you.
+
+Follow along in the comments to see what's going on:
+
+```{r tigris13}
 disaster_count <- fema_counties %>% 
+  # filter county data to just hurricanes
   filter(incidentType=="Hurricane") %>% 
   mutate(year=year(incidentBeginDate)) %>% 
+  # We want to focus on the years between 2017 and 2022
   filter(year %in% c(2017:2022)) %>% 
+  # Grouping by county IDS so we can join with mapping data easily
   group_by(GEOID) %>% 
   summarize(total=n())
 
+# start with the map of counties and join the disaster count
 disaster_counties <- left_join(us_counties, disaster_count) %>% 
   select(-NAME)
+
+# Then join the population count to the counties data
 disaster_counties <- left_join(disaster_counties, county_pop)
   
 glimpse(disaster_counties)
 ```
 
 
+Alright, we want to look at population (estimate) and hurricanes (total) by county!
+
+Let's load the biscale package and use the `bi_class()` function.
+
+Set the dimensions to 3.
+
+This will create 3 quantiles based on the estiamte and total.
 
 ```{r tigris14, exercise=TRUE}
+library(biscale)
+
+bi_df <- _________(__________________, x = estimate, y = total, style = "quantile", dim = _)
+
+glimpse(bi_df)
+```
+
+
+```{r tigris14-solution}
 library(biscale)
 
 bi_df <- bi_class(disaster_counties, x = estimate, y = total, style = "quantile", dim = 3)
@@ -334,53 +743,175 @@ bi_df <- bi_class(disaster_counties, x = estimate, y = total, style = "quantile"
 glimpse(bi_df)
 ```
 
+```{r tigris14-hint}
+dim=3
+```
+
+```{r tigris14-check}
+grade_this_code()
+```
+
+Check out the new column! **bi_class** and it appears like "2-1", "3-NA", "2-3", etc.
+
+"2-1" means the first variable is in the 2nd quartile for one variable and the 1st quartile for the other variable. And then there are NAs because there aren't enough data to determine a quartile (Those are probably counties with a history of zero hurricanes).
+
+Ok, let's turn this into a visualization with ggplot2!
+
+We'll still use the `geom_sf()` like we've been using already.
+
+But this time we'll use `bi_scale_fill()` from the **biscale** package that translates the "2-1"s into colors!
+
+Try it out below
 
 ```{r tigris15, exercise=TRUE}
 map <- ggplot() +
-  geom_sf(data = bi_df, mapping = aes(fill = bi_class), color = "white", size = 0.1, show.legend = FALSE) +
-  bi_scale_fill(pal = "GrPink", dim = 3) +
+  geom_sf(data = bi_df, mapping = aes(fill = bi_class), 
+          # changing the border color to white and the size of the
+          # border lines to .1
+          # and hiding the legend
+          color = "white", size = 0.1, show.legend = FALSE) +
+  _____________(pal = "GrPink", dim = 3) +
   labs(
-    title = "Race and Income in St. Louis, MO",
-    subtitle = "Gray Pink (GrPink) Palette"
+    title = "Hurricanes & Population",
   ) +
   bi_theme()
 
 map
 ```
 
-```{r tigris16, exercise=TRUE}
 
+```{r tigris15-solution}
+map <- ggplot() +
+  geom_sf(data = bi_df, mapping = aes(fill = bi_class), 
+          # changing the border color to white and the size of the
+          # border lines to .1
+          # and hiding the legend
+          color = "white", size = 0.1, show.legend = FALSE) +
+  bi_scale_fill(pal = "GrPink", dim = 3) +
+  labs(
+    title = "Hurricanes & Population",
+  ) +
+  bi_theme()
+
+map
+```
+
+```{r tigris15-hint}
+Starts with b
+```
+
+```{r tigris15-check}
+grade_this_code()
+```
+
+Okay, next we need to add a legend to make it clearer.
+
+This time use the `bi_legend()` function!
+
+
+```{r tigris16, exercise=TRUE}
 legend <- bi_legend(pal = "GrPink",
                     dim = 3,
-                    xlab = "Higher population ",
-                    ylab = "Higher disasters ",
+                    xlab = "+ population ",
+                    ylab = "+ disasters ",
                     size = 8)
 
 legend
 ```
 
 
-```{r tigris17, exercise=TRUE}
+```{r tigris16-solution}
+legend <- bi_legend(pal = "GrPink",
+                    dim = 3,
+                    xlab = "+ population ",
+                    ylab = "+ disasters ",
+                    size = 8)
 
+legend
+```
+
+```{r tigris16-hint}
+Starts with b
+```
+
+```{r tigris16-check}
+grade_this_code()
+```
+
+It's pretty much a mini chart! Well, a big mini chart.
+
+Let's integrate these two things now.
+
+We've saved the map viz as the object **map** and we've saved the legend as the object **legend**.
+
+We can use the `ggdraw()` and `draw_plot()` function from the **cowplot** package.
+
+The 4 numbers in `draw_plot()` are the locations for where to place the charts.
+
+Depending on your map/legend, you will most likely need to manually change the numbers so they fit your ideal location.
+
+```{r tigris17, exercise=TRUE}
+finalPlot <- ______() +
+  draw_____(map, 0, 0, 1, 1) +
+  _____plot(legend, 0.82, .2, 0.2, 0.2)
+
+finalPlot
+```
+
+
+```{r tigris17-solution}
 finalPlot <- ggdraw() +
   draw_plot(map, 0, 0, 1, 1) +
   draw_plot(legend, 0.82, .2, 0.2, 0.2)
 
 finalPlot
-
-## WHY DOESNT THIS WORK. REPLACE WITH IMAGE :(
 ```
 
-## save it
+```{r tigris17-hint}
+Starts with b
+```
+
+```{r tigris17-check}
+grade_this_code()
+```
+
+That's it!
+
+Okay, the legend text is kind of all jumbled but that can be fixed later.
+
+Also, a county map usually is never going to be this small when presenting.
+
+## Save it
+
+
+Here's the code you'd need to run if you wanted to save your nifty new bivariate map into something you could upload or edit in Illustrator:
 
 ```{r, eval=F}
 #ggsave(finalPlot, "test.svg", device="svg")
 save_plot("test.png", finalPlot, base_height = NULL, base_width = 12)
 #install.packages("svglite") to make this work
 save_plot("test.svg", finalPlot, base_height = NULL, base_width = 12)
+```
 
+Or what if you want to save it as a shapefile for editing in QGIS or D3?
+
+```{r, eval=F}
 #as a shapefile?
 st_write(map, "map.geojson")
 st_write(map, "map.shp")
+```
+
+
+
+## Class IV - Part 3
+
+Another long one but I think it was worth it. I hope you did, too!
+
+When you're ready to move on the last section of this entire class just type this in the console of RStudio:
 
 ```
+learnr::run_tutorial("class_4_c_interactive_maps", "adjclass")
+```
+
+Stop this tutorial in the `Render` tab of RStudio (press the stop button).
+

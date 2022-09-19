@@ -440,7 +440,9 @@ scented_timeline_monthly1</code></pre>
 scented_timeline_monthly1</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="weekly_am1-hint" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>You&#39;ll need to use a lot of functions you&#39;ve learned about in previous modules. Read the comments in the code chunk, too.</code></pre>
+<pre class="text"><code>What&#39;s the if else statement functoin in mutate?
+
+If there are no complaints about smell then fill no_scent with the opposite of 1? (It&#39;s not 2).</code></pre>
 </div>
 <p>We’ve got a new column called <strong>no_scent</strong> so let’s continue wrangling this data so we have a percent for each month and year.</p>
 <p>Fill in lines 5, 7 and 9.</p>
@@ -574,6 +576,7 @@ covid_long</code></pre>
 <h3>More summarizing</h3>
 <p>Alright, we’ve transformed the data to be long for daily cases but now we need it to match our monthly reviews data.</p>
 <p>And we need to adjust the high numbers a bit so we’ll divide the case count by a million.</p>
+<p>I’ll go ahead and do that for you and save it as “covid_long_monthly”.</p>
 <div class="sourceCode" id="section-cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb28-1"><a href="#section-cb28-1" aria-hidden="true" tabindex="-1"></a>covid_long_monthly <span class="ot">&lt;-</span> covid_long <span class="sc">%&gt;%</span> </span>
 <span id="section-cb28-2"><a href="#section-cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year=</span><span class="fu">year</span>(date),</span>
 <span id="section-cb28-3"><a href="#section-cb28-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">month=</span><span class="fu">month</span>(date)) <span class="sc">%&gt;%</span> </span>
@@ -587,14 +590,17 @@ covid_long</code></pre>
 <div class="sourceCode" id="section-cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb30-1"><a href="#section-cb30-1" aria-hidden="true" tabindex="-1"></a>covid_long_monthly</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["year"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["month"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["type"],"name":[4],"type":["chr"],"align":["left"]},{"label":["row"],"name":[5],"type":["int"],"align":["right"]}],"data":[{"1":"2020","2":"1","3":"0.000008","4":"Covid cases","5":"1"},{"1":"2020","2":"2","3":"0.000018","4":"Covid cases","5":"2"},{"1":"2020","2":"3","3":"0.191919","4":"Covid cases","5":"3"},{"1":"2020","2":"4","3":"0.886772","4":"Covid cases","5":"4"},{"1":"2020","2":"5","3":"0.706077","4":"Covid cases","5":"5"},{"1":"2020","2":"6","3":"0.854083","4":"Covid cases","5":"6"},{"1":"2020","2":"7","3":"1.894856","4":"Covid cases","5":"7"},{"1":"2020","2":"8","3":"1.492136","4":"Covid cases","5":"8"},{"1":"2020","2":"9","3":"1.195724","4":"Covid cases","5":"9"},{"1":"2020","2":"10","3":"1.918379","4":"Covid cases","5":"10"},{"1":"2020","2":"11","3":"4.463435","4":"Covid cases","5":"11"},{"1":"2020","2":"12","3":"6.521318","4":"Covid cases","5":"12"},{"1":"2021","2":"1","3":"6.116301","4":"Covid cases","5":"13"},{"1":"2021","2":"2","3":"2.400631","4":"Covid cases","5":"14"},{"1":"2021","2":"3","3":"1.805286","4":"Covid cases","5":"15"},{"1":"2021","2":"4","3":"1.884749","4":"Covid cases","5":"16"},{"1":"2021","2":"5","3":"0.914990","4":"Covid cases","5":"17"},{"1":"2021","2":"6","3":"0.393416","4":"Covid cases","5":"18"},{"1":"2021","2":"7","3":"1.317453","4":"Covid cases","5":"19"},{"1":"2021","2":"8","3":"4.274206","4":"Covid cases","5":"20"},{"1":"2021","2":"9","3":"4.129086","4":"Covid cases","5":"21"},{"1":"2021","2":"10","3":"2.501770","4":"Covid cases","5":"22"},{"1":"2021","2":"11","3":"2.540249","4":"Covid cases","5":"23"},{"1":"2021","2":"12","3":"6.284643","4":"Covid cases","5":"24"},{"1":"2022","2":"1","3":"20.281274","4":"Covid cases","5":"25"},{"1":"2022","2":"2","3":"3.925067","4":"Covid cases","5":"26"},{"1":"2022","2":"3","3":"1.031887","4":"Covid cases","5":"27"},{"1":"2022","2":"4","3":"1.243133","4":"Covid cases","5":"28"},{"1":"2022","2":"5","3":"2.856530","4":"Covid cases","5":"29"},{"1":"2022","2":"6","3":"3.339438","4":"Covid cases","5":"30"},{"1":"2022","2":"7","3":"3.658339","4":"Covid cases","5":"31"},{"1":"2022","2":"8","3":"3.174620","4":"Covid cases","5":"32"},{"1":"2022","2":"9","3":"0.694843","4":"Covid cases","5":"33"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["year"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["month"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["type"],"name":[4],"type":["chr"],"align":["left"]},{"label":["row"],"name":[5],"type":["int"],"align":["right"]}],"data":[{"1":"2020","2":"1","3":"0.000008","4":"Covid cases","5":"1"},{"1":"2020","2":"2","3":"0.000018","4":"Covid cases","5":"2"},{"1":"2020","2":"3","3":"0.191919","4":"Covid cases","5":"3"},{"1":"2020","2":"4","3":"0.886772","4":"Covid cases","5":"4"},{"1":"2020","2":"5","3":"0.706077","4":"Covid cases","5":"5"},{"1":"2020","2":"6","3":"0.854083","4":"Covid cases","5":"6"},{"1":"2020","2":"7","3":"1.894856","4":"Covid cases","5":"7"},{"1":"2020","2":"8","3":"1.492136","4":"Covid cases","5":"8"},{"1":"2020","2":"9","3":"1.195724","4":"Covid cases","5":"9"},{"1":"2020","2":"10","3":"1.918379","4":"Covid cases","5":"10"},{"1":"2020","2":"11","3":"4.463434","4":"Covid cases","5":"11"},{"1":"2020","2":"12","3":"6.521322","4":"Covid cases","5":"12"},{"1":"2021","2":"1","3":"6.116276","4":"Covid cases","5":"13"},{"1":"2021","2":"2","3":"2.400623","4":"Covid cases","5":"14"},{"1":"2021","2":"3","3":"1.805281","4":"Covid cases","5":"15"},{"1":"2021","2":"4","3":"1.884746","4":"Covid cases","5":"16"},{"1":"2021","2":"5","3":"0.914990","4":"Covid cases","5":"17"},{"1":"2021","2":"6","3":"0.393416","4":"Covid cases","5":"18"},{"1":"2021","2":"7","3":"1.317449","4":"Covid cases","5":"19"},{"1":"2021","2":"8","3":"4.274182","4":"Covid cases","5":"20"},{"1":"2021","2":"9","3":"4.129059","4":"Covid cases","5":"21"},{"1":"2021","2":"10","3":"2.501757","4":"Covid cases","5":"22"},{"1":"2021","2":"11","3":"2.540243","4":"Covid cases","5":"23"},{"1":"2021","2":"12","3":"6.284645","4":"Covid cases","5":"24"},{"1":"2022","2":"1","3":"20.281378","4":"Covid cases","5":"25"},{"1":"2022","2":"2","3":"3.925066","4":"Covid cases","5":"26"},{"1":"2022","2":"3","3":"1.031892","4":"Covid cases","5":"27"},{"1":"2022","2":"4","3":"1.243153","4":"Covid cases","5":"28"},{"1":"2022","2":"5","3":"2.856495","4":"Covid cases","5":"29"},{"1":"2022","2":"6","3":"3.339530","4":"Covid cases","5":"30"},{"1":"2022","2":"7","3":"3.658547","4":"Covid cases","5":"31"},{"1":"2022","2":"8","3":"3.177209","4":"Covid cases","5":"32"},{"1":"2022","2":"9","3":"1.101562","4":"Covid cases","5":"33"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p>Ok, let’s stack these together to make a tidy data set combining reviews with Covid-19 cases!</p>
 <p>And then visualize it with small multiples.</p>
 <p>Add the right code in line 1 and 6.</p>
 <div class="tutorial-exercise" data-label="covid_stack" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>monthly &lt;- _____(covid_long_monthly, scented_timeline_monthly2)
+<pre class="text"><code># This only works because we were careful to make sure the column names match
+# from the different data sets
+
+monthly &lt;- _____(covid_long_monthly, scented_timeline_monthly2)
 
 monthly %&gt;% 
   ggplot(aes(x=row, y=value)) +
@@ -604,7 +610,9 @@ monthly %&gt;%
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
 </div>
 <div class="tutorial-exercise-support" data-label="covid_stack-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>monthly &lt;- rbind(covid_long_monthly, scented_timeline_monthly2)
+<pre class="text"><code># This only works because we were careful to make sure the column names match
+# from the different data sets
+monthly &lt;- rbind(covid_long_monthly, scented_timeline_monthly2)
 
 monthly %&gt;% 
   ggplot(aes(x=row, y=value)) +
@@ -647,6 +655,7 @@ monthly %&gt;%
 <p>The base R function <code>cor()</code> allows you to compute correlations using Pearson, Kendall tau or Spearman rho.</p>
 <p>Some authors consider a strong correlation over [.6, -.6] and over [.8/, -.8] is a very strong correlation.</p>
 <p>Let’s transform our data a bit from long to wide so we can compare the two columns and see what we have.</p>
+<p>I’ll do that for you now and save it as “monthly_wide”.</p>
 <div class="sourceCode" id="section-cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb37-1"><a href="#section-cb37-1" aria-hidden="true" tabindex="-1"></a>monthly_wide <span class="ot">&lt;-</span> monthly <span class="sc">%&gt;%</span> </span>
 <span id="section-cb37-2"><a href="#section-cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span><span class="st">&quot;type&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;value&quot;</span>) <span class="sc">%&gt;%</span> </span>
 <span id="section-cb37-3"><a href="#section-cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(<span class="st">`</span><span class="at">percent no smell</span><span class="st">`</span>))</span>
@@ -675,7 +684,7 @@ monthly %&gt;%
 <p>However, this may be because we do not have enough reviews! We’re only looking at data for one scented candle. If we brought in several more, we could have a more robust data set to create percents over time with to compare against Covid-19 cases.</p>
 <p>Also, the Covid-19 cases may not be as accurate anymore if people are self-testing and not reporting it to their county health department.</p>
 <p>There is a certain point where the lines no longer seem in sync. There could be any number of explanations.</p>
-<p>That being said, CORRELATION DOES NOT EQUAL CAUSATION.</p>
+<p><strong>IMPORTANT!</strong> CORRELATION DOES NOT EQUAL CAUSATION.</p>
 <p>If you use this technique to explore the relationship between two variables, please, please run it by a statistician or researcher.</p>
 <p><strong>Phrasing</strong></p>
 <p>If this is something you’d like to include and you’ve vetted it appropriately, narrative techniques include:</p>
@@ -701,7 +710,7 @@ monthly %&gt;%
 <li>100-quantiles are called percentiles</li>
 </ul>
 <p>To illustrate the concept, let’s start out with some City of Boston salaries.</p>
-<p>I’ve saved it and deleted identifying information as <strong>boston_salaries</strong>:</p>
+<p>I’ve saved it and deleted identifying information as <strong>boston_salaries</strong> (if you insist on working with the raw data, it’s not hard to find via search):</p>
 <div class="sourceCode" id="section-cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb42-1"><a href="#section-cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(boston_salaries)</span></code></pre></div>
 <pre><code>## Rows: 22,552
 ## Columns: 8
@@ -1092,6 +1101,7 @@ summary_base</code></pre>
 </div>
 <p>For our hypothetical employer, men on average are paid $98,458 per year while women on average earn $89,943 per year — an overall or “unadjusted” pay gap of $8,515 or about 8.6 percent of male pay.</p>
 <p>Let’s look at whether men and women are clustered into certain job titles or departments. If so, we’ll need to control for that in our analysis.</p>
+<p>I’ll go ahead and run this code for you and save it as “unadjusted_jobs”.</p>
 <div class="sourceCode" id="section-cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb69-1"><a href="#section-cb69-1" aria-hidden="true" tabindex="-1"></a>unadjusted_jobs <span class="ot">&lt;-</span> salaries_adjusted3 <span class="sc">%&gt;%</span> </span>
 <span id="section-cb69-2"><a href="#section-cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(jobTitle, gender) <span class="sc">%&gt;%</span> </span>
 <span id="section-cb69-3"><a href="#section-cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">meanTotalPay =</span> <span class="fu">mean</span>(total_pay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
@@ -1130,12 +1140,12 @@ summary(lm_gender)</code></pre>
 <pre class="text"><code>The first argument is log_base</code></pre>
 </div>
 <p>A coefficient of 0.095 means there is approximately 9.5 percent “unadjusted” gender pay gap in this theoretical company. In a story, you would write that men on average earn about 9.5 percent more than women on average in this company.</p>
-<p>The estimates that are statistically significant have <em>, <strong> or </strong></em> next to them.</p>
+<p>The estimates that are statistically significant have <code>*</code>, <code>**</code> or <code>***</code> next to them.</p>
 <p>So this model currently says that gender is a statistically significant factor when it comes to pay.</p>
 </div>
 <div id="section-adjusted-linear-model" class="section level3">
 <h3>Adjusted linear model</h3>
-<p>Next, we’ll run a more complete model that adds in variables for employee characteristics like highest education, years of experience and performance evaluation scores. These are some variablesn that management would accuse you of not taking into consideration if you’re doing a pay study (and then not provide to you even if you request it).</p>
+<p>Next, we’ll run a more complete model that adds in variables for employee characteristics like highest education, years of experience and performance evaluation scores. These are some variables that management would accuse you of not taking into consideration if you’re doing a pay study (and then not provide to you even if you request it, maybe I’m talking from experience).</p>
 <p>Let’s add performance evals, the age buckets, and education to our linear model function.</p>
 <p>We do so by adding them with a <code>+</code> after the second variable behind the ~ tilde sign.</p>
 <div class="tutorial-exercise" data-label="star2" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
@@ -1158,10 +1168,12 @@ summary(lm_humancapital)</code></pre>
 </div>
 <div id="section-final-adjustment-linear-model" class="section level3">
 <h3>Final adjustment linear model</h3>
-<p>Finally, we recommend running a model with all of the controls that you have access to, including job title, department and more.</p>
+<p>Finally, let’s run a model with all of the controls that you have access to, including job title, department and more.</p>
 <div class="tutorial-exercise" data-label="star3" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code># Adding all controls. (&quot;adjusted&quot; pay gap.)
-lm_allcontrols &lt;- lm(log_base ~ ______ + ________ + _______ + ___ + ____ + _________ + ________, data = salaries_adjusted3)
+lm_allcontrols &lt;- lm(log_base ~ ______ + ________ + _______ + ___ + 
+                       ____ + _________ + ________, 
+                     data = salaries_adjusted3)
 
 summary(lm_allcontrols)</code></pre>
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
@@ -1195,15 +1207,17 @@ summary(job_results)</code></pre>
 </div>
 <div id="section-class-iv---part-2" class="section level2">
 <h2>Class IV - Part 2</h2>
-<p>Stop this tutorial in the <code>Render</code> tab of RStudio (press the stop button).</p>
 <p>Whew, this was a very long one. Thanks for sticking with it!</p>
 <p>Take a look at this diagram.</p>
 <p><img src="https://josiahparry.com/slides/tidymodels/images/r4ds_data-science.png" width="700px" /></p>
-<p>You’ve essentially gone through all these steps!</p>
+<p>You’ve essentially gone through all these steps in this class at this point!</p>
+<p>Importing, tidying, and then iterating between transforming the data, visualizing, and modeling it.</p>
+<p>Until you get enough to communicate what’s important!</p>
 <p>And you can see why it’s so important to know all these steps because it takes constant tweaking to wrangling and visualizing and modeling the data. And now you know how!</p>
 <p>Take a long break. Because now we’re moving onto some fun stuff: maps!</p>
 <p>When you’re ready to move on the last section of the week just type this in the console of RStudio:</p>
 <pre><code>learnr::run_tutorial(&quot;class_4_b_static_maps&quot;, &quot;adjclass&quot;)</code></pre>
+<p>Stop this tutorial in the <code>Render</code> tab of RStudio (press the stop button).</p>
 <p>
 <script type="application/shiny-prerendered" data-context="server-start">
 packages <- c("tidyverse", "lubridate", "rvest", "httr", "remotes",
@@ -2277,10 +2291,11 @@ learnr:::store_exercise_cache(structure(list(label = "covid_stack", global_setup
 "", "monthly_wide <- monthly %>% ", "  pivot_wider(names_from=\"type\", values_from=\"value\") %>% ", 
 "  filter(!is.na(`percent no smell`))"), chunk_opts = list(label = "setup", 
     include = FALSE)), setup = NULL, chunks = list(list(label = "covid_stack", 
-    code = "monthly <- _____(covid_long_monthly, scented_timeline_monthly2)\n\nmonthly %>% \n  ggplot(aes(x=row, y=value)) +\n  geom_line() +\n  __________(vars(type), scale=\"free_y\") +\n  geom_smooth()", 
+    code = "# This only works because we were careful to make sure the column names match\n# from the different data sets\n\nmonthly <- _____(covid_long_monthly, scented_timeline_monthly2)\n\nmonthly %>% \n  ggplot(aes(x=row, y=value)) +\n  geom_line() +\n  __________(vars(type), scale=\"free_y\") +\n  geom_smooth()", 
     opts = list(label = "\"covid_stack\"", exercise = "TRUE"), 
     engine = "r")), code_check = NULL, error_check = NULL, check = structure("grade_this_code()", chunk_opts = list(
-    label = "covid_stack-check")), solution = structure(c("monthly <- rbind(covid_long_monthly, scented_timeline_monthly2)", 
+    label = "covid_stack-check")), solution = structure(c("# This only works because we were careful to make sure the column names match", 
+"# from the different data sets", "monthly <- rbind(covid_long_monthly, scented_timeline_monthly2)", 
 "", "monthly %>% ", "  ggplot(aes(x=row, y=value)) +", "  geom_line() +", 
 "  facet_wrap(vars(type), scale=\"free_y\") +", "  geom_smooth()"
 ), chunk_opts = list(label = "covid_stack-solution")), tests = NULL, 
@@ -2302,7 +2317,8 @@ learnr:::store_exercise_cache(structure(list(label = "covid_stack", global_setup
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, stage = NULL, ..., \n    solution_eval_fn = NULL) \n{\n    (utils::getFromNamespace(\"check_exercise\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, stage = stage, ...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
-        label = "covid_stack", exercise = TRUE, code = c("monthly <- _____(covid_long_monthly, scented_timeline_monthly2)", 
+        label = "covid_stack", exercise = TRUE, code = c("# This only works because we were careful to make sure the column names match", 
+        "# from the different data sets", "", "monthly <- _____(covid_long_monthly, scented_timeline_monthly2)", 
         "", "monthly %>% ", "  ggplot(aes(x=row, y=value)) +", 
         "  geom_line() +", "  __________(vars(type), scale=\"free_y\") +", 
         "  geom_smooth()"), out.width.px = 624, out.height.px = 384, 
@@ -3370,7 +3386,7 @@ learnr:::store_exercise_cache(structure(list(label = "star3", global_setup = str
 "", "monthly_wide <- monthly %>% ", "  pivot_wider(names_from=\"type\", values_from=\"value\") %>% ", 
 "  filter(!is.na(`percent no smell`))"), chunk_opts = list(label = "setup", 
     include = FALSE)), setup = NULL, chunks = list(list(label = "star3", 
-    code = "# Adding all controls. (\"adjusted\" pay gap.)\nlm_allcontrols <- lm(log_base ~ ______ + ________ + _______ + ___ + ____ + _________ + ________, data = salaries_adjusted3)\n\nsummary(lm_allcontrols)", 
+    code = "# Adding all controls. (\"adjusted\" pay gap.)\nlm_allcontrols <- lm(log_base ~ ______ + ________ + _______ + ___ + \n                       ____ + _________ + ________, \n                     data = salaries_adjusted3)\n\nsummary(lm_allcontrols)", 
     opts = list(label = "\"star3\"", exercise = "TRUE"), engine = "r")), 
     code_check = NULL, error_check = NULL, check = structure("grade_this_code()", chunk_opts = list(
         label = "star3-check")), solution = structure(c("# Adding \"human capital\" controls (performance evals, age and education).", 
@@ -3395,8 +3411,10 @@ learnr:::store_exercise_cache(structure(list(label = "star3", global_setup = str
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, stage = NULL, ..., \n    solution_eval_fn = NULL) \n{\n    (utils::getFromNamespace(\"check_exercise\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, stage = stage, ...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "star3", exercise = TRUE, code = c("# Adding all controls. (\"adjusted\" pay gap.)", 
-        "lm_allcontrols <- lm(log_base ~ ______ + ________ + _______ + ___ + ____ + _________ + ________, data = salaries_adjusted3)", 
-        "", "summary(lm_allcontrols)"), out.width.px = 624, out.height.px = 384, 
+        "lm_allcontrols <- lm(log_base ~ ______ + ________ + _______ + ___ + ", 
+        "                       ____ + _________ + ________, ", 
+        "                     data = salaries_adjusted3)", "", 
+        "summary(lm_allcontrols)"), out.width.px = 624, out.height.px = 384, 
         params.src = "star3, exercise=TRUE", fig.num = 0, exercise.df_print = "paged"), 
     engine = "r", version = "4"), class = c("r", "tutorial_exercise"
 )))

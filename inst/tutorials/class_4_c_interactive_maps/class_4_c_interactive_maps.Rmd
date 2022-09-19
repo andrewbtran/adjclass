@@ -55,7 +55,9 @@ pharm_state_arranged <- pharm_state %>%
 
 Let’s create a locator map like you would when searching for an address on Google Maps.
 
-The repo containing the data and scripts for this section is on Github. To follow along, simply run the lines of code below in R.
+The repo containing the data and scripts for this section is on Github. To follow along, simply run the lines of code below in R. This will install and open a adj-mod-4-main into a new R project.
+
+You'll have two projects open: adjclass for these instructions and adj-mod-4-main for you to code in.
 
 ```{r, eval=F}
 install.packages("usethis")
@@ -72,6 +74,9 @@ The Leaflet R package was created by the folks behind RStudio to integrate with 
 It’s great for journalists who have little knowledge of JavaScript who want to make interesting interactives using R. And there is [excellent documentation](https://rstudio.github.io/leaflet/) if you want to dig deeper into its functionality after this introduction.
 
 Essentially, this package lets you make maps with custom map tiles, markers, polygons, lines, popups, and geojson. Almost any maps you can make in Google Fusion Tables or Carto(DB), you can make in R using the Leaflet package.
+
+Run these lines of code in your adj-mod-4-main RStudio project. Either in console or in an R script you can save for later use.
+
 
 ```{r, eval=F}
 # This function checks if you don't have the correct packages installed yet
@@ -98,9 +103,13 @@ Right click on the map until you get this menu.
 knitr::include_graphics("images/right_map.png")
 ```
 
+You can get the latitude and longitude in the menu now!
+
+This is what we'll do now:
+
 1. Create a map widget by calling the leaflet() function
 2. Add layers (such as features) to the map by using layer functions
-  * like addTiles, addMarkers, addPolygons
+    * like addTiles, addMarkers, addPolygons
 3. Print the map widget
 4. Customize the view port zoom and center location with setView()
 
@@ -120,6 +129,8 @@ m <- leaflet() %>%
 m 
 ```
 Go ahead and click the blue marker.
+
+Did this work for you? If you want, you could click on "export" in the Viewer tab and save it as an html file. 
 
 **Explaining the R code**
 
@@ -168,6 +179,7 @@ And of course we have to change the latitude and longitude values in `setView()`
 
 ````{r map}
 m <- leaflet(pharm_state) %>% addProviderTiles(providers$CartoDB.DarkMatter) %>% 
+  # if you chose another State, you'll have to adjust the view lat and lon below
   setView(-92.469698, 31.012156, zoom = 7) %>% 
   addCircles(~lon, ~lat, popup=pharm_state$BUYER_NAME, weight = 3, radius=40, 
                  color="#ffa500", stroke = TRUE, fillOpacity = 0.8) 
@@ -312,6 +324,8 @@ m <- leaflet(pharm_state)  %>%
 m
 ```
 
+Pretty interesting right? It's much easier to see clusters of problematic areas now.
+
 ## Interactive dashboard
 
 Sometimes you need an interactive map that you can host internally for reporting purposes, maybe to show an editor or fellow reporters.
@@ -342,7 +356,7 @@ Some limitations: At the moment it can only links individual data points and not
 
 ## Setting up
 
-We’re going to create a truly interactive map and table to visualize pharmacy-level data in Louisiana. The data is from the [arcos api](https://wpinvestigative.github.io/arcos/). Basic packages we’ll use include [rleaflet](https://rstudio.github.io/leaflet/) and [DT: DataTables](https://rstudio.github.io/DT/).
+We’re going to create a truly interactive map and table to visualize pharmacy-level data in Louisiana. The data is from the [arcos api](https://wpinvestigative.github.io/arcos/). Basic packages we’ll use include [rleaflet](https://rstudio.github.io/leaflet/) and [DT: DataTables](https://rstudio.github.io/DT/). This is so we have a filterable and searchable table and map.
 
 I’ll be referring to different .Rmd files to work from as well as screenshots of the results. I’ll be highlighing code in this walkthrough but the code won’t really work in your console.
 
@@ -353,7 +367,7 @@ You must click the *Knit > Knit to flex_dashboard* button to execute and generat
 knitr::include_graphics("images/knit.png")
 ```
 
-The repo containing the data and scripts for this section is on Github. To follow along, simply run the lines of code below in R.
+The repo containing the data and scripts for this section is on Github. To follow along, simply run the lines of code below in R. Each addition to the dashboard is represented by the numbers in the crosstalk .Rmd files below.
 
 ```
 # There is no need to run these install lines below if you already have done so
@@ -382,7 +396,7 @@ The progression of code will be in `crosstalk_1.Rmd` through `crosstalk_5.Rmd` t
 
 ### The data
 
-We’re working with data I’ve already joined and summarized based on raw arcos data.
+We’re working with data from our original leaflet interactive: Joined and summarized data based on raw arcos data.
 
 If you want to see the code looks like, it’s in the script folder called `99_state_pharm_data.R`
 
@@ -402,6 +416,8 @@ It’s every store in the country. It has total pills (oxycodone and hydrocodone
 ### Set up structure
 
 This section is in `crosstalk_1.Rmd`.
+
+You can run `file.edit("scripts/crosstalk_1.Rmd")` in the adj-mod-4-main RStudio project console to open it.
 
 The first thing you’ll notice at the top of the .Rmd file is the text between the — signs. This is the [yaml](https://yaml.org/) part of the file that tells RStudio how to knit the file. Sometimes the output is pdf, sometimes it’s html, sometime it’s simple markdown.
 
@@ -456,7 +472,7 @@ It takes data from the yaml section and the text in the code above and sets the 
 
 We’re only going to print text in each R code chunk to see where things end up.
 
-Click *Knit > Knit to flex_dashboard* on the `crosstalk_1.Rmd` file.
+**!!** Click *Knit > Knit to flex_dashboard* on the top right of the `crosstalk_1.Rmd` file. **!!**
 
 
 ```{r files-image5, out.width = "100%", echo=F}
@@ -471,6 +487,8 @@ Even nicer considering how we typed zero HTML and CSS.
 ## Loading and displaying data
 
 This section is in `crosstalk_2.Rmd`.
+
+You can run `file.edit("scripts/crosstalk_2.Rmd")` in the adj-mod-4-main RStudio project console to open it.
 
 Alright, let’s bring in data and show what it looks like as a filterable table.
 
@@ -508,6 +526,9 @@ knitr::include_graphics("images/flexdash2.png")
 
 This section is in `crosstalk_3.Rmd`.
 
+
+You can run `file.edit("scripts/crosstalk_3.Rmd")` in the adj-mod-4-main RStudio project console to open it.
+
 We’re going to alter the `filter_section` code chunk.
 
 
@@ -535,6 +556,8 @@ When we add filters on the left, either with a pull down menu or with the check 
 
 This section is in `crosstalk_4.Rmd`.
 
+You can run `file.edit("scripts/crosstalk_4.Rmd")` in the adj-mod-4-main RStudio project console to open it.
+
 We’re going to alter the `interactive_map` code chunk.
 
 You’ve gone through the leaflet section before. Now, this is tricky.
@@ -560,6 +583,8 @@ knitr::include_graphics("images/flexdash4.png")
 Almost done. Let’s go back and add some variables to the `datable()` function so we can add some neat customization to it, such as buttons to export the filtered data and scrolling options.
 
 This section is in `crosstalk_5.Rmd`.
+
+You can run `file.edit("scripts/crosstalk_5.Rmd")` in the adj-mod-4-main RStudio project console to open it.
 
 We’re going to alter the `filterable_table` code chunk.
 

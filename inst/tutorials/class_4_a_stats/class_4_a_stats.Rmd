@@ -438,7 +438,11 @@ scented_timeline_monthly1
 ```
 
 ```{r weekly_am1-hint}
-You'll need to use a lot of functions you've learned about in previous modules. Read the comments in the code chunk, too.
+What's the if else statement functoin in mutate?
+
+If there are no complaints about smell then fill no_scent with the opposite of 1? (It's not 2).
+
+
 ```
 
 ```{r weekly_am1-check}
@@ -617,6 +621,8 @@ Alright, we've transformed the data to be long for daily cases but now we need i
 
 And we need to adjust the high numbers a bit so we'll divide the case count by a million.
 
+I'll go ahead and do that for you and save it as "covid_long_monthly".
+
 ```{r covid_monthly}
 covid_long_monthly <- covid_long %>% 
   mutate(year=year(date),
@@ -637,6 +643,9 @@ And then visualize it with small multiples.
 Add the right code in line 1 and 6.
 
 ```{r covid_stack, exercise=TRUE}
+# This only works because we were careful to make sure the column names match
+# from the different data sets
+
 monthly <- _____(covid_long_monthly, scented_timeline_monthly2)
 
 monthly %>% 
@@ -649,6 +658,8 @@ monthly %>%
 
 
 ```{r covid_stack-solution}
+# This only works because we were careful to make sure the column names match
+# from the different data sets
 monthly <- rbind(covid_long_monthly, scented_timeline_monthly2)
 
 monthly %>% 
@@ -713,6 +724,8 @@ Some authors consider a strong correlation over [.6, -.6] and over [.8/, -.8] is
 
 Let's transform our data a bit from long to wide so we can compare the two columns and see what we have.
 
+I'll do that for you now and save it as "monthly_wide".
+
 ```{r }
 monthly_wide <- monthly %>% 
   pivot_wider(names_from="type", values_from="value") %>% 
@@ -749,7 +762,7 @@ Also, the Covid-19 cases may not be as accurate anymore if people are self-testi
 
 There is a certain point where the lines no longer seem in sync. There could be any number of explanations.
 
-That being said, CORRELATION DOES NOT EQUAL CAUSATION.
+**IMPORTANT!** CORRELATION DOES NOT EQUAL CAUSATION.
 
 If you use this technique to explore the relationship between two variables, please, please run it by a statistician or researcher.
 
@@ -783,7 +796,7 @@ Percentiles and Quartiles are simply types of Quantiles.
 
 To illustrate the concept, let's start out with some City of Boston salaries.
 
-I've saved it and deleted identifying information as **boston_salaries**:
+I've saved it and deleted identifying information as **boston_salaries** (if you insist on working with the raw data, it's not hard to find via search):
 
 ```{r}
 glimpse(boston_salaries)
@@ -1098,6 +1111,8 @@ For our hypothetical employer, men on average are paid $98,458 per year while wo
 
 Let's look at whether men and women are clustered into certain job titles or departments. If so, we'll need to control for that in our analysis.
 
+I'll go ahead and run this code for you and save it as "unadjusted_jobs".
+
 ```{r adjusted}
 unadjusted_jobs <- salaries_adjusted3 %>% 
   group_by(jobTitle, gender) %>% 
@@ -1145,13 +1160,13 @@ grade_this_code()
 
 A coefficient of 0.095 means there is approximately 9.5 percent “unadjusted” gender pay gap in this theoretical company. In a story, you would write that men on average earn about 9.5 percent more than women on average in this company. 
 
-The estimates that are statistically significant have *, ** or *** next to them.
+The estimates that are statistically significant have `*`, `**` or `***` next to them.
 
 So this model currently says that gender is a statistically significant factor when it comes to pay.
 
 ### Adjusted linear model
 
-Next, we'll run a more complete model that adds in variables for employee characteristics like highest education, years of experience and performance evaluation scores. These are some variablesn that management would accuse you of not taking into consideration if you're doing a pay study (and then not provide to you even if you request it).
+Next, we'll run a more complete model that adds in variables for employee characteristics like highest education, years of experience and performance evaluation scores. These are some variables  that management would accuse you of not taking into consideration if you're doing a pay study (and then not provide to you even if you request it, maybe I'm talking from experience).
 
 Let's add performance evals, the age buckets, and education to our linear model function.
 
@@ -1184,7 +1199,7 @@ The gender pay gap hasn’t changed much with these adjustments. It’s still a 
 
 ### Final adjustment linear model
 
-Finally, we recommend running a model with all of the controls that you have access to, including job
+Finally, let's run a model with all of the controls that you have access to, including job
 title, department and more. 
 
 ```{r star3, exercise=TRUE}
@@ -1250,9 +1265,6 @@ particular role.
 
 ## Class IV - Part 2
 
-
-Stop this tutorial in the `Render` tab of RStudio (press the stop button).
-
 Whew, this was a very long one. Thanks for sticking with it!
 
 Take a look at this diagram.
@@ -1263,6 +1275,10 @@ knitr::include_graphics("https://josiahparry.com/slides/tidymodels/images/r4ds_d
 
 You've essentially gone through all these steps in this class at this point!
 
+Importing, tidying, and then iterating between transforming the data, visualizing, and modeling it.
+
+Until you get enough to communicate what's important!
+
 And you can see why it's so important to know all these steps because it takes constant tweaking to wrangling and visualizing and modeling the data. And now you know how! 
 
 Take a long break. Because now we're moving onto some fun stuff: maps!
@@ -1272,5 +1288,7 @@ When you're ready to move on the last section of the week just type this in the 
 ```
 learnr::run_tutorial("class_4_b_static_maps", "adjclass")
 ```
+
+Stop this tutorial in the `Render` tab of RStudio (press the stop button).
 
 
