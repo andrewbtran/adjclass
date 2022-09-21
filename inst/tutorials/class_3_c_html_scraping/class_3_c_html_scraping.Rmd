@@ -68,22 +68,22 @@ url <- "https://www.amazon.com/product-reviews/B09XF2Z12G/"
 amazon <- read_html(url)
 
 total_reviews <- amazon %>% 
-  html_nodes("#filter-info-section .a-size-base") %>% 
+  html_elements("#filter-info-section .a-size-base") %>% 
   html_text() %>% 
   str_trim() %>% 
   str_replace(".*ratings, ", "") %>% 
   parse_number()
 
 ratings <- amazon %>% 
-  html_nodes("#cm_cr-review_list .review-rating") %>% 
+  html_elements("#cm_cr-review_list .review-rating") %>% 
   html_text()
 
 dates <- amazon %>% 
-  html_nodes("#cm_cr-review_list .review-date") %>% 
+  html_elements("#cm_cr-review_list .review-date") %>% 
   html_text()
 
 review_text <- amazon %>% 
-  html_nodes(".a-spacing-small.review-data") %>% 
+  html_elements(".a-spacing-small.review-data") %>% 
   html_text()
 
 some_reviews <- data.frame(ratings, dates, review_text)
@@ -353,7 +353,7 @@ knitr::include_graphics("images/select.gif")
 
 This time the final CSS class we want is `#cm_cr-review_list .review-rating`.
 
-We need to pass that string into a new function: `html_nodes()`.
+We need to pass that string into a new function: `html_elements()`. (An older version of rvest used to be `html_nodes()`)
 
 We already have the read html saved in the **amazon** object.
 
@@ -367,7 +367,7 @@ amazon %>%
 
 ```{r read_html-solution}
 amazon %>% 
-  html_nodes("#cm_cr-review_list .review-rating")
+  html_elements("#cm_cr-review_list .review-rating")
 ```
 
 ```{r read_html-hint}
@@ -398,7 +398,7 @@ ratings
 
 ```{r html_text-solution}
 ratings <- amazon %>% 
-  html_nodes("#cm_cr-review_list .review-rating") %>% 
+  html_elements("#cm_cr-review_list .review-rating") %>% 
   html_text()
 
 ratings
@@ -420,7 +420,7 @@ Now we have an array with various star ratings.
 
 We can go back and clean these later so we have just the raw number.
 
-So, the **read_html()** and **html_nodes()** and **html_text()** functions are all you'll need for many common web scraping tasks.
+So, the **read_html()** and **html_elements()** and **html_text()** functions are all you'll need for many common web scraping tasks.
 
 * Get the HTML for the webpage you want
 * Decide what part of the page to focus on and figure out what HTML or CSS to select it
@@ -449,7 +449,7 @@ Now, use the select gadget to find the path for the dates of the reviews (it may
 
 ```{r html_text2, exercise=TRUE}
 dates <- amazon %>% 
-  html_nodes("__________________") %>% 
+  html_elements("__________________") %>% 
   _________()
 
 dates
@@ -458,7 +458,7 @@ dates
 
 ```{r html_text2-solution}
 dates <- amazon %>% 
-  html_nodes("#cm_cr-review_list .review-date") %>% 
+  html_elements("#cm_cr-review_list .review-date") %>% 
   html_text()
 
 dates
@@ -487,7 +487,7 @@ review_text
 
 ```{r html_text3-solution}
 review_text <- amazon %>% 
-  html_nodes(".a-spacing-small.review-data") %>% 
+  html_elements(".a-spacing-small.review-data") %>% 
   html_text()
 
 review_text
@@ -579,7 +579,7 @@ Let's pull that out and see what that looks like.
 
 ```{r final, exercise=TRUE}
 total_reviews <- amazon %>% 
-  html_nodes("#____________ .________") %>% 
+  html_elements("#____________ .________") %>% 
   html_text()
 
 total_reviews
@@ -588,7 +588,7 @@ total_reviews
 
 ```{r final-solution}
 total_reviews <- amazon %>% 
-  html_nodes("#filter-info-section .a-size-base") %>% 
+  html_elements("#filter-info-section .a-size-base") %>% 
   html_text()
 
 total_reviews
@@ -611,7 +611,7 @@ Let's use a **stringr** function, `str_trim()` and then get rid of the text so w
 
 ```{r final2, exercise=TRUE}
 total_reviews <- amazon %>% 
-  html_nodes("#filter-info-section .a-size-base") %>% 
+  html_elements("#filter-info-section .a-size-base") %>% 
   html_text() %>% 
   _______() %>% 
   ___________(".*ratings, ", "") %>% 
@@ -623,7 +623,7 @@ total_reviews
 
 ```{r final2-solution}
 total_reviews <- amazon %>% 
-  html_nodes("#filter-info-section .a-size-base") %>% 
+  html_elements("#filter-info-section .a-size-base") %>% 
   html_text() %>% 
   str_trim() %>% 
   str_replace(".*ratings, ", "") %>% 
@@ -666,15 +666,15 @@ for (i in 1:round(total_reviews/10)) {
   amazon <- read_html(new_url)
 
   ratings <- amazon %>% 
-  html_nodes("#cm_cr-review_list .review-rating") %>% 
+  html_elements("#cm_cr-review_list .review-rating") %>% 
   html_text()
 
   dates <- amazon %>% 
-  html_nodes("#cm_cr-review_list .review-date") %>% 
+  html_elements("#cm_cr-review_list .review-date") %>% 
   html_text()
 
   review_text <- amazon %>% 
-  html_nodes(".a-spacing-small.review-data") %>% 
+  html_elements(".a-spacing-small.review-data") %>% 
   html_text()
 
   some_reviews <- data.frame(ratings, dates, review_text) %>% 

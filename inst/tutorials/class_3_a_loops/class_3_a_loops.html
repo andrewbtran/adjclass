@@ -482,16 +482,22 @@ View(df)</code></pre>
 <p>Okay, this is how to do the process above but in parallel.</p>
 <p>It uses a new function from <strong>doParallel</strong> called <code>foreach()</code> and uses<code>=</code> instead of <code>in</code>.</p>
 <p>And we don’t need the <code>if()</code> anymore, instead we pass the <code>rbind</code> function name as an argument.</p>
-<div class="sourceCode" id="section-cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb21-1"><a href="#section-cb21-1" aria-hidden="true" tabindex="-1"></a>big_df <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sheets), <span class="at">.combine=</span>rbind) <span class="sc">%dopar%</span> {</span>
-<span id="section-cb21-2"><a href="#section-cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(sheets[i])</span>
-<span id="section-cb21-3"><a href="#section-cb21-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="section-cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb21-1"><a href="#section-cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you may need to type this instead as your foreach function:</span></span>
+<span id="section-cb21-2"><a href="#section-cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># foreach(i=1:length(sheets), .combine=rbind, .packages=&quot;readr&quot;)</span></span>
+<span id="section-cb21-3"><a href="#section-cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="section-cb21-4"><a href="#section-cb21-4" aria-hidden="true" tabindex="-1"></a>big_df <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sheets), <span class="at">.combine=</span>rbind) <span class="sc">%dopar%</span> {</span>
+<span id="section-cb21-5"><a href="#section-cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(sheets[i])</span>
+<span id="section-cb21-6"><a href="#section-cb21-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Did it work when you ran it?</p>
 <p>Let’s test the speed.</p>
-<div class="sourceCode" id="section-cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb22-1"><a href="#section-cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(</span>
-<span id="section-cb22-2"><a href="#section-cb22-2" aria-hidden="true" tabindex="-1"></a>  big_df <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sheets), <span class="at">.combine=</span>rbind) <span class="sc">%dopar%</span> {</span>
-<span id="section-cb22-3"><a href="#section-cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">read_csv</span>(sheets[i])</span>
-<span id="section-cb22-4"><a href="#section-cb22-4" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="section-cb22-5"><a href="#section-cb22-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="section-cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb22-1"><a href="#section-cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you may need to type this instead as your foreach function:</span></span>
+<span id="section-cb22-2"><a href="#section-cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># foreach(i=1:length(sheets), .combine=rbind, .packages=&quot;readr&quot;)</span></span>
+<span id="section-cb22-3"><a href="#section-cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="section-cb22-4"><a href="#section-cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(</span>
+<span id="section-cb22-5"><a href="#section-cb22-5" aria-hidden="true" tabindex="-1"></a>  big_df <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sheets), <span class="at">.combine=</span>rbind) <span class="sc">%dopar%</span> {</span>
+<span id="section-cb22-6"><a href="#section-cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">read_csv</span>(sheets[i])</span>
+<span id="section-cb22-7"><a href="#section-cb22-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="section-cb22-8"><a href="#section-cb22-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>What’s the elapsed time for you here compared to the original elapsed time from the first loop?</p>
 <p>On my computer, it cut my import time by more than half. This is probably different on your computer.</p>
 <p>This was a simple example but imagine running a parallel loop an an intensive process.</p>
@@ -729,16 +735,16 @@ learnr:::store_exercise_cache(structure(list(label = "loop2a", global_setup = st
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz1-1", question = structure("What&#39;s the command to figure out how many objects are in the array <code>sheets<\u002fcode>?", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_3fdfe15", 
+"character")), answers = list(structure(list(id = "lnr_ans_de6db82", 
     option = "ncol(sheets)", value = "ncol(sheets)", label = structure("ncol(sheets)", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_1de157", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_fd29ed6", 
     option = "nrow(sheets", value = "nrow(sheets", label = structure("nrow(sheets", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_4771d8", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_3b947e8", 
     option = "length(sheets)", value = "length(sheets)", label = structure("length(sheets)", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_a877871", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_62c7bd4", 
     option = "width(sheets)", value = "width(sheets)", label = structure("width(sheets)", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
 "tutorial_quiz_answer"))), button_labels = list(submit = structure("<span data-i18n=\"button.questionsubmit\">Submit Answer<\u002fspan>", html = TRUE, class = c("html", 
@@ -748,7 +754,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "quiz1-1-answer", question = "quiz1-1"), loading = NULL, 
-    random_answer_order = TRUE, allow_retry = FALSE, seed = 214383233.90017, 
+    random_answer_order = TRUE, allow_retry = FALSE, seed = 969795924.048404, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>

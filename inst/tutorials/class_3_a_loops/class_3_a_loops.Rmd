@@ -425,6 +425,10 @@ It uses a new function from **doParallel** called `foreach()` and uses`=` instea
 And we don't need the `if()` anymore, instead we pass the `rbind` function name as an argument.
 
 ```{r parallel_time, eval=F}
+
+# you may need to type this instead as your foreach function:
+# foreach(i=1:length(sheets), .combine=rbind, .packages="readr")
+
 big_df <- foreach(i=1:length(sheets), .combine=rbind) %dopar% {
   read_csv(sheets[i])
 }
@@ -436,6 +440,9 @@ Let's test the speed.
 
 
 ```{r parallel_time2, eval=F}
+# you may need to type this instead as your foreach function:
+# foreach(i=1:length(sheets), .combine=rbind, .packages="readr")
+
 system.time(
   big_df <- foreach(i=1:length(sheets), .combine=rbind) %dopar% {
     read_csv(sheets[i])

@@ -401,7 +401,7 @@ amazon</code></pre>
 <p>However, when double checking, I see that the two banner reviews are included. I don’t want those! So I can click on the green of one of them and it will exclude that and selector gadget will try to guess another element. This time, <code>#customer_review etc etc etc</code>, which is way too long and too specific because it excluded the stars below the first star we wanted. So we click on the stars beneath the first one we wanted and we finally get all the stars we wanted. <em>Look below to see how the path changes with each additional click to remove or add elements until we get the final one we want.</em></p>
 <p><img src="images/select.gif" width="100%" /></p>
 <p>This time the final CSS class we want is <code>#cm_cr-review_list .review-rating</code>.</p>
-<p>We need to pass that string into a new function: <code>html_nodes()</code>.</p>
+<p>We need to pass that string into a new function: <code>html_elements()</code>. (An older version of rvest used to be <code>html_nodes()</code>)</p>
 <p>We already have the read html saved in the <strong>amazon</strong> object.</p>
 <p>Use the new function and the class below.</p>
 <div class="tutorial-exercise" data-label="read_html" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
@@ -411,7 +411,7 @@ amazon</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="read_html-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>amazon %&gt;% 
-  html_nodes(&quot;#cm_cr-review_list .review-rating&quot;)</code></pre>
+  html_elements(&quot;#cm_cr-review_list .review-rating&quot;)</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="read_html-hint" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>function starts with an *h*.</code></pre>
@@ -430,7 +430,7 @@ ratings</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="html_text-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>ratings &lt;- amazon %&gt;% 
-  html_nodes(&quot;#cm_cr-review_list .review-rating&quot;) %&gt;% 
+  html_elements(&quot;#cm_cr-review_list .review-rating&quot;) %&gt;% 
   html_text()
 
 ratings</code></pre>
@@ -441,7 +441,7 @@ ratings</code></pre>
 <p>Great job!</p>
 <p>Now we have an array with various star ratings.</p>
 <p>We can go back and clean these later so we have just the raw number.</p>
-<p>So, the <strong>read_html()</strong> and <strong>html_nodes()</strong> and <strong>html_text()</strong> functions are all you’ll need for many common web scraping tasks.</p>
+<p>So, the <strong>read_html()</strong> and <strong>html_elements()</strong> and <strong>html_text()</strong> functions are all you’ll need for many common web scraping tasks.</p>
 <ul>
 <li>Get the HTML for the webpage you want</li>
 <li>Decide what part of the page to focus on and figure out what HTML or CSS to select it</li>
@@ -464,7 +464,7 @@ ratings</code></pre>
 <p>Now, use the select gadget to find the path for the dates of the reviews (it may take 3 or 4 clicks of selector gadget to find just the right selection). We’ll save it to the object “dates”.</p>
 <div class="tutorial-exercise" data-label="html_text2" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>dates &lt;- amazon %&gt;% 
-  html_nodes(&quot;__________________&quot;) %&gt;% 
+  html_elements(&quot;__________________&quot;) %&gt;% 
   _________()
 
 dates</code></pre>
@@ -472,7 +472,7 @@ dates</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="html_text2-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>dates &lt;- amazon %&gt;% 
-  html_nodes(&quot;#cm_cr-review_list .review-date&quot;) %&gt;% 
+  html_elements(&quot;#cm_cr-review_list .review-date&quot;) %&gt;% 
   html_text()
 
 dates</code></pre>
@@ -492,7 +492,7 @@ review_text</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="html_text3-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>review_text &lt;- amazon %&gt;% 
-  html_nodes(&quot;.a-spacing-small.review-data&quot;) %&gt;% 
+  html_elements(&quot;.a-spacing-small.review-data&quot;) %&gt;% 
   html_text()
 
 review_text</code></pre>
@@ -550,7 +550,7 @@ glimpse(some_reviews)</code></pre>
 <p>Let’s pull that out and see what that looks like.</p>
 <div class="tutorial-exercise" data-label="final" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>total_reviews &lt;- amazon %&gt;% 
-  html_nodes(&quot;#____________ .________&quot;) %&gt;% 
+  html_elements(&quot;#____________ .________&quot;) %&gt;% 
   html_text()
 
 total_reviews</code></pre>
@@ -558,7 +558,7 @@ total_reviews</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="final-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>total_reviews &lt;- amazon %&gt;% 
-  html_nodes(&quot;#filter-info-section .a-size-base&quot;) %&gt;% 
+  html_elements(&quot;#filter-info-section .a-size-base&quot;) %&gt;% 
   html_text()
 
 total_reviews</code></pre>
@@ -571,7 +571,7 @@ total_reviews</code></pre>
 <p>Let’s use a <strong>stringr</strong> function, <code>str_trim()</code> and then get rid of the text so we only have the number. These functions should look really familiar to you! And then use the function to replace parts of the string with another.</p>
 <div class="tutorial-exercise" data-label="final2" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>total_reviews &lt;- amazon %&gt;% 
-  html_nodes(&quot;#filter-info-section .a-size-base&quot;) %&gt;% 
+  html_elements(&quot;#filter-info-section .a-size-base&quot;) %&gt;% 
   html_text() %&gt;% 
   _______() %&gt;% 
   ___________(&quot;.*ratings, &quot;, &quot;&quot;) %&gt;% 
@@ -582,7 +582,7 @@ total_reviews</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="final2-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>total_reviews &lt;- amazon %&gt;% 
-  html_nodes(&quot;#filter-info-section .a-size-base&quot;) %&gt;% 
+  html_elements(&quot;#filter-info-section .a-size-base&quot;) %&gt;% 
   html_text() %&gt;% 
   str_trim() %&gt;% 
   str_replace(&quot;.*ratings, &quot;, &quot;&quot;) %&gt;% 
@@ -610,15 +610,15 @@ total_reviews</code></pre>
   amazon &lt;- read_html(new_url)
 
   ratings &lt;- amazon %&gt;% 
-  html_nodes(&quot;#cm_cr-review_list .review-rating&quot;) %&gt;% 
+  html_elements(&quot;#cm_cr-review_list .review-rating&quot;) %&gt;% 
   html_text()
 
   dates &lt;- amazon %&gt;% 
-  html_nodes(&quot;#cm_cr-review_list .review-date&quot;) %&gt;% 
+  html_elements(&quot;#cm_cr-review_list .review-date&quot;) %&gt;% 
   html_text()
 
   review_text &lt;- amazon %&gt;% 
-  html_nodes(&quot;.a-spacing-small.review-data&quot;) %&gt;% 
+  html_elements(&quot;.a-spacing-small.review-data&quot;) %&gt;% 
   html_text()
 
   some_reviews &lt;- data.frame(ratings, dates, review_text) %&gt;% 
@@ -709,22 +709,22 @@ url <- "https://www.amazon.com/product-reviews/B09XF2Z12G/"
 amazon <- read_html(url)
 
 total_reviews <- amazon %>% 
-  html_nodes("#filter-info-section .a-size-base") %>% 
+  html_elements("#filter-info-section .a-size-base") %>% 
   html_text() %>% 
   str_trim() %>% 
   str_replace(".*ratings, ", "") %>% 
   parse_number()
 
 ratings <- amazon %>% 
-  html_nodes("#cm_cr-review_list .review-rating") %>% 
+  html_elements("#cm_cr-review_list .review-rating") %>% 
   html_text()
 
 dates <- amazon %>% 
-  html_nodes("#cm_cr-review_list .review-date") %>% 
+  html_elements("#cm_cr-review_list .review-date") %>% 
   html_text()
 
 review_text <- amazon %>% 
-  html_nodes(".a-spacing-small.review-data") %>% 
+  html_elements(".a-spacing-small.review-data") %>% 
   html_text()
 
 some_reviews <- data.frame(ratings, dates, review_text)
@@ -766,11 +766,11 @@ learnr:::store_exercise_cache(structure(list(label = "rvest", global_setup = str
 "library(lubridate)", "library(jsonlite)", "library(utils)", 
 "library(rvest)", "", "url <- \"https://www.amazon.com/product-reviews/B09XF2Z12G/\"", 
 "amazon <- read_html(url)", "", "total_reviews <- amazon %>% ", 
-"  html_nodes(\"#filter-info-section .a-size-base\") %>% ", "  html_text() %>% ", 
-"  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
-"  parse_number()", "", "ratings <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-rating\") %>% ", 
-"  html_text()", "", "dates <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-date\") %>% ", 
-"  html_text()", "", "review_text <- amazon %>% ", "  html_nodes(\".a-spacing-small.review-data\") %>% ", 
+"  html_elements(\"#filter-info-section .a-size-base\") %>% ", 
+"  html_text() %>% ", "  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
+"  parse_number()", "", "ratings <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-rating\") %>% ", 
+"  html_text()", "", "dates <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-date\") %>% ", 
+"  html_text()", "", "review_text <- amazon %>% ", "  html_elements(\".a-spacing-small.review-data\") %>% ", 
 "  html_text()", "", "some_reviews <- data.frame(ratings, dates, review_text)", 
 ""), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
     chunks = list(list(label = "rvest", code = "url <- \"_____\"\n\namazon <- _________(url)\n\namazon", 
@@ -821,11 +821,11 @@ learnr:::store_exercise_cache(structure(list(label = "read_html", global_setup =
 "library(lubridate)", "library(jsonlite)", "library(utils)", 
 "library(rvest)", "", "url <- \"https://www.amazon.com/product-reviews/B09XF2Z12G/\"", 
 "amazon <- read_html(url)", "", "total_reviews <- amazon %>% ", 
-"  html_nodes(\"#filter-info-section .a-size-base\") %>% ", "  html_text() %>% ", 
-"  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
-"  parse_number()", "", "ratings <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-rating\") %>% ", 
-"  html_text()", "", "dates <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-date\") %>% ", 
-"  html_text()", "", "review_text <- amazon %>% ", "  html_nodes(\".a-spacing-small.review-data\") %>% ", 
+"  html_elements(\"#filter-info-section .a-size-base\") %>% ", 
+"  html_text() %>% ", "  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
+"  parse_number()", "", "ratings <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-rating\") %>% ", 
+"  html_text()", "", "dates <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-date\") %>% ", 
+"  html_text()", "", "review_text <- amazon %>% ", "  html_elements(\".a-spacing-small.review-data\") %>% ", 
 "  html_text()", "", "some_reviews <- data.frame(ratings, dates, review_text)", 
 ""), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
     chunks = list(list(label = "read_html", code = "amazon %>% \n  _________(\"__________________\")", 
@@ -833,7 +833,7 @@ learnr:::store_exercise_cache(structure(list(label = "read_html", global_setup =
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_this_code()", chunk_opts = list(
         label = "read_html-check")), solution = structure(c("amazon %>% ", 
-    "  html_nodes(\"#cm_cr-review_list .review-rating\")"), chunk_opts = list(
+    "  html_elements(\"#cm_cr-review_list .review-rating\")"), chunk_opts = list(
         label = "read_html-solution")), tests = NULL, options = list(
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
         tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
@@ -876,11 +876,11 @@ learnr:::store_exercise_cache(structure(list(label = "html_text", global_setup =
 "library(lubridate)", "library(jsonlite)", "library(utils)", 
 "library(rvest)", "", "url <- \"https://www.amazon.com/product-reviews/B09XF2Z12G/\"", 
 "amazon <- read_html(url)", "", "total_reviews <- amazon %>% ", 
-"  html_nodes(\"#filter-info-section .a-size-base\") %>% ", "  html_text() %>% ", 
-"  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
-"  parse_number()", "", "ratings <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-rating\") %>% ", 
-"  html_text()", "", "dates <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-date\") %>% ", 
-"  html_text()", "", "review_text <- amazon %>% ", "  html_nodes(\".a-spacing-small.review-data\") %>% ", 
+"  html_elements(\"#filter-info-section .a-size-base\") %>% ", 
+"  html_text() %>% ", "  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
+"  parse_number()", "", "ratings <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-rating\") %>% ", 
+"  html_text()", "", "dates <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-date\") %>% ", 
+"  html_text()", "", "review_text <- amazon %>% ", "  html_elements(\".a-spacing-small.review-data\") %>% ", 
 "  html_text()", "", "some_reviews <- data.frame(ratings, dates, review_text)", 
 ""), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
     chunks = list(list(label = "html_text", code = "ratings <- amazon %>% \n  _________(\"__________________\") %>% \n  _________()\n\nratings", 
@@ -888,7 +888,7 @@ learnr:::store_exercise_cache(structure(list(label = "html_text", global_setup =
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_this_code()", chunk_opts = list(
         label = "html_text-check")), solution = structure(c("ratings <- amazon %>% ", 
-    "  html_nodes(\"#cm_cr-review_list .review-rating\") %>% ", 
+    "  html_elements(\"#cm_cr-review_list .review-rating\") %>% ", 
     "  html_text()", "", "ratings"), chunk_opts = list(label = "html_text-solution")), 
     tests = NULL, options = list(eval = FALSE, echo = TRUE, results = "markup", 
         tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
@@ -933,19 +933,19 @@ learnr:::store_exercise_cache(structure(list(label = "html_text2", global_setup 
 "library(lubridate)", "library(jsonlite)", "library(utils)", 
 "library(rvest)", "", "url <- \"https://www.amazon.com/product-reviews/B09XF2Z12G/\"", 
 "amazon <- read_html(url)", "", "total_reviews <- amazon %>% ", 
-"  html_nodes(\"#filter-info-section .a-size-base\") %>% ", "  html_text() %>% ", 
-"  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
-"  parse_number()", "", "ratings <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-rating\") %>% ", 
-"  html_text()", "", "dates <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-date\") %>% ", 
-"  html_text()", "", "review_text <- amazon %>% ", "  html_nodes(\".a-spacing-small.review-data\") %>% ", 
+"  html_elements(\"#filter-info-section .a-size-base\") %>% ", 
+"  html_text() %>% ", "  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
+"  parse_number()", "", "ratings <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-rating\") %>% ", 
+"  html_text()", "", "dates <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-date\") %>% ", 
+"  html_text()", "", "review_text <- amazon %>% ", "  html_elements(\".a-spacing-small.review-data\") %>% ", 
 "  html_text()", "", "some_reviews <- data.frame(ratings, dates, review_text)", 
 ""), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
-    chunks = list(list(label = "html_text2", code = "dates <- amazon %>% \n  html_nodes(\"__________________\") %>% \n  _________()\n\ndates", 
+    chunks = list(list(label = "html_text2", code = "dates <- amazon %>% \n  html_elements(\"__________________\") %>% \n  _________()\n\ndates", 
         opts = list(label = "\"html_text2\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_this_code()", chunk_opts = list(
         label = "html_text2-check")), solution = structure(c("dates <- amazon %>% ", 
-    "  html_nodes(\"#cm_cr-review_list .review-date\") %>% ", 
+    "  html_elements(\"#cm_cr-review_list .review-date\") %>% ", 
     "  html_text()", "", "dates"), chunk_opts = list(label = "html_text2-solution")), 
     tests = NULL, options = list(eval = FALSE, echo = TRUE, results = "markup", 
         tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
@@ -966,7 +966,7 @@ learnr:::store_exercise_cache(structure(list(label = "html_text2", global_setup 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, stage = NULL, ..., \n    solution_eval_fn = NULL) \n{\n    (utils::getFromNamespace(\"check_exercise\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, stage = stage, ...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "html_text2", exercise = TRUE, code = c("dates <- amazon %>% ", 
-        "  html_nodes(\"__________________\") %>% ", "  _________()", 
+        "  html_elements(\"__________________\") %>% ", "  _________()", 
         "", "dates"), out.width.px = 624, out.height.px = 384, 
         params.src = "html_text2, exercise=TRUE", fig.num = 0, 
         exercise.df_print = "paged"), engine = "r", version = "4"), class = c("r", 
@@ -990,11 +990,11 @@ learnr:::store_exercise_cache(structure(list(label = "html_text3", global_setup 
 "library(lubridate)", "library(jsonlite)", "library(utils)", 
 "library(rvest)", "", "url <- \"https://www.amazon.com/product-reviews/B09XF2Z12G/\"", 
 "amazon <- read_html(url)", "", "total_reviews <- amazon %>% ", 
-"  html_nodes(\"#filter-info-section .a-size-base\") %>% ", "  html_text() %>% ", 
-"  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
-"  parse_number()", "", "ratings <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-rating\") %>% ", 
-"  html_text()", "", "dates <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-date\") %>% ", 
-"  html_text()", "", "review_text <- amazon %>% ", "  html_nodes(\".a-spacing-small.review-data\") %>% ", 
+"  html_elements(\"#filter-info-section .a-size-base\") %>% ", 
+"  html_text() %>% ", "  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
+"  parse_number()", "", "ratings <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-rating\") %>% ", 
+"  html_text()", "", "dates <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-date\") %>% ", 
+"  html_text()", "", "review_text <- amazon %>% ", "  html_elements(\".a-spacing-small.review-data\") %>% ", 
 "  html_text()", "", "some_reviews <- data.frame(ratings, dates, review_text)", 
 ""), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
     chunks = list(list(label = "html_text3", code = "review_text <- amazon %>% \n  _________(\"__________________\") %>% \n  _________()\n\nreview_text", 
@@ -1002,8 +1002,8 @@ learnr:::store_exercise_cache(structure(list(label = "html_text3", global_setup 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_this_code()", chunk_opts = list(
         label = "html_text3-check")), solution = structure(c("review_text <- amazon %>% ", 
-    "  html_nodes(\".a-spacing-small.review-data\") %>% ", "  html_text()", 
-    "", "review_text"), chunk_opts = list(label = "html_text3-solution")), 
+    "  html_elements(\".a-spacing-small.review-data\") %>% ", 
+    "  html_text()", "", "review_text"), chunk_opts = list(label = "html_text3-solution")), 
     tests = NULL, options = list(eval = FALSE, echo = TRUE, results = "markup", 
         tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
         comment = NA, highlight = FALSE, size = "normalsize", 
@@ -1047,11 +1047,11 @@ learnr:::store_exercise_cache(structure(list(label = "dataframe", global_setup =
 "library(lubridate)", "library(jsonlite)", "library(utils)", 
 "library(rvest)", "", "url <- \"https://www.amazon.com/product-reviews/B09XF2Z12G/\"", 
 "amazon <- read_html(url)", "", "total_reviews <- amazon %>% ", 
-"  html_nodes(\"#filter-info-section .a-size-base\") %>% ", "  html_text() %>% ", 
-"  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
-"  parse_number()", "", "ratings <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-rating\") %>% ", 
-"  html_text()", "", "dates <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-date\") %>% ", 
-"  html_text()", "", "review_text <- amazon %>% ", "  html_nodes(\".a-spacing-small.review-data\") %>% ", 
+"  html_elements(\"#filter-info-section .a-size-base\") %>% ", 
+"  html_text() %>% ", "  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
+"  parse_number()", "", "ratings <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-rating\") %>% ", 
+"  html_text()", "", "dates <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-date\") %>% ", 
+"  html_text()", "", "review_text <- amazon %>% ", "  html_elements(\".a-spacing-small.review-data\") %>% ", 
 "  html_text()", "", "some_reviews <- data.frame(ratings, dates, review_text)", 
 ""), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
     chunks = list(list(label = "dataframe", code = "some_reviews <- data.frame(ratings, dates, review_text)\n\nglimpse(some_reviews)", 
@@ -1099,11 +1099,11 @@ learnr:::store_exercise_cache(structure(list(label = "clean", global_setup = str
 "library(lubridate)", "library(jsonlite)", "library(utils)", 
 "library(rvest)", "", "url <- \"https://www.amazon.com/product-reviews/B09XF2Z12G/\"", 
 "amazon <- read_html(url)", "", "total_reviews <- amazon %>% ", 
-"  html_nodes(\"#filter-info-section .a-size-base\") %>% ", "  html_text() %>% ", 
-"  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
-"  parse_number()", "", "ratings <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-rating\") %>% ", 
-"  html_text()", "", "dates <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-date\") %>% ", 
-"  html_text()", "", "review_text <- amazon %>% ", "  html_nodes(\".a-spacing-small.review-data\") %>% ", 
+"  html_elements(\"#filter-info-section .a-size-base\") %>% ", 
+"  html_text() %>% ", "  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
+"  parse_number()", "", "ratings <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-rating\") %>% ", 
+"  html_text()", "", "dates <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-date\") %>% ", 
+"  html_text()", "", "review_text <- amazon %>% ", "  html_elements(\".a-spacing-small.review-data\") %>% ", 
 "  html_text()", "", "some_reviews <- data.frame(ratings, dates, review_text)", 
 ""), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
     chunks = list(list(label = "clean", code = "some_reviews <- some_reviews %>% \n  mutate(\n         # Need to get the ratings into a numeric format instead of sentence format\n         ratings=str_replace(ratings, \" out of 5 stars\", \"\"),\n         ratings=as.numeric(ratings),\n         # Need to turn the dates into a date format instead of sentence format\n         dates=str_replace(dates, \".* on \", \"\"),\n         dates=mdy(dates),\n         # Let's get rid of extra spaces and \\ns taht indicate line breaks in the html code\n         review_text=str_trim(review_text))\n\nglimpse(some_reviews)", 
@@ -1156,19 +1156,19 @@ learnr:::store_exercise_cache(structure(list(label = "final", global_setup = str
 "library(lubridate)", "library(jsonlite)", "library(utils)", 
 "library(rvest)", "", "url <- \"https://www.amazon.com/product-reviews/B09XF2Z12G/\"", 
 "amazon <- read_html(url)", "", "total_reviews <- amazon %>% ", 
-"  html_nodes(\"#filter-info-section .a-size-base\") %>% ", "  html_text() %>% ", 
-"  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
-"  parse_number()", "", "ratings <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-rating\") %>% ", 
-"  html_text()", "", "dates <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-date\") %>% ", 
-"  html_text()", "", "review_text <- amazon %>% ", "  html_nodes(\".a-spacing-small.review-data\") %>% ", 
+"  html_elements(\"#filter-info-section .a-size-base\") %>% ", 
+"  html_text() %>% ", "  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
+"  parse_number()", "", "ratings <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-rating\") %>% ", 
+"  html_text()", "", "dates <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-date\") %>% ", 
+"  html_text()", "", "review_text <- amazon %>% ", "  html_elements(\".a-spacing-small.review-data\") %>% ", 
 "  html_text()", "", "some_reviews <- data.frame(ratings, dates, review_text)", 
 ""), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
-    chunks = list(list(label = "final", code = "total_reviews <- amazon %>% \n  html_nodes(\"#____________ .________\") %>% \n  html_text()\n\ntotal_reviews", 
+    chunks = list(list(label = "final", code = "total_reviews <- amazon %>% \n  html_elements(\"#____________ .________\") %>% \n  html_text()\n\ntotal_reviews", 
         opts = list(label = "\"final\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_this_code()", chunk_opts = list(
         label = "final-check")), solution = structure(c("total_reviews <- amazon %>% ", 
-    "  html_nodes(\"#filter-info-section .a-size-base\") %>% ", 
+    "  html_elements(\"#filter-info-section .a-size-base\") %>% ", 
     "  html_text()", "", "total_reviews"), chunk_opts = list(
         label = "final-solution")), tests = NULL, options = list(
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
@@ -1189,11 +1189,11 @@ learnr:::store_exercise_cache(structure(list(label = "final", global_setup = str
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, stage = NULL, ..., \n    solution_eval_fn = NULL) \n{\n    (utils::getFromNamespace(\"check_exercise\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, stage = stage, ...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "final", exercise = TRUE, code = c("total_reviews <- amazon %>% ", 
-        "  html_nodes(\"#____________ .________\") %>% ", "  html_text()", 
-        "", "total_reviews"), out.width.px = 624, out.height.px = 384, 
-        params.src = "final, exercise=TRUE", fig.num = 0, exercise.df_print = "paged"), 
-    engine = "r", version = "4"), class = c("r", "tutorial_exercise"
-)))
+        "  html_elements(\"#____________ .________\") %>% ", 
+        "  html_text()", "", "total_reviews"), out.width.px = 624, 
+        out.height.px = 384, params.src = "final, exercise=TRUE", 
+        fig.num = 0, exercise.df_print = "paged"), engine = "r", 
+    version = "4"), class = c("r", "tutorial_exercise")))
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
@@ -1213,19 +1213,19 @@ learnr:::store_exercise_cache(structure(list(label = "final2", global_setup = st
 "library(lubridate)", "library(jsonlite)", "library(utils)", 
 "library(rvest)", "", "url <- \"https://www.amazon.com/product-reviews/B09XF2Z12G/\"", 
 "amazon <- read_html(url)", "", "total_reviews <- amazon %>% ", 
-"  html_nodes(\"#filter-info-section .a-size-base\") %>% ", "  html_text() %>% ", 
-"  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
-"  parse_number()", "", "ratings <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-rating\") %>% ", 
-"  html_text()", "", "dates <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-date\") %>% ", 
-"  html_text()", "", "review_text <- amazon %>% ", "  html_nodes(\".a-spacing-small.review-data\") %>% ", 
+"  html_elements(\"#filter-info-section .a-size-base\") %>% ", 
+"  html_text() %>% ", "  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
+"  parse_number()", "", "ratings <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-rating\") %>% ", 
+"  html_text()", "", "dates <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-date\") %>% ", 
+"  html_text()", "", "review_text <- amazon %>% ", "  html_elements(\".a-spacing-small.review-data\") %>% ", 
 "  html_text()", "", "some_reviews <- data.frame(ratings, dates, review_text)", 
 ""), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
-    chunks = list(list(label = "final2", code = "total_reviews <- amazon %>% \n  html_nodes(\"#filter-info-section .a-size-base\") %>% \n  html_text() %>% \n  _______() %>% \n  ___________(\".*ratings, \", \"\") %>% \n  parse_number()\n\ntotal_reviews", 
+    chunks = list(list(label = "final2", code = "total_reviews <- amazon %>% \n  html_elements(\"#filter-info-section .a-size-base\") %>% \n  html_text() %>% \n  _______() %>% \n  ___________(\".*ratings, \", \"\") %>% \n  parse_number()\n\ntotal_reviews", 
         opts = list(label = "\"final2\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_this_code()", chunk_opts = list(
         label = "final2-check")), solution = structure(c("total_reviews <- amazon %>% ", 
-    "  html_nodes(\"#filter-info-section .a-size-base\") %>% ", 
+    "  html_elements(\"#filter-info-section .a-size-base\") %>% ", 
     "  html_text() %>% ", "  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
     "  parse_number()", "", "total_reviews"), chunk_opts = list(
         label = "final2-solution")), tests = NULL, options = list(
@@ -1247,7 +1247,7 @@ learnr:::store_exercise_cache(structure(list(label = "final2", global_setup = st
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, stage = NULL, ..., \n    solution_eval_fn = NULL) \n{\n    (utils::getFromNamespace(\"check_exercise\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, stage = stage, ...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "final2", exercise = TRUE, code = c("total_reviews <- amazon %>% ", 
-        "  html_nodes(\"#filter-info-section .a-size-base\") %>% ", 
+        "  html_elements(\"#filter-info-section .a-size-base\") %>% ", 
         "  html_text() %>% ", "  _______() %>% ", "  ___________(\".*ratings, \", \"\") %>% ", 
         "  parse_number()", "", "total_reviews"), out.width.px = 624, 
         out.height.px = 384, params.src = "final2, exercise=TRUE", 
@@ -1272,14 +1272,14 @@ learnr:::store_exercise_cache(structure(list(label = "looped2", global_setup = s
 "library(lubridate)", "library(jsonlite)", "library(utils)", 
 "library(rvest)", "", "url <- \"https://www.amazon.com/product-reviews/B09XF2Z12G/\"", 
 "amazon <- read_html(url)", "", "total_reviews <- amazon %>% ", 
-"  html_nodes(\"#filter-info-section .a-size-base\") %>% ", "  html_text() %>% ", 
-"  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
-"  parse_number()", "", "ratings <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-rating\") %>% ", 
-"  html_text()", "", "dates <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-date\") %>% ", 
-"  html_text()", "", "review_text <- amazon %>% ", "  html_nodes(\".a-spacing-small.review-data\") %>% ", 
+"  html_elements(\"#filter-info-section .a-size-base\") %>% ", 
+"  html_text() %>% ", "  str_trim() %>% ", "  str_replace(\".*ratings, \", \"\") %>% ", 
+"  parse_number()", "", "ratings <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-rating\") %>% ", 
+"  html_text()", "", "dates <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-date\") %>% ", 
+"  html_text()", "", "review_text <- amazon %>% ", "  html_elements(\".a-spacing-small.review-data\") %>% ", 
 "  html_text()", "", "some_reviews <- data.frame(ratings, dates, review_text)", 
 ""), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
-    chunks = list(list(label = "looped2", code = "\nfor (i in 1:round(total_reviews/10)) {\n  base_url <- \"https://www.amazon.com/48GB-Digital-Voice-Recorder-Dictaphone/product-reviews/B09XF2Z12G/?ie=UTF8&reviewerType=all_reviews&pageNumber=\"\n  new_url <- str_c(base_url, i)\n  amazon <- read_html(new_url)\n\n  ratings <- amazon %>% \n  html_nodes(\"#cm_cr-review_list .review-rating\") %>% \n  html_text()\n\n  dates <- amazon %>% \n  html_nodes(\"#cm_cr-review_list .review-date\") %>% \n  html_text()\n\n  review_text <- amazon %>% \n  html_nodes(\".a-spacing-small.review-data\") %>% \n  html_text()\n\n  some_reviews <- data.frame(ratings, dates, review_text) %>% \n    mutate(ratings=str_replace(ratings, \" out of 5 stars\", \"\"),\n         ratings=as.numeric(ratings),\n         dates=str_replace(dates, \".* on \", \"\"),\n         dates=mdy(dates),\n         review_text=str_trim(review_text))\n  \n  if (i == 1) {\n    all_reviews <- some_reviews\n  } else {\n    all_reviews <- rbind(all_reviews, some_reviews)\n  }\n  Sys.sleep(1)\n}\n\nall_reviews", 
+    chunks = list(list(label = "looped2", code = "\nfor (i in 1:round(total_reviews/10)) {\n  base_url <- \"https://www.amazon.com/48GB-Digital-Voice-Recorder-Dictaphone/product-reviews/B09XF2Z12G/?ie=UTF8&reviewerType=all_reviews&pageNumber=\"\n  new_url <- str_c(base_url, i)\n  amazon <- read_html(new_url)\n\n  ratings <- amazon %>% \n  html_elements(\"#cm_cr-review_list .review-rating\") %>% \n  html_text()\n\n  dates <- amazon %>% \n  html_elements(\"#cm_cr-review_list .review-date\") %>% \n  html_text()\n\n  review_text <- amazon %>% \n  html_elements(\".a-spacing-small.review-data\") %>% \n  html_text()\n\n  some_reviews <- data.frame(ratings, dates, review_text) %>% \n    mutate(ratings=str_replace(ratings, \" out of 5 stars\", \"\"),\n         ratings=as.numeric(ratings),\n         dates=str_replace(dates, \".* on \", \"\"),\n         dates=mdy(dates),\n         review_text=str_trim(review_text))\n  \n  if (i == 1) {\n    all_reviews <- some_reviews\n  } else {\n    all_reviews <- rbind(all_reviews, some_reviews)\n  }\n  Sys.sleep(1)\n}\n\nall_reviews", 
         opts = list(label = "\"looped2\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = NULL, solution = NULL, tests = NULL, options = list(
@@ -1303,10 +1303,10 @@ learnr:::store_exercise_cache(structure(list(label = "looped2", global_setup = s
         label = "looped2", exercise = TRUE, code = c("", "for (i in 1:round(total_reviews/10)) {", 
         "  base_url <- \"https://www.amazon.com/48GB-Digital-Voice-Recorder-Dictaphone/product-reviews/B09XF2Z12G/?ie=UTF8&reviewerType=all_reviews&pageNumber=\"", 
         "  new_url <- str_c(base_url, i)", "  amazon <- read_html(new_url)", 
-        "", "  ratings <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-rating\") %>% ", 
-        "  html_text()", "", "  dates <- amazon %>% ", "  html_nodes(\"#cm_cr-review_list .review-date\") %>% ", 
+        "", "  ratings <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-rating\") %>% ", 
+        "  html_text()", "", "  dates <- amazon %>% ", "  html_elements(\"#cm_cr-review_list .review-date\") %>% ", 
         "  html_text()", "", "  review_text <- amazon %>% ", 
-        "  html_nodes(\".a-spacing-small.review-data\") %>% ", 
+        "  html_elements(\".a-spacing-small.review-data\") %>% ", 
         "  html_text()", "", "  some_reviews <- data.frame(ratings, dates, review_text) %>% ", 
         "    mutate(ratings=str_replace(ratings, \" out of 5 stars\", \"\"),", 
         "         ratings=as.numeric(ratings),", "         dates=str_replace(dates, \".* on \", \"\"),", 
