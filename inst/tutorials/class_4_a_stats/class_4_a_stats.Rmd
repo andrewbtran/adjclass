@@ -348,9 +348,9 @@ candles_monthly <- candles %>%
   summarize(ratings=n(),
             avg_rating=mean(Rating, na.rm=T),
             sd_rating=sd(Rating, na.rm=T)) %>% 
+  arrange(desc(sd_rating)) %>% 
   filter(year>2018) %>% 
   ungroup() %>% 
-  arrange(desc(sd_rating)) %>% 
   slice(1:10)
 
 candles_monthly
