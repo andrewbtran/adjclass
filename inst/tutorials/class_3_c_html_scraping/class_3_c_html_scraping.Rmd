@@ -63,7 +63,7 @@ library(lubridate)
 library(jsonlite)
 library(utils)
 library(rvest)
-
+tutorial_options(exercise.timelimit = 300)
 url <- "https://www.amazon.com/product-reviews/B09XF2Z12G/"
 amazon <- read_html(url)
 
