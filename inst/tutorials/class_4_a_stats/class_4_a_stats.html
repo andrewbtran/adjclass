@@ -340,8 +340,8 @@ table {
 <p>Let’s see what the spread is reviews within a month! Maybe we’ll see something interesting.</p>
 <p>First, we’ll need to transform the reviews data into monthly groupings.</p>
 <p>Which 10 months had the greatest deviation?</p>
-<p><em>Fix line 7, 8, and 11, please.</em></p>
-<p>Note, be sure to use <code>ungroup()</code> in line 10 otherwise the sorting will only occur in the individual months and not as a whole.</p>
+<p><em>Fix line 7, 8, 9, and 11, please.</em></p>
+<p>Note, be sure to use <code>ungroup()</code> in line 8 otherwise the sorting will only occur in the individual months and not as a whole.</p>
 <div class="tutorial-exercise" data-label="percent_time_sd" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>candles_monthly &lt;- candles %&gt;% 
     mutate(year=year(Date)) %&gt;% 
@@ -350,9 +350,9 @@ table {
   summarize(ratings=n(),
             avg_rating=mean(Rating, na.rm=T),
             sd_rating=__(Rating, na.rm=T)) %&gt;% 
+  ______() %&gt;% 
   _______(____(sd_rating)) %&gt;% 
   filter(year&gt;2018) %&gt;% 
-  ________() %&gt;% 
   _____(1_10)
 
 candles_monthly</code></pre>
@@ -366,9 +366,9 @@ candles_monthly</code></pre>
   summarize(ratings=n(),
             avg_rating=mean(Rating, na.rm=T),
             sd_rating=sd(Rating, na.rm=T)) %&gt;% 
+  ungroup() %&gt;% 
   arrange(desc(sd_rating)) %&gt;% 
   filter(year&gt;2018) %&gt;% 
-  ungroup() %&gt;% 
   slice(1:10)
 
 candles_monthly</code></pre>
@@ -1637,15 +1637,15 @@ learnr:::store_exercise_cache(structure(list(label = "percent_time_sd", global_s
 "", "monthly_wide <- monthly %>% ", "  pivot_wider(names_from=\"type\", values_from=\"value\") %>% ", 
 "  filter(!is.na(`percent no smell`))"), chunk_opts = list(label = "setup", 
     include = FALSE)), setup = NULL, chunks = list(list(label = "percent_time_sd", 
-    code = "candles_monthly <- candles %>% \n    mutate(year=year(Date)) %>% \n    mutate(month=month(Date)) %>% \n  group_by(year, month) %>% \n  summarize(ratings=n(),\n            avg_rating=mean(Rating, na.rm=T),\n            sd_rating=__(Rating, na.rm=T)) %>% \n  _______(____(sd_rating)) %>% \n  filter(year>2018) %>% \n  ________() %>% \n  _____(1_10)\n\ncandles_monthly", 
+    code = "candles_monthly <- candles %>% \n    mutate(year=year(Date)) %>% \n    mutate(month=month(Date)) %>% \n  group_by(year, month) %>% \n  summarize(ratings=n(),\n            avg_rating=mean(Rating, na.rm=T),\n            sd_rating=__(Rating, na.rm=T)) %>% \n  ______() %>% \n  _______(____(sd_rating)) %>% \n  filter(year>2018) %>% \n  _____(1_10)\n\ncandles_monthly", 
     opts = list(label = "\"percent_time_sd\"", exercise = "TRUE"), 
     engine = "r")), code_check = NULL, error_check = NULL, check = structure("grade_this_code()", chunk_opts = list(
     label = "percent_time_sd-check")), solution = structure(c("candles_monthly <- candles %>% ", 
 "    mutate(year=year(Date)) %>% ", "    mutate(month=month(Date)) %>% ", 
 "  group_by(year, month) %>% ", "  summarize(ratings=n(),", "            avg_rating=mean(Rating, na.rm=T),", 
-"            sd_rating=sd(Rating, na.rm=T)) %>% ", "  arrange(desc(sd_rating)) %>% ", 
-"  filter(year>2018) %>% ", "  ungroup() %>% ", "  slice(1:10)", 
-"", "candles_monthly"), chunk_opts = list(label = "percent_time_sd-solution")), 
+"            sd_rating=sd(Rating, na.rm=T)) %>% ", "  ungroup() %>% ", 
+"  arrange(desc(sd_rating)) %>% ", "  filter(year>2018) %>% ", 
+"  slice(1:10)", "", "candles_monthly"), chunk_opts = list(label = "percent_time_sd-solution")), 
     tests = NULL, options = list(eval = FALSE, echo = TRUE, results = "markup", 
         tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
         comment = NA, highlight = FALSE, size = "normalsize", 
@@ -1668,8 +1668,8 @@ learnr:::store_exercise_cache(structure(list(label = "percent_time_sd", global_s
         "    mutate(year=year(Date)) %>% ", "    mutate(month=month(Date)) %>% ", 
         "  group_by(year, month) %>% ", "  summarize(ratings=n(),", 
         "            avg_rating=mean(Rating, na.rm=T),", "            sd_rating=__(Rating, na.rm=T)) %>% ", 
-        "  _______(____(sd_rating)) %>% ", "  filter(year>2018) %>% ", 
-        "  ________() %>% ", "  _____(1_10)", "", "candles_monthly"
+        "  ______() %>% ", "  _______(____(sd_rating)) %>% ", 
+        "  filter(year>2018) %>% ", "  _____(1_10)", "", "candles_monthly"
         ), out.width.px = 624, out.height.px = 384, params.src = "percent_time_sd, exercise=TRUE", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))

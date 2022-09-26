@@ -166,6 +166,8 @@ Here's [a pdf](https://github.com/rstudio/cheatsheets/blob/main/sf.pdf) of funct
 
 If you had the shapefiles locally, you could import it in using `st_read()` from the package **sf**.
 
+(You do not have to run the lines below if you're working on this through the tutorial, but the lines of code will work on their own if you run it independently in console).
+
 ```{r, eval=F}
 # Download the shapefile. (note that I store it in a folder called DATA. You have to change that if needed.)
 download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip" , destfile="world_shape_file.zip")
@@ -230,7 +232,7 @@ For Brazil, there's the [geobr](https://ipeagit.github.io/geobr/) package.
 
 There are so many more probably! If your country has some special library that imports shapefiles, let us know in the discussion board.
 
-Here are some of the shapefiles you can access!
+Here are some of the shapefiles you can access with the tigris package!
 
 | Function | Datasets available | Years available |
 |------------------------------------------|------------------------------------------------|------------------------------|
@@ -288,7 +290,7 @@ Use the geometry for polygons in line 2.
 
 ```{r tigris2, exercise=TRUE}
 ggplot(us_states) + 
-  geom_sf()
+  _______()
 
 ```
 
@@ -582,7 +584,7 @@ Okay, let's zero in on California and the years between 2017 and 2022.
 ```{r tigris11c, exercise=TRUE}
 fema_map_fi %>% 
   filter(STUSPS__ ____) %>% 
-  filter(year ____ 2017_2022) %>% 
+  filter(year ____ c(2017_2022)) %>% 
  ggplot() +
   geom_sf(aes(fill=disasters), color=NA) +
   scale_fill_viridis(direction=-1, na.value="red") +
@@ -594,7 +596,7 @@ fema_map_fi %>%
 ```{r tigris11c-solution}
 fema_map_fi %>% 
   filter(STUSPS=="CA") %>% 
-  filter(year %in% 2017:2022) %>% 
+  filter(year %in% c(2017:2022)) %>% 
  ggplot() +
   geom_sf(aes(fill=disasters), color=NA) +
   scale_fill_viridis(direction=-1, na.value="red") +
@@ -630,7 +632,7 @@ Do you understand what is happening in the code?
 ```{r tigris12, exercise=TRUE}
 fema_map_fi %>% 
   filter(STUSPS=="CA") %>% 
-  filter(year %in% 2017:2022) %>% 
+  filter(year %in% c(2017:2022)) %>% 
  ggplot() +
   #geom_sf(data=filter(us_states, STUSPS=="CA"), fill="gray", color=NA) +
   geom_sf(aes(fill=disasters), color=NA) +
@@ -643,7 +645,7 @@ fema_map_fi %>%
 ```{r tigris12-solution}
 fema_map_fi %>% 
   filter(STUSPS=="CA") %>% 
-  filter(year %in% 2017:2022) %>% 
+  filter(year %in% c(2017:2022)) %>% 
  ggplot() +
   geom_sf(data=filter(us_states, STUSPS=="CA"), fill="gray", color=NA) +
   geom_sf(aes(fill=disasters), color=NA) +
@@ -688,7 +690,7 @@ install.packages(c("cowplot", "sf"))
 install.packages("biscale", dependencies = TRUE)
 ```
 
-Cowplot lets you combine different chart types into one and biscale is the bivariate calulating package.
+[Cowplot](https://wilkelab.org/cowplot/articles/plot_grid.html) lets you combine different chart types into one and [biscale](https://chris-prener.github.io/biscale/) is the bivariate calulating package.
 
 We know areas that have been hit by Hurricanes most frequently but do we know that number in relation to population?
 
@@ -772,7 +774,7 @@ map <- ggplot() +
           color = "white", size = 0.1, show.legend = FALSE) +
   _____________(pal = "GrPink", dim = 3) +
   labs(
-    title = "Hurricanes & Population",
+    title = "Hurricanes & Population"
   ) +
   bi_theme()
 
@@ -789,7 +791,7 @@ map <- ggplot() +
           color = "white", size = 0.1, show.legend = FALSE) +
   bi_scale_fill(pal = "GrPink", dim = 3) +
   labs(
-    title = "Hurricanes & Population",
+    title = "Hurricanes & Population"
   ) +
   bi_theme()
 
@@ -810,7 +812,7 @@ This time use the `bi_legend()` function!
 
 
 ```{r tigris16, exercise=TRUE}
-legend <- bi_legend(pal = "GrPink",
+legend <- _________(pal = "GrPink",
                     dim = 3,
                     xlab = "+ population ",
                     ylab = "+ disasters ",

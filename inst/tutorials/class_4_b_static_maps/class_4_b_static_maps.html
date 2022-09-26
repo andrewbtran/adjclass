@@ -274,6 +274,7 @@ table {
 <div id="section-get-shapefiles" class="section level2">
 <h2>Get shapefiles</h2>
 <p>If you had the shapefiles locally, you could import it in using <code>st_read()</code> from the package <strong>sf</strong>.</p>
+<p>(You do not have to run the lines below if you’re working on this through the tutorial, but the lines of code will work on their own if you run it independently in console).</p>
 <div class="sourceCode" id="section-cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb1-1"><a href="#section-cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the shapefile. (note that I store it in a folder called DATA. You have to change that if needed.)</span></span>
 <span id="section-cb1-2"><a href="#section-cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">&quot;http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip&quot;</span> , <span class="at">destfile=</span><span class="st">&quot;world_shape_file.zip&quot;</span>)</span>
 <span id="section-cb1-3"><a href="#section-cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># You now have it in your current working directory, have a look!</span></span>
@@ -327,7 +328,7 @@ table {
 <p><strong>Note</strong>: For European countries, you can use the <a href="https://ropengov.github.io/giscoR/articles/giscoR.html">giscoR</a> package!</p>
 <p>For Brazil, there’s the <a href="https://ipeagit.github.io/geobr/">geobr</a> package.</p>
 <p>There are so many more probably! If your country has some special library that imports shapefiles, let us know in the discussion board.</p>
-<p>Here are some of the shapefiles you can access!</p>
+<p>Here are some of the shapefiles you can access with the tigris package!</p>
 <table>
 <colgroup>
 <col width="35%" />
@@ -429,7 +430,7 @@ glimpse(us_states)</code></pre>
 <p>Use the geometry for polygons in line 2.</p>
 <div class="tutorial-exercise" data-label="tigris2" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>ggplot(us_states) + 
-  geom_sf()</code></pre>
+  _______()</code></pre>
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
 </div>
 <div class="tutorial-exercise-support" data-label="tigris2-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
@@ -656,7 +657,7 @@ ggplot(fema_map) +
 <div class="tutorial-exercise" data-label="tigris11c" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>fema_map_fi %&gt;% 
   filter(STUSPS__ ____) %&gt;% 
-  filter(year ____ 2017_2022) %&gt;% 
+  filter(year ____ c(2017_2022)) %&gt;% 
  ggplot() +
   geom_sf(aes(fill=disasters), color=NA) +
   scale_fill_viridis(direction=-1, na.value=&quot;red&quot;) +
@@ -667,7 +668,7 @@ ggplot(fema_map) +
 <div class="tutorial-exercise-support" data-label="tigris11c-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>fema_map_fi %&gt;% 
   filter(STUSPS==&quot;CA&quot;) %&gt;% 
-  filter(year %in% 2017:2022) %&gt;% 
+  filter(year %in% c(2017:2022)) %&gt;% 
  ggplot() +
   geom_sf(aes(fill=disasters), color=NA) +
   scale_fill_viridis(direction=-1, na.value=&quot;red&quot;) +
@@ -690,7 +691,7 @@ What&#39;s the function for small multiples?</code></pre>
 <div class="tutorial-exercise" data-label="tigris12" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>fema_map_fi %&gt;% 
   filter(STUSPS==&quot;CA&quot;) %&gt;% 
-  filter(year %in% 2017:2022) %&gt;% 
+  filter(year %in% c(2017:2022)) %&gt;% 
  ggplot() +
   #geom_sf(data=filter(us_states, STUSPS==&quot;CA&quot;), fill=&quot;gray&quot;, color=NA) +
   geom_sf(aes(fill=disasters), color=NA) +
@@ -702,7 +703,7 @@ What&#39;s the function for small multiples?</code></pre>
 <div class="tutorial-exercise-support" data-label="tigris12-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>fema_map_fi %&gt;% 
   filter(STUSPS==&quot;CA&quot;) %&gt;% 
-  filter(year %in% 2017:2022) %&gt;% 
+  filter(year %in% c(2017:2022)) %&gt;% 
  ggplot() +
   geom_sf(data=filter(us_states, STUSPS==&quot;CA&quot;), fill=&quot;gray&quot;, color=NA) +
   geom_sf(aes(fill=disasters), color=NA) +
@@ -730,7 +731,7 @@ What&#39;s the function for small multiples?</code></pre>
 <span id="section-cb43-3"><a href="#section-cb43-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="section-cb43-4"><a href="#section-cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co">#install all suggested dependencies</span></span>
 <span id="section-cb43-5"><a href="#section-cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;biscale&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>Cowplot lets you combine different chart types into one and biscale is the bivariate calulating package.</p>
+<p><a href="https://wilkelab.org/cowplot/articles/plot_grid.html">Cowplot</a> lets you combine different chart types into one and <a href="https://chris-prener.github.io/biscale/">biscale</a> is the bivariate calulating package.</p>
 <p>We know areas that have been hit by Hurricanes most frequently but do we know that number in relation to population?</p>
 <p>I’m going to prepare the data for you.</p>
 <p>Follow along in the comments to see what’s going on:</p>
@@ -808,7 +809,7 @@ glimpse(bi_df)</code></pre>
           color = &quot;white&quot;, size = 0.1, show.legend = FALSE) +
   _____________(pal = &quot;GrPink&quot;, dim = 3) +
   labs(
-    title = &quot;Hurricanes &amp; Population&quot;,
+    title = &quot;Hurricanes &amp; Population&quot;
   ) +
   bi_theme()
 
@@ -824,7 +825,7 @@ map</code></pre>
           color = &quot;white&quot;, size = 0.1, show.legend = FALSE) +
   bi_scale_fill(pal = &quot;GrPink&quot;, dim = 3) +
   labs(
-    title = &quot;Hurricanes &amp; Population&quot;,
+    title = &quot;Hurricanes &amp; Population&quot;
   ) +
   bi_theme()
 
@@ -836,7 +837,7 @@ map</code></pre>
 <p>Okay, next we need to add a legend to make it clearer.</p>
 <p>This time use the <code>bi_legend()</code> function!</p>
 <div class="tutorial-exercise" data-label="tigris16" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>legend &lt;- bi_legend(pal = &quot;GrPink&quot;,
+<pre class="text"><code>legend &lt;- _________(pal = &quot;GrPink&quot;,
                     dim = 3,
                     xlab = &quot;+ population &quot;,
                     ylab = &quot;+ disasters &quot;,
@@ -1204,7 +1205,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris2", global_setup = s
 "                    dim = 3,", "                    xlab = \"+ population \",", 
 "                    ylab = \"+ disasters \",", "                    size = 8)"
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
-    chunks = list(list(label = "tigris2", code = "ggplot(us_states) + \n  geom_sf()\n", 
+    chunks = list(list(label = "tigris2", code = "ggplot(us_states) + \n  _______()\n", 
         opts = list(label = "\"tigris2\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_this_code()", chunk_opts = list(
@@ -1229,7 +1230,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris2", global_setup = s
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, stage = NULL, ..., \n    solution_eval_fn = NULL) \n{\n    (utils::getFromNamespace(\"check_exercise\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, stage = stage, ...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "tigris2", exercise = TRUE, code = c("ggplot(us_states) + ", 
-        "  geom_sf()", ""), out.width.px = 624, out.height.px = 384, 
+        "  _______()", ""), out.width.px = 624, out.height.px = 384, 
         params.src = "tigris2, exercise=TRUE", fig.num = 0, exercise.df_print = "paged"), 
     engine = "r", version = "4"), class = c("r", "tutorial_exercise"
 )))
@@ -1883,12 +1884,12 @@ learnr:::store_exercise_cache(structure(list(label = "tigris11c", global_setup =
 "                    dim = 3,", "                    xlab = \"+ population \",", 
 "                    ylab = \"+ disasters \",", "                    size = 8)"
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
-    chunks = list(list(label = "tigris11c", code = "fema_map_fi %>% \n  filter(STUSPS__ ____) %>% \n  filter(year ____ 2017_2022) %>% \n ggplot() +\n  geom_sf(aes(fill=disasters), color=NA) +\n  scale_fill_viridis(direction=-1, na.value=\"red\") +\n  ___________(vars(year)) +\n  theme_void()", 
+    chunks = list(list(label = "tigris11c", code = "fema_map_fi %>% \n  filter(STUSPS__ ____) %>% \n  filter(year ____ c(2017_2022)) %>% \n ggplot() +\n  geom_sf(aes(fill=disasters), color=NA) +\n  scale_fill_viridis(direction=-1, na.value=\"red\") +\n  ___________(vars(year)) +\n  theme_void()", 
         opts = list(label = "\"tigris11c\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_this_code()", chunk_opts = list(
         label = "tigris11c-check")), solution = structure(c("fema_map_fi %>% ", 
-    "  filter(STUSPS==\"CA\") %>% ", "  filter(year %in% 2017:2022) %>% ", 
+    "  filter(STUSPS==\"CA\") %>% ", "  filter(year %in% c(2017:2022)) %>% ", 
     " ggplot() +", "  geom_sf(aes(fill=disasters), color=NA) +", 
     "  scale_fill_viridis(direction=-1, na.value=\"red\") +", 
     "  facet_wrap(vars(year)) +  ", "  theme_void()"), chunk_opts = list(
@@ -1911,7 +1912,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris11c", global_setup =
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, stage = NULL, ..., \n    solution_eval_fn = NULL) \n{\n    (utils::getFromNamespace(\"check_exercise\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, stage = stage, ...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "tigris11c", exercise = TRUE, code = c("fema_map_fi %>% ", 
-        "  filter(STUSPS__ ____) %>% ", "  filter(year ____ 2017_2022) %>% ", 
+        "  filter(STUSPS__ ____) %>% ", "  filter(year ____ c(2017_2022)) %>% ", 
         " ggplot() +", "  geom_sf(aes(fill=disasters), color=NA) +", 
         "  scale_fill_viridis(direction=-1, na.value=\"red\") +", 
         "  ___________(vars(year)) +", "  theme_void()"), out.width.px = 624, 
@@ -1963,12 +1964,12 @@ learnr:::store_exercise_cache(structure(list(label = "tigris12", global_setup = 
 "                    dim = 3,", "                    xlab = \"+ population \",", 
 "                    ylab = \"+ disasters \",", "                    size = 8)"
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
-    chunks = list(list(label = "tigris12", code = "fema_map_fi %>% \n  filter(STUSPS==\"CA\") %>% \n  filter(year %in% 2017:2022) %>% \n ggplot() +\n  #geom_sf(data=filter(us_states, STUSPS==\"CA\"), fill=\"gray\", color=NA) +\n  geom_sf(aes(fill=disasters), color=NA) +\n  scale_fill_viridis(direction=-1, na.value=\"red\") +\n  facet_wrap(vars(year)) +\n  theme_void()", 
+    chunks = list(list(label = "tigris12", code = "fema_map_fi %>% \n  filter(STUSPS==\"CA\") %>% \n  filter(year %in% c(2017:2022)) %>% \n ggplot() +\n  #geom_sf(data=filter(us_states, STUSPS==\"CA\"), fill=\"gray\", color=NA) +\n  geom_sf(aes(fill=disasters), color=NA) +\n  scale_fill_viridis(direction=-1, na.value=\"red\") +\n  facet_wrap(vars(year)) +\n  theme_void()", 
         opts = list(label = "\"tigris12\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_this_code()", chunk_opts = list(
         label = "tigris12-check")), solution = structure(c("fema_map_fi %>% ", 
-    "  filter(STUSPS==\"CA\") %>% ", "  filter(year %in% 2017:2022) %>% ", 
+    "  filter(STUSPS==\"CA\") %>% ", "  filter(year %in% c(2017:2022)) %>% ", 
     " ggplot() +", "  geom_sf(data=filter(us_states, STUSPS==\"CA\"), fill=\"gray\", color=NA) +", 
     "  geom_sf(aes(fill=disasters), color=NA) +", "  scale_fill_viridis(direction=-1, na.value=\"red\") +", 
     "  facet_wrap(vars(year)) +", "  theme_void()"), chunk_opts = list(
@@ -1991,7 +1992,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris12", global_setup = 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, stage = NULL, ..., \n    solution_eval_fn = NULL) \n{\n    (utils::getFromNamespace(\"check_exercise\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, stage = stage, ...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "tigris12", exercise = TRUE, code = c("fema_map_fi %>% ", 
-        "  filter(STUSPS==\"CA\") %>% ", "  filter(year %in% 2017:2022) %>% ", 
+        "  filter(STUSPS==\"CA\") %>% ", "  filter(year %in% c(2017:2022)) %>% ", 
         " ggplot() +", "  #geom_sf(data=filter(us_states, STUSPS==\"CA\"), fill=\"gray\", color=NA) +", 
         "  geom_sf(aes(fill=disasters), color=NA) +", "  scale_fill_viridis(direction=-1, na.value=\"red\") +", 
         "  facet_wrap(vars(year)) +", "  theme_void()"), out.width.px = 624, 
@@ -2119,7 +2120,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris15", global_setup = 
 "                    dim = 3,", "                    xlab = \"+ population \",", 
 "                    ylab = \"+ disasters \",", "                    size = 8)"
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
-    chunks = list(list(label = "tigris15", code = "map <- ggplot() +\n  geom_sf(data = bi_df, mapping = aes(fill = bi_class), \n          # changing the border color to white and the size of the\n          # border lines to .1\n          # and hiding the legend\n          color = \"white\", size = 0.1, show.legend = FALSE) +\n  _____________(pal = \"GrPink\", dim = 3) +\n  labs(\n    title = \"Hurricanes & Population\",\n  ) +\n  bi_theme()\n\nmap", 
+    chunks = list(list(label = "tigris15", code = "map <- ggplot() +\n  geom_sf(data = bi_df, mapping = aes(fill = bi_class), \n          # changing the border color to white and the size of the\n          # border lines to .1\n          # and hiding the legend\n          color = \"white\", size = 0.1, show.legend = FALSE) +\n  _____________(pal = \"GrPink\", dim = 3) +\n  labs(\n    title = \"Hurricanes & Population\"\n  ) +\n  bi_theme()\n\nmap", 
         opts = list(label = "\"tigris15\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_this_code()", chunk_opts = list(
@@ -2129,7 +2130,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris15", global_setup = 
     "          # border lines to .1", "          # and hiding the legend", 
     "          color = \"white\", size = 0.1, show.legend = FALSE) +", 
     "  bi_scale_fill(pal = \"GrPink\", dim = 3) +", "  labs(", 
-    "    title = \"Hurricanes & Population\",", "  ) +", "  bi_theme()", 
+    "    title = \"Hurricanes & Population\"", "  ) +", "  bi_theme()", 
     "", "map"), chunk_opts = list(label = "tigris15-solution")), 
     tests = NULL, options = list(eval = FALSE, echo = TRUE, results = "markup", 
         tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
@@ -2155,8 +2156,8 @@ learnr:::store_exercise_cache(structure(list(label = "tigris15", global_setup = 
         "          # border lines to .1", "          # and hiding the legend", 
         "          color = \"white\", size = 0.1, show.legend = FALSE) +", 
         "  _____________(pal = \"GrPink\", dim = 3) +", "  labs(", 
-        "    title = \"Hurricanes & Population\",", "  ) +", 
-        "  bi_theme()", "", "map"), out.width.px = 624, out.height.px = 384, 
+        "    title = \"Hurricanes & Population\"", "  ) +", "  bi_theme()", 
+        "", "map"), out.width.px = 624, out.height.px = 384, 
         params.src = "tigris15, exercise=TRUE", fig.num = 0, 
         exercise.df_print = "paged"), engine = "r", version = "4"), class = c("r", 
 "tutorial_exercise")))
@@ -2205,7 +2206,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris16", global_setup = 
 "                    dim = 3,", "                    xlab = \"+ population \",", 
 "                    ylab = \"+ disasters \",", "                    size = 8)"
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
-    chunks = list(list(label = "tigris16", code = "legend <- bi_legend(pal = \"GrPink\",\n                    dim = 3,\n                    xlab = \"+ population \",\n                    ylab = \"+ disasters \",\n                    size = 8)\n\nlegend", 
+    chunks = list(list(label = "tigris16", code = "legend <- _________(pal = \"GrPink\",\n                    dim = 3,\n                    xlab = \"+ population \",\n                    ylab = \"+ disasters \",\n                    size = 8)\n\nlegend", 
         opts = list(label = "\"tigris16\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_this_code()", chunk_opts = list(
@@ -2231,7 +2232,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris16", global_setup = 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, stage = NULL, ..., \n    solution_eval_fn = NULL) \n{\n    (utils::getFromNamespace(\"check_exercise\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, stage = stage, ...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
-        label = "tigris16", exercise = TRUE, code = c("legend <- bi_legend(pal = \"GrPink\",", 
+        label = "tigris16", exercise = TRUE, code = c("legend <- _________(pal = \"GrPink\",", 
         "                    dim = 3,", "                    xlab = \"+ population \",", 
         "                    ylab = \"+ disasters \",", "                    size = 8)", 
         "", "legend"), out.width.px = 624, out.height.px = 384, 
@@ -2323,7 +2324,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris17", global_setup = 
 <!--/html_preserve-->
 <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="execution_dependencies">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115]}},"value":[{"type":"character","attributes":{},"value":["assertthat","backports","base","biscale","bit","bit64","broom","bslib","cachem","cellranger","checkmate","class","classInt","cli","colorspace","compiler","cowplot","crayon","curl","datasets","DBI","dbplyr","digest","dplyr","e1071","ellipsis","evaluate","fansi","fastmap","forcats","foreign","fs","gargle","generics","ggplot2","ggspatial","glue","googledrive","googlesheets4","gradethis","graphics","grDevices","grid","gridExtra","gridGraphics","gtable","haven","highr","hms","htmltools","htmlwidgets","httpuv","httr","jquerylib","jsonlite","KernSmooth","knitr","later","lattice","learnr","lifecycle","lubridate","magrittr","maptools","markdown","methods","mime","modelr","munsell","parallel","pillar","pkgconfig","promises","proxy","purrr","R6","rappdirs","Rcpp","readr","readxl","reprex","rgdal","rlang","rmarkdown","rprojroot","rstudioapi","rvest","sass","scales","sf","shiny","sp","stats","stringi","stringr","tibble","tidyr","tidyselect","tidyverse","tigris","tools","tzdb","units","utf8","utils","uuid","vctrs","viridis","viridisLite","vroom","withr","xfun","xml2","xtable","yaml"]},{"type":"character","attributes":{},"value":["0.2.1","1.4.1","4.2.1","1.0.0","4.0.4","4.0.5","1.0.0","0.4.0","1.0.6","1.1.0","2.1.0","7.3-20","0.4-7","3.3.0","2.0-3","4.2.1","1.1.1","1.5.1","4.3.2","4.2.1","1.1.3","2.2.1","0.6.29","1.0.9","1.7-11","0.3.2","0.16","1.0.3","1.1.0","0.5.1","0.8-82","1.5.2","1.2.0","0.1.3","3.3.6","1.1.6","1.6.2","2.0.0","1.0.0","0.2.10.9000","4.2.1","4.2.1","4.2.1","2.3","0.5-1","0.3.0","2.5.0","0.9","1.1.1","0.5.3","1.5.4","1.6.5","1.4.3","0.1.4","1.8.0","2.23-20","1.40","1.3.0","0.20-45","0.10.6.9000","1.0.1","1.8.0","2.0.3","1.1-4","1.1","4.2.1","0.12","0.1.8","0.5.0","4.2.1","1.8.1","2.0.3","1.2.0.1","0.4-27","0.3.4","2.5.1","0.3.3","1.0.9","2.1.2","1.4.0","2.0.1","1.5-32","1.0.5","2.16","2.0.3","0.14","1.0.2","0.4.2","1.2.0","1.0-8","1.7.2","1.5-0","4.2.1","1.7.8","1.4.1","3.1.8","1.2.0","1.1.2","1.3.2","1.6.1","4.2.1","0.3.0","0.8-0","1.2.2","4.2.1","1.1-0","0.4.1","0.6.2","0.4.0","1.5.7","2.5.0","0.32","1.3.3","1.8-4","2.3.5"]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115]}},"value":[{"type":"character","attributes":{},"value":["assertthat","backports","base","biscale","bit","bit64","broom","bslib","cachem","cellranger","checkmate","class","classInt","cli","colorspace","compiler","cowplot","crayon","curl","datasets","DBI","dbplyr","digest","dplyr","e1071","ellipsis","evaluate","fansi","fastmap","forcats","foreign","fs","gargle","generics","ggplot2","ggspatial","glue","googledrive","googlesheets4","gradethis","graphics","grDevices","grid","gridExtra","gridGraphics","gtable","haven","highr","hms","htmltools","htmlwidgets","httpuv","httr","jquerylib","jsonlite","KernSmooth","knitr","later","lattice","learnr","lifecycle","lubridate","magrittr","maptools","markdown","methods","mime","modelr","munsell","parallel","pillar","pkgconfig","promises","proxy","purrr","R6","rappdirs","Rcpp","readr","readxl","reprex","rgdal","rlang","rmarkdown","rprojroot","rstudioapi","rvest","sass","scales","sf","shiny","sp","stats","stringi","stringr","tibble","tidyr","tidyselect","tidyverse","tigris","tools","tzdb","units","utf8","utils","uuid","vctrs","viridis","viridisLite","vroom","withr","xfun","xml2","xtable","yaml"]},{"type":"character","attributes":{},"value":["0.2.1","1.4.1","4.2.1","1.0.0","4.0.4","4.0.5","1.0.0","0.4.0","1.0.6","1.1.0","2.1.0","7.3-20","0.4-7","3.4.1","2.0-3","4.2.1","1.1.1","1.5.1","4.3.2","4.2.1","1.1.3","2.2.1","0.6.29","1.0.9","1.7-11","0.3.2","0.16","1.0.3","1.1.0","0.5.1","0.8-82","1.5.2","1.2.0","0.1.3","3.3.6","1.1.6","1.6.2","2.0.0","1.0.0","0.2.10.9000","4.2.1","4.2.1","4.2.1","2.3","0.5-1","0.3.0","2.5.0","0.9","1.1.2","0.5.3","1.5.4","1.6.6","1.4.4","0.1.4","1.8.0","2.23-20","1.40","1.3.0","0.20-45","0.10.6.9000","1.0.2","1.8.0","2.0.3","1.1-4","1.1","4.2.1","0.12","0.1.8","0.5.0","4.2.1","1.8.1","2.0.3","1.2.0.1","0.4-27","0.3.4","2.5.1","0.3.3","1.0.9","2.1.2","1.4.0","2.0.1","1.5-32","1.0.5","2.16","2.0.3","0.14","1.0.2","0.4.2","1.2.0","1.0-8","1.7.2","1.5-0","4.2.1","1.7.8","1.4.1","3.1.8","1.2.0","1.1.2","1.3.2","1.6.1","4.2.1","0.3.0","0.8-0","1.2.2","4.2.1","1.1-0","0.4.1","0.6.2","0.4.0","1.5.7","2.5.0","0.33","1.3.3","1.8-4","2.3.5"]}]}]}
 </script>
 <!--/html_preserve-->
 </div>

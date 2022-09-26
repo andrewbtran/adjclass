@@ -319,9 +319,9 @@ First, we'll need to transform the reviews data into monthly groupings.
 
 Which 10 months had the greatest deviation?
 
-*Fix line 7, 8, and 11, please.*
+*Fix line 7, 8, 9, and 11, please.*
 
-Note, be sure to use `ungroup()` in line 10 otherwise the sorting will only occur in the individual months and not as a whole.
+Note, be sure to use `ungroup()` in line 8 otherwise the sorting will only occur in the individual months and not as a whole.
 
 ```{r percent_time_sd, exercise=TRUE}
 candles_monthly <- candles %>% 
@@ -331,9 +331,9 @@ candles_monthly <- candles %>%
   summarize(ratings=n(),
             avg_rating=mean(Rating, na.rm=T),
             sd_rating=__(Rating, na.rm=T)) %>% 
+  ______() %>% 
   _______(____(sd_rating)) %>% 
   filter(year>2018) %>% 
-  ________() %>% 
   _____(1_10)
 
 candles_monthly
@@ -348,9 +348,9 @@ candles_monthly <- candles %>%
   summarize(ratings=n(),
             avg_rating=mean(Rating, na.rm=T),
             sd_rating=sd(Rating, na.rm=T)) %>% 
+  ungroup() %>% 
   arrange(desc(sd_rating)) %>% 
   filter(year>2018) %>% 
-  ungroup() %>% 
   slice(1:10)
 
 candles_monthly
@@ -924,17 +924,21 @@ Let's take it a step further.
 
 Sometimes it's important to account for confounding factors that may better explain relationships between data points. A popular example is if you have data on sunburns and ice cream purchases. You may find that people buy more ice cream when a lot of people have sunburns. But it'd be incorrect to say ice cream purchases cause sunburns. 
 
-Let's work with some a fake data set on employee salaries so we can investigate whether or not there is a gender pay gap. 
+Let's work with some fake data on employee salaries so we can investigate whether or not there is a gender pay gap at this company. 
 
 The most basic way to investigate would be to take the average salary for men and compare it with the average salary for women. But this could be misleading. 
 
-*Note: I just realized "this could be misleading" is like the data journalism unofficial motto.*
+*Note: I just realized "be careful, this could be misleading" is like the data journalism unofficial motto.*
 
 For example, men and women may work in different job roles inside companies — the company may have more men in high paying software engineering jobs and more women in lower paying administrative assistant positions. Not having enough representation in various positions could be analyzed but it would account for the disparity in pay.
 
 Many factors affect pay, so we should attempt to separately measure them to understand how each impacts it at this company.
 
 It's good to have both results from the "unadjusted" and "adjusted" versions of the pay gap analysis.
+
+Let's begin by bringing in the data.
+
+I've done for you already below. Take a look at what the data includes:
 
 ```{r glimpsed2, warning=F, message=F}
 
@@ -1030,10 +1034,11 @@ grade_this_code()
 ```
 
 
-Creating models is all about cleaning and prepping the data.
+The time creating models is like 85% cleaning and prepping the data.
 
 So we'll continue doing so by adding a new numerical variable to change Male to 1 and Female to 0. 
 
+I'll go ahead and do that for you below:
 
 ```{r salaries3}
 salaries_adjusted3 <- salaries_adjusted2 %>%
