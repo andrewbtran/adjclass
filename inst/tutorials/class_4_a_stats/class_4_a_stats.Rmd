@@ -40,7 +40,7 @@ library(vtable)
 library(lubridate)
 library(knitr)
 
-salaries = read_csv("https://glassdoor.box.com/shared/static/beukjzgrsu35fqe59f7502hruribd5tt.csv")
+salaries = read_csv("https://www.andrewbatran.com/data/salary_data.csv")
 
 salaries_adjusted1 <-  salaries %>%
   # Age brackets
@@ -124,7 +124,7 @@ scented_timeline_monthly2 <- scented_timeline_monthly1 %>%
   ungroup() %>% 
   mutate(row=row_number())
 
-boston_salaries <- read_csv("https://data.boston.gov/datastore/dump/ec5aaf93-1509-4641-9310-28e62e028457?q=&sort=_id+asc&fields=NAME%2CDEPARTMENT_NAME%2CTITLE%2CREGULAR%2CRETRO%2COTHER%2COVERTIME%2CINJURED%2CDETAIL%2CQUINN_EDUCATION_INCENTIVE%2CTOTAL_GROSS%2CPOSTAL&filters=%7B%7D&format=csv") %>% 
+boston_salaries <- read_csv("https://www.andrewbatran.com/data/boston.csv") %>% 
   select(DEPARTMENT_NAME, TITLE, REGULAR, OTHER, OVERTIME, DETAIL, TOTAL_GROSS, POSTAL)
 
 set.seed(2022)
@@ -132,7 +132,7 @@ set.seed(2022)
 boston16 <- boston_salaries %>% 
   sample_n(16)
 
-covid <- read_csv("https://github.com/CSSEGISandData/COVID-19/raw/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")
+covid <- read_csv("https://www.andrewbatran.com/data/covid.csv")
 
 covid_long <- covid %>% 
   pivot_longer(cols=12:ncol(covid), names_to="date", values_to="cases") %>% 
@@ -942,7 +942,7 @@ I've done for you already below. Take a look at what the data includes:
 
 ```{r glimpsed2, warning=F, message=F}
 
-salaries = read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQOWZc9xjBuYzmPvodkfKE7EJpsd1JbSSwaw0VT3GwAwUtloXFmXkom8OVIB5YMsPaUQD2HbzGwOB2n/pub?output=csv")
+salaries = read_csv("https://www.andrewbatran.com/data/salary_data.csv")
 
 glimpse(salaries)
 ```
