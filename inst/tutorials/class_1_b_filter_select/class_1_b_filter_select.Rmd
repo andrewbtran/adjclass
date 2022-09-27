@@ -80,7 +80,7 @@ You can filter based on values in a column/vector with these logical operators:
 | x `==` y        | Equal to                 |
 | x `<=` y        | Less than or equal to    |
 | x `>=` y        | Greater than or equal to |
-| x `!-` y        | Not equal to             |
+| x `!=` y        | Not equal to             |
 | x `%in%` c(y,z) | In a group               |
 | `is.na(`x`)`  | Is NA                    |
 | `!is.na(`x`)` | Is not NA                |

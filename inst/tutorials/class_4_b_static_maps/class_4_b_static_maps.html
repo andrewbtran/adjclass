@@ -488,7 +488,7 @@ and what&#39;s the name of the new downloaded shapefile as an object?</code></pr
 df_new &lt;- df %&gt;% 
   mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))
 
-county_pop &lt;- read_csv(&quot;data/county_population.csv&quot;)
+county_pop &lt;- read_csv(&quot;https://www.andrewbatran.cmo/data/county_population.csv&quot;)
 
 fema_counties &lt;- left_join(df_new, county_pop, by=&quot;GEOID&quot;)
 
@@ -721,7 +721,7 @@ What&#39;s the function for small multiples?</code></pre>
 <div id="section-bivariate-maps" class="section level2">
 <h2>Bivariate maps</h2>
 <p>Alright, let’s talk about making some cutting edge maps.</p>
-<p>The choropleths we’ve made so far have been univarate maps, as in it visualizes one column of data.</p>
+<p>The choropleths we’ve made so far have been univariate maps, as in it visualizes one column of data.</p>
 <p>A bivariate map involves visualizing two columns of data!</p>
 <p>This is pretty rare and difficult to make because it requires calculating quartiles of data and the relationship between the two variables.</p>
 <p>But you’ve gone on this journey in this Advanced Data Journalism course that I think you deserve the payoff of being able to make one of these! Because you understand what’s going on!</p>
@@ -731,7 +731,7 @@ What&#39;s the function for small multiples?</code></pre>
 <span id="section-cb43-3"><a href="#section-cb43-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="section-cb43-4"><a href="#section-cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co">#install all suggested dependencies</span></span>
 <span id="section-cb43-5"><a href="#section-cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;biscale&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><a href="https://wilkelab.org/cowplot/articles/plot_grid.html">Cowplot</a> lets you combine different chart types into one and <a href="https://chris-prener.github.io/biscale/">biscale</a> is the bivariate calulating package.</p>
+<p><a href="https://wilkelab.org/cowplot/articles/plot_grid.html">Cowplot</a> lets you combine different chart types into one and <a href="https://chris-prener.github.io/biscale/">biscale</a> is the bivariate calculating package.</p>
 <p>We know areas that have been hit by Hurricanes most frequently but do we know that number in relation to population?</p>
 <p>I’m going to prepare the data for you.</p>
 <p>Follow along in the comments to see what’s going on:</p>
@@ -775,7 +775,7 @@ What&#39;s the function for small multiples?</code></pre>
 <p>Alright, we want to look at population (estimate) and hurricanes (total) by county!</p>
 <p>Let’s load the biscale package and use the <code>bi_class()</code> function.</p>
 <p>Set the dimensions to 3.</p>
-<p>This will create 3 quantiles based on the estiamte and total.</p>
+<p>This will create 3 quantiles based on the estimate and total.</p>
 <div class="tutorial-exercise" data-label="tigris14" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>library(biscale)
 
@@ -796,7 +796,7 @@ glimpse(bi_df)</code></pre>
 </div>
 <p>Check out the new column! <strong>bi_class</strong> and it appears like “2-1”, “3-NA”, “2-3”, etc.</p>
 <p>“2-1” means the first variable is in the 2nd quartile for one variable and the 1st quartile for the other variable. And then there are NAs because there aren’t enough data to determine a quartile (Those are probably counties with a history of zero hurricanes).</p>
-<p>Ok, let’s turn this into a visualization with ggplot2!</p>
+<p>OK, let’s turn this into a visualization with ggplot2!</p>
 <p>We’ll still use the <code>geom_sf()</code> like we’ve been using already.</p>
 <p>But this time we’ll use <code>bi_scale_fill()</code> from the <strong>biscale</strong> package that translates the “2-1”s into colors!</p>
 <p>Try it out below</p>
@@ -942,7 +942,7 @@ df <- read_csv("https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.c
 df_new <- df %>% 
   mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))
 
-county_pop <- read_csv("data/county_population.csv")
+county_pop <- read_csv("https://www.andrewbatran.com/data/county_population.csv")
 
 fema_counties <- left_join(df_new, county_pop, by="GEOID")
 
@@ -1034,7 +1034,7 @@ learnr:::store_exercise_cache(structure(list(label = "int_map", global_setup = s
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -1108,7 +1108,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris", global_setup = st
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -1184,7 +1184,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris2", global_setup = s
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -1258,7 +1258,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris4", global_setup = s
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -1332,7 +1332,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris5", global_setup = s
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -1406,7 +1406,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris6", global_setup = s
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -1427,7 +1427,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris6", global_setup = s
 "                    dim = 3,", "                    xlab = \"+ population \",", 
 "                    ylab = \"+ disasters \",", "                    size = 8)"
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
-    chunks = list(list(label = "tigris6", code = "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")\ndf_new <- df %>% \n  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))\n\ncounty_pop <- read_csv(\"data/county_population.csv\")\n\nfema_counties <- left_join(df_new, county_pop, by=\"GEOID\")\n\nglimpse(fema_counties)", 
+    chunks = list(list(label = "tigris6", code = "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")\ndf_new <- df %>% \n  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))\n\ncounty_pop <- read_csv(\"https://www.andrewbatran.cmo/data/county_population.csv\")\n\nfema_counties <- left_join(df_new, county_pop, by=\"GEOID\")\n\nglimpse(fema_counties)", 
         opts = list(label = "\"tigris6\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = NULL, solution = NULL, tests = NULL, options = list(
@@ -1450,7 +1450,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris6", global_setup = s
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "tigris6", exercise = TRUE, code = c("df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
         "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-        "", "county_pop <- read_csv(\"data/county_population.csv\")", 
+        "", "county_pop <- read_csv(\"https://www.andrewbatran.cmo/data/county_population.csv\")", 
         "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
         "", "glimpse(fema_counties)"), out.width.px = 624, out.height.px = 384, 
         params.src = "tigris6, exercise=TRUE", fig.num = 0, exercise.df_print = "paged"), 
@@ -1480,7 +1480,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris7", global_setup = s
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -1558,7 +1558,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris8", global_setup = s
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -1632,7 +1632,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris9", global_setup = s
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -1708,7 +1708,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris10", global_setup = 
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -1784,7 +1784,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris11", global_setup = 
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -1863,7 +1863,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris11c", global_setup =
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -1943,7 +1943,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris12", global_setup = 
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -2023,7 +2023,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris14", global_setup = 
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -2099,7 +2099,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris15", global_setup = 
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -2185,7 +2185,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris16", global_setup = 
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 
@@ -2263,7 +2263,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris17", global_setup = 
 "     shift_geometry()", "", "", "us_counties <- counties(cb = TRUE, resolution = \"20m\") %>%", 
 "     shift_geometry()", "", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "fema_counties <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "fema_counties_count <- fema_counties %>%", "  filter(incidentType!=\"Biological\") %>% ", 
 "  group_by(GEOID) %>% ", "  summarize(disasters=n())", "", "fema_map <- left_join(us_counties, fema_counties_count)", 

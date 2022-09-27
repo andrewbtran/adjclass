@@ -160,9 +160,9 @@ In the portal, you could see there were three inputs:
 knitr::include_graphics("images/parameters.png")
 ```
 
-And that's all represented in the url after the `?`
+And that's all represented in the URL after the `?`
 
-The `key=WaPo` is the authorizaton token which tells the Washington Post server that I'm allowed to access the data.
+The `key=WaPo` is the authorization token which tells the Washington Post server that I'm allowed to access the data.
 
 These keys tell the server what specific data you would like
 
@@ -225,11 +225,11 @@ Well, don't get used to it because JSON structures can get pretty complicated.
 
 Each structure can be pretty unique, especially nested JSON. 
 
-But a lot of basic APIs will give you this level of data that's simple to parse and transform into a dataframe for analysis.
+But a lot of basic APIs will give you this level of data that's simple to parse and transform into a data frame for analysis.
 
 ## Prep for looping
 
-What if we wanted multple counties of data?
+What if we wanted multiple counties of data?
 
 You know how to do loops now so instead of just typing things manually for every county you want, why not just create an array of the counties you want and loop through it?
 

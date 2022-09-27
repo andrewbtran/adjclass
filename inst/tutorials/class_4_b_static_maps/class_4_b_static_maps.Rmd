@@ -59,7 +59,7 @@ df <- read_csv("https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.c
 df_new <- df %>% 
   mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))
 
-county_pop <- read_csv("data/county_population.csv")
+county_pop <- read_csv("https://www.andrewbatran.com/data/county_population.csv")
 
 fema_counties <- left_join(df_new, county_pop, by="GEOID")
 
@@ -377,7 +377,7 @@ df <- read_csv("https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.c
 df_new <- df %>% 
   mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))
 
-county_pop <- read_csv("data/county_population.csv")
+county_pop <- read_csv("https://www.andrewbatran.cmo/data/county_population.csv")
 
 fema_counties <- left_join(df_new, county_pop, by="GEOID")
 
@@ -672,7 +672,7 @@ Looking much cleaner!
 
 Alright, let's talk about making some cutting edge maps.
 
-The choropleths we've made so far have been univarate maps, as in it visualizes one column of data.
+The choropleths we've made so far have been univariate maps, as in it visualizes one column of data.
 
 A bivariate map involves visualizing two columns of data!
 
@@ -690,7 +690,7 @@ install.packages(c("cowplot", "sf"))
 install.packages("biscale", dependencies = TRUE)
 ```
 
-[Cowplot](https://wilkelab.org/cowplot/articles/plot_grid.html) lets you combine different chart types into one and [biscale](https://chris-prener.github.io/biscale/) is the bivariate calulating package.
+[Cowplot](https://wilkelab.org/cowplot/articles/plot_grid.html) lets you combine different chart types into one and [biscale](https://chris-prener.github.io/biscale/) is the bivariate calculating package.
 
 We know areas that have been hit by Hurricanes most frequently but do we know that number in relation to population?
 
@@ -726,7 +726,7 @@ Let's load the biscale package and use the `bi_class()` function.
 
 Set the dimensions to 3.
 
-This will create 3 quantiles based on the estiamte and total.
+This will create 3 quantiles based on the estimate and total.
 
 ```{r tigris14, exercise=TRUE}
 library(biscale)
@@ -757,7 +757,7 @@ Check out the new column! **bi_class** and it appears like "2-1", "3-NA", "2-3",
 
 "2-1" means the first variable is in the 2nd quartile for one variable and the 1st quartile for the other variable. And then there are NAs because there aren't enough data to determine a quartile (Those are probably counties with a history of zero hurricanes).
 
-Ok, let's turn this into a visualization with ggplot2!
+OK, let's turn this into a visualization with ggplot2!
 
 We'll still use the `geom_sf()` like we've been using already.
 

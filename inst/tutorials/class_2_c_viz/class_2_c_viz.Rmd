@@ -73,7 +73,9 @@ df <- read_csv("https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.c
 df_new <- df %>% 
   mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))
 
-county_pop <- read_csv("data/county_population.csv")
+
+#county_pop <- read_csv("data/county_population.csv")
+county_pop <- read_csv("https://www.andrewbatran.com/data/county_population.csv")
 
 joined_new <- left_join(df_new, county_pop, by="GEOID") %>% 
   mutate(year=year(incidentBeginDate))
@@ -219,7 +221,7 @@ Basically, every of a chart can created using these aesthetic components and map
 
 **Data**
 
-* A column in a dataset
+* A column in a data set
 
 -----
 
@@ -471,7 +473,7 @@ Facets show subplots for different subsets of data.
 
 The table above shows all the different ways you can use facets-- you can break it out by one extra variable or even two.
 
-We'll use the annual disasters this time so we hve more than just the fires.
+We'll use the annual disasters this time so we have more than just the fires.
 
 But we'll filter it to hurricanes and fires and floods.
 
@@ -545,7 +547,7 @@ grade_this_code()
 
 ## Labels
 
-Now we can add more customizations to the chart.
+Now we can add more customization to the chart.
 
 To make it really shine!
 

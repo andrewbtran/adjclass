@@ -337,7 +337,7 @@ Here&#39;s a second paragraph of text!
 <p>The final important part of CSS to understand are <strong>ids</strong>.</p>
 <p>CSS ids are used to give a single element an identifiable name, much like how a class helps define a class of elements.</p>
 <pre><code>&lt;p id=&quot;special&quot;&gt;This is a unique tag.&lt;/p&gt;</code></pre>
-<p>There’s a great tutorial on CSS selectors <a href="https://flukeout.github.io/#">here</a> with 32 escalating exercises to help you narrow dow different elements of a website based on classes or ids.</p>
+<p>There’s a great tutorial on CSS selectors <a href="https://flukeout.github.io/#">here</a> with 32 escalating exercises to help you narrow down different elements of a website based on classes or ids.</p>
 <p>But we want to be a little bit more efficient because we’re on deadline.</p>
 <p>For this tutorial, you need to download and install an open source software named <a href="http://selectorgadget.com/">Selector Gadget</a> that will install as an <a href="http://selectorgadget.com/">extension</a> in your Chrome browser (Also, please use Chrome for this tutorial). You can access and download the Selector Gadget extension <a href="http://selectorgadget.com/">here</a>.</p>
 <p>Once you install it, the extension should appear up here.</p>
@@ -356,7 +356,7 @@ Here&#39;s a second paragraph of text!
 <p>Let’s track them down.</p>
 <p>Scroll down to near the bottom of the product page are about 8 listed reviews. At the bottom of that section is a link for <code>See all reviews&gt;</code>. Let’s go see those reviews.</p>
 <p><strong>Note:</strong> Here’s a tip.</p>
-<p>The url to the reviews may look like (once you strip out all the <code>ref</code> tracking code:</p>
+<p>The URL to the reviews may look like (once you strip out all the <code>ref</code> tracking code:</p>
 <p><code>https://www.amazon.com/48GB-Digital-Voice-Recorder-Dictaphone/product-reviews/B09XF2Z12G/</code></p>
 <p>But if you try this link, it works just as well.</p>
 <p><code>https://www.amazon.com/product-reviews/B09XF2Z12G/</code></p>
@@ -450,7 +450,7 @@ ratings</code></pre>
 <p>There are others, though.</p>
 <ul>
 <li><code>html_attr()</code> for grabbing links</li>
-<li><code>html_table()</code> to parse an html table into a dataframe</li>
+<li><code>html_table()</code> to parse an html table into a data frame</li>
 <li><code>html_form_submit()</code> if you want to set values in a form submission</li>
 </ul>
 <p>To check it all out, visit the <a href="https://rvest.tidyverse.org/reference/index.html">rvest site</a>.</p>
@@ -519,7 +519,7 @@ glimpse(some_reviews)</code></pre>
          # Need to turn the dates into a date format instead of sentence format
          dates=str_replace(dates, &quot;.* on &quot;, &quot;&quot;),
          dates=mdy(dates),
-         # Let&#39;s get rid of extra spaces and \ns taht indicate line breaks in the html code
+         # Let&#39;s get rid of extra spaces and \ns that indicate line breaks in the html code
          review_text=str_trim(review_text))
 
 glimpse(some_reviews)</code></pre>
@@ -536,7 +536,7 @@ glimpse(some_reviews)</code></pre>
 <p>Usually, there’s a button that lets you get to the last page, but that’s not available.</p>
 <p>So we’ll have to get creative.</p>
 <p>First, we need to figure out the structure of a URL when it goes to page 2.</p>
-<p>Click to the next page and notice how the url changes.</p>
+<p>Click to the next page and notice how the URL changes.</p>
 <p>If you play around with it, you can see that the basic thing the review page needs to move to the next page is appended to the link like <code>?ie=UTF8&amp;reviewerType=all_reviews&amp;pageNumber=2</code>.</p>
 <p>So we can just change the <code>pageNumber=</code> and keep scraping!</p>
 <p>Okay, explore the reviews page and look for this part.</p>
@@ -643,7 +643,7 @@ all_reviews</code></pre>
 <div id="section-intercepting-the-json" class="section level2">
 <h2>Intercepting the JSON</h2>
 <p>Sometimes you may not need to scrape a website if you can find the JSON a website loads to run.</p>
-<p>If you enable <a href="https://sbgi.net/tv-stations/">“Inspect Element”</a> in your browser, ou can see all the pieces that a website needs to run when you reload it.</p>
+<p>If you enable <a href="https://sbgi.net/tv-stations/">“Inspect Element”</a> in your browser, you can see all the pieces that a website needs to run when you reload it.</p>
 <p>For example, what if you wanted to get the locations of all Sinclair Broadcast Group television stations if you were writing a story about the consolidation of local news?</p>
 <p>You’d visit <a href="https://sbgi.net/tv-stations/">this website</a> and find an interactive map of all the stations and their addresses.</p>
 <p>But scraping this would not be easy.</p>
@@ -1113,7 +1113,7 @@ learnr:::store_exercise_cache(structure(list(label = "clean", global_setup = str
 "  html_text()", "", "review_text <- amazon %>% ", "  html_elements(\".a-spacing-small.review-data\") %>% ", 
 "  html_text()", "", "some_reviews <- data.frame(ratings, dates, review_text)", 
 ""), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
-    chunks = list(list(label = "clean", code = "some_reviews <- some_reviews %>% \n  mutate(\n         # Need to get the ratings into a numeric format instead of sentence format\n         ratings=str_replace(ratings, \" out of 5 stars\", \"\"),\n         ratings=as.numeric(ratings),\n         # Need to turn the dates into a date format instead of sentence format\n         dates=str_replace(dates, \".* on \", \"\"),\n         dates=mdy(dates),\n         # Let's get rid of extra spaces and \\ns taht indicate line breaks in the html code\n         review_text=str_trim(review_text))\n\nglimpse(some_reviews)", 
+    chunks = list(list(label = "clean", code = "some_reviews <- some_reviews %>% \n  mutate(\n         # Need to get the ratings into a numeric format instead of sentence format\n         ratings=str_replace(ratings, \" out of 5 stars\", \"\"),\n         ratings=as.numeric(ratings),\n         # Need to turn the dates into a date format instead of sentence format\n         dates=str_replace(dates, \".* on \", \"\"),\n         dates=mdy(dates),\n         # Let's get rid of extra spaces and \\ns that indicate line breaks in the html code\n         review_text=str_trim(review_text))\n\nglimpse(some_reviews)", 
         opts = list(label = "\"clean\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = NULL, solution = NULL, tests = NULL, options = list(
@@ -1139,7 +1139,7 @@ learnr:::store_exercise_cache(structure(list(label = "clean", global_setup = str
         "         ratings=str_replace(ratings, \" out of 5 stars\", \"\"),", 
         "         ratings=as.numeric(ratings),", "         # Need to turn the dates into a date format instead of sentence format", 
         "         dates=str_replace(dates, \".* on \", \"\"),", 
-        "         dates=mdy(dates),", "         # Let's get rid of extra spaces and \\ns taht indicate line breaks in the html code", 
+        "         dates=mdy(dates),", "         # Let's get rid of extra spaces and \\ns that indicate line breaks in the html code", 
         "         review_text=str_trim(review_text))", "", "glimpse(some_reviews)"
         ), out.width.px = 624, out.height.px = 384, params.src = "clean, exercise=TRUE", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 

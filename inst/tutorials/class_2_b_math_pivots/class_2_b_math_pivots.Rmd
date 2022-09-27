@@ -43,7 +43,8 @@ library(janitor)
 #designations <- readxl::read_excel(tf1)
 df <- read_csv("https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv")
 
-county_pop <- read_csv("data/county_population.csv")
+#county_pop <- read_csv("data/county_population.csv")
+county_pop <- read_csv("https://www.andrewbatran.com/data/county_population.csv")
 
 df_new <- df %>% 
   mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))
@@ -123,7 +124,7 @@ Let's start with this data that we last ended up with.
 
 But this time comment comment out the second line so we include all states with floods this time.
 
-And in the 10th line, add "state" as a second `group_by()` option after "year".
+And in the 10th line, add "state" as a second argument in the `group_by()` option after "year".
 
 ```{r what, exercise=TRUE}
 long_flood <- joined_new %>% 
@@ -162,18 +163,19 @@ long_flood
 ```{r what-hint}
 Use a # to comment out.
 Also, you don't need quotations around column names in
-group_by() unless there's a space in the column names
+group_by() unless there's a space in the column names.
+Multiple arguments in group_by() are separated by a comma.
 ```
 
 ```{r what-check}
 grade_this_code()
 ```
 
-Okay, we have tidy data! Each variable is in its own column. Each case is in its own row and each valueis in its own cell.
+Okay, we have tidy data! Each variable is in its own column. Each case is in its own row and each value is in its own cell.
 
 This makes it easier to mutate and manipulate (and is also the preferable data structure for most data viz tools).
 
-However, if we wanted to compare 2020 declaration counts to 2020 in each state, that would be difficult.
+However, if we wanted to compare 2020 declaration counts to 2021 and 2022 in each state, that would be difficult.
 
 ## pivot_wider()
 
@@ -297,9 +299,9 @@ See what happens. *Also, type it in, don't copy and paste otherwise you'll run i
 
 ```{r pivot_wider_more, exercise=TRUE}
 wide_flood_more <- long_flood %>% 
-  select(-median_pop) %>% 
-  pivot_wider(names_from="____",
-              values_from=____________)
+  select(-avg_pop, -median_pop) %>% 
+  pivot_wider(names_from="year",
+              values_from="declarations")
 
 wide_flood_more
 ```

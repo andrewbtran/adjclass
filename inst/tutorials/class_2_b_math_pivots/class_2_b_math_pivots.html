@@ -259,7 +259,7 @@ padding-top: 64px }
 <p><img src="images/tidyr-pivoting.gif" width="400px" /></p>
 <p>Let’s start with this data that we last ended up with.</p>
 <p>But this time comment comment out the second line so we include all states with floods this time.</p>
-<p>And in the 10th line, add “state” as a second <code>group_by()</code> option after “year”.</p>
+<p>And in the 10th line, add “state” as a second argument in the <code>group_by()</code> option after “year”.</p>
 <div class="tutorial-exercise" data-label="what" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>long_flood &lt;- joined_new %&gt;% 
   filter(incidentType==&quot;Flood&quot;) %&gt;% 
@@ -296,11 +296,12 @@ long_flood</code></pre>
 <div class="tutorial-exercise-support" data-label="what-hint" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>Use a # to comment out.
 Also, you don&#39;t need quotations around column names in
-group_by() unless there&#39;s a space in the column names</code></pre>
+group_by() unless there&#39;s a space in the column names.
+Multiple arguments in group_by() are separated by a comma.</code></pre>
 </div>
-<p>Okay, we have tidy data! Each variable is in its own column. Each case is in its own row and each valueis in its own cell.</p>
+<p>Okay, we have tidy data! Each variable is in its own column. Each case is in its own row and each value is in its own cell.</p>
 <p>This makes it easier to mutate and manipulate (and is also the preferable data structure for most data viz tools).</p>
-<p>However, if we wanted to compare 2020 declaration counts to 2020 in each state, that would be difficult.</p>
+<p>However, if we wanted to compare 2020 declaration counts to 2021 and 2022 in each state, that would be difficult.</p>
 </div>
 <div id="section-pivot_wider" class="section level2">
 <h2>pivot_wider()</h2>
@@ -395,9 +396,9 @@ flood_percent_change</code></pre>
 <p>See what happens. <em>Also, type it in, don’t copy and paste otherwise you’ll run into syntax issues.</em></p>
 <div class="tutorial-exercise" data-label="pivot_wider_more" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>wide_flood_more &lt;- long_flood %&gt;% 
-  select(-median_pop) %&gt;% 
-  pivot_wider(names_from=&quot;____&quot;,
-              values_from=____________)
+  select(-avg_pop, -median_pop) %&gt;% 
+  pivot_wider(names_from=&quot;year&quot;,
+              values_from=&quot;declarations&quot;)
 
 wide_flood_more</code></pre>
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
@@ -493,7 +494,8 @@ library(janitor)
 #designations <- readxl::read_excel(tf1)
 df <- read_csv("https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv")
 
-county_pop <- read_csv("data/county_population.csv")
+#county_pop <- read_csv("data/county_population.csv")
+county_pop <- read_csv("https://www.andrewbatran.com/data/county_population.csv")
 
 df_new <- df %>% 
   mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))
@@ -565,7 +567,8 @@ learnr:::store_exercise_cache(structure(list(label = "what", global_setup = stru
 "#myurl <- \"https://www.cdc.gov/nchs/data/data_acces_files/NCHSURCodes2013.xlsx\"", 
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "", "long_flood <- joined_new %>% ", "  #filter(state==\"KY\") %>% ", 
@@ -640,7 +643,8 @@ learnr:::store_exercise_cache(structure(list(label = "pivot_wider", global_setup
 "#myurl <- \"https://www.cdc.gov/nchs/data/data_acces_files/NCHSURCodes2013.xlsx\"", 
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "", "long_flood <- joined_new %>% ", "  #filter(state==\"KY\") %>% ", 
@@ -691,16 +695,16 @@ learnr:::store_exercise_cache(structure(list(label = "pivot_wider", global_setup
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz1-1", question = structure("Which state saw the biggest increase in flood disaster declarations between &#39;21 and &#39;22?", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_eebdd38", 
+"character")), answers = list(structure(list(id = "lnr_ans_bd71b53", 
     option = "WA", value = "WA", label = structure("WA", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_f130fdb", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_6ac45e8", 
     option = "MN", value = "MN", label = structure("MN", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_275bb93", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_6245ef3", 
     option = "MT", value = "MT", label = structure("MT", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_33868f9", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_72f67e0", 
     option = "LA", value = "LA", label = structure("LA", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
 "tutorial_quiz_answer"))), button_labels = list(submit = structure("<span data-i18n=\"button.questionsubmit\">Submit Answer<\u002fspan>", html = TRUE, class = c("html", 
@@ -710,7 +714,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "quiz1-1-answer", question = "quiz1-1"), loading = NULL, 
-    random_answer_order = TRUE, allow_retry = FALSE, seed = 1856759433.63538, 
+    random_answer_order = TRUE, allow_retry = FALSE, seed = 1021060972.52453, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
@@ -733,7 +737,8 @@ learnr:::store_exercise_cache(structure(list(label = "wide_flood_summary", globa
 "#myurl <- \"https://www.cdc.gov/nchs/data/data_acces_files/NCHSURCodes2013.xlsx\"", 
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "", "long_flood <- joined_new %>% ", "  #filter(state==\"KY\") %>% ", 
@@ -785,16 +790,16 @@ learnr:::store_exercise_cache(structure(list(label = "wide_flood_summary", globa
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz2-1", question = structure("What&#39;s the percent change in flood disaster declarations between 2021 and 2022 so far this year", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_f19b8d2", 
+"character")), answers = list(structure(list(id = "lnr_ans_a329293", 
     option = "25", value = "25", label = structure("25", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_ce0fd46", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_d77c1b6", 
     option = "-24.7", value = "-24.7", label = structure("-24.7", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_80ad45a", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_65f49a7", 
     option = "150", value = "150", label = structure("150", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_5099587", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_f26282b", 
     option = "-5", value = "-5", label = structure("-5", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
 "tutorial_quiz_answer"))), button_labels = list(submit = structure("<span data-i18n=\"button.questionsubmit\">Submit Answer<\u002fspan>", html = TRUE, class = c("html", 
@@ -804,7 +809,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "quiz2-1-answer", question = "quiz2-1"), loading = NULL, 
-    random_answer_order = TRUE, allow_retry = FALSE, seed = 804453245.125397, 
+    random_answer_order = TRUE, allow_retry = FALSE, seed = 1317979860.38627, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
@@ -827,7 +832,8 @@ learnr:::store_exercise_cache(structure(list(label = "pivot_wider_more", global_
 "#myurl <- \"https://www.cdc.gov/nchs/data/data_acces_files/NCHSURCodes2013.xlsx\"", 
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "", "long_flood <- joined_new %>% ", "  #filter(state==\"KY\") %>% ", 
@@ -842,7 +848,7 @@ learnr:::store_exercise_cache(structure(list(label = "pivot_wider_more", global_
 "  filter(incidentType==\"Fire\") %>% ", "  mutate(year=year(incidentBeginDate)) %>% ", 
 "  count(year, NAME) %>% ", "  filter(!is.na(NAME)) %>% ", "  pivot_wider(names_from=\"year\", values_from=n)", 
 ""), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
-    chunks = list(list(label = "pivot_wider_more", code = "wide_flood_more <- long_flood %>% \n  select(-median_pop) %>% \n  pivot_wider(names_from=\"____\",\n              values_from=____________)\n\nwide_flood_more", 
+    chunks = list(list(label = "pivot_wider_more", code = "wide_flood_more <- long_flood %>% \n  select(-avg_pop, -median_pop) %>% \n  pivot_wider(names_from=\"year\",\n              values_from=\"declarations\")\n\nwide_flood_more", 
         opts = list(label = "\"pivot_wider_more\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_this_code()", chunk_opts = list(
@@ -869,8 +875,8 @@ learnr:::store_exercise_cache(structure(list(label = "pivot_wider_more", global_
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, stage = NULL, ..., \n    solution_eval_fn = NULL) \n{\n    (utils::getFromNamespace(\"check_exercise\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, stage = stage, ...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "pivot_wider_more", exercise = TRUE, code = c("wide_flood_more <- long_flood %>% ", 
-        "  select(-median_pop) %>% ", "  pivot_wider(names_from=\"____\",", 
-        "              values_from=____________)", "", "wide_flood_more"
+        "  select(-avg_pop, -median_pop) %>% ", "  pivot_wider(names_from=\"year\",", 
+        "              values_from=\"declarations\")", "", "wide_flood_more"
         ), out.width.px = 624, out.height.px = 384, params.src = "pivot_wider_more, exercise=TRUE", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
@@ -894,7 +900,8 @@ learnr:::store_exercise_cache(structure(list(label = "pivot_longer", global_setu
 "#myurl <- \"https://www.cdc.gov/nchs/data/data_acces_files/NCHSURCodes2013.xlsx\"", 
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\")", 
 "", "", "long_flood <- joined_new %>% ", "  #filter(state==\"KY\") %>% ", 

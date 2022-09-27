@@ -79,7 +79,7 @@ lm_humancapital <- lm(log_base ~ gender + perfEval + age_bin + edu, data = salar
 lm_allcontrols <- lm(log_base ~ gender + perfEval + age_bin + edu + dept + seniority + jobTitle, data = salaries_adjusted3)
 
 
-candles <- read_csv("data/scented.csv")
+candles <- read_csv("https://www.andrewbatran.com/data/scented.csv")
 
 candles_weekly <- candles %>% 
     mutate(year=year(Date)) %>% 
@@ -205,7 +205,7 @@ I'll load the data for you below.
 library(tidyverse)
 library(lubridate)
 
-candles <- read_csv("data/scented.csv")
+candles <- read_csv("https://www.andrewbatran.com/data/scented.csv")
 ```
 
 ```{r glimpsed}
@@ -218,11 +218,11 @@ Let's go over some of them again
 
 ### mean and median
 
-Some of the most common basic descriptive stats you can do is calculating mean and median.
+Some of the most common basic descriptive stats you can do are calculating mean and median.
 
-Mean or average is the sum of the values and dividing by how many values there were. So (4+4+7+7+8+9+10+10+11+100)/14 or 170/14=17.
+Mean (or average) equals the sum of the values then divided by how many values there were. So (4+4+7+7+8+9+10+10+11+100)/14 or 170/14=17.
 
-The median is the middle number in that list, so it'd be between 8 and 9, so 8.5. They have their uses, to deal with outliers, for example.
+The median is the middle number in that list, so it'd be between 8 and 9, so 8.5. Meidan is useful to deal with outliers, for example.
 
 Let's calculate the mean and median of the ratings.
 
@@ -438,7 +438,7 @@ scented_timeline_monthly1
 ```
 
 ```{r weekly_am1-hint}
-What's the if else statement functoin in mutate?
+What's the if else statement function in mutate?
 
 If there are no complaints about smell then fill no_scent with the opposite of 1? (It's not 2).
 
@@ -636,7 +636,7 @@ covid_long_monthly <- covid_long %>%
 covid_long_monthly
 ```
 
-Ok, let's stack these together to make a tidy data set combining reviews with Covid-19 cases!
+OK, let's stack these together to make a tidy data set combining reviews with Covid-19 cases!
 
 And then visualize it with small multiples.
 
@@ -783,7 +783,7 @@ That being said, a political scientist did do [this analysis and found](https://
 
 If you're comparing numbers with numbers, it's easier to turn one set of numbers into quantiles, for example taking a range of numbers and grouping them into "low", "medium", or "high" categories.
 
-This way you can create crosstabs and get around having to use correlations in your narrative.
+This way you can create cross tabs and get around having to use correlations in your narrative.
 
 Quantiles are a range from any value to any other value.
 
@@ -1127,7 +1127,7 @@ unadjusted_jobs <- salaries_adjusted3 %>%
 unadjusted_jobs
 ```
 
-Looks like men are very overrepresented in management and software roles, which are more highly paying, while women seem overrepresented among marketing associate roles. 
+Looks like men are very over represented in management and software roles, which are more highly paying, while women seem over represented among marketing associate roles. 
 
 ### Linear regression
 

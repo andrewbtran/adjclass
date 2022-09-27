@@ -358,7 +358,7 @@ Some limitations: At the moment it can only links individual data points and not
 
 We’re going to create a truly interactive map and table to visualize pharmacy-level data in Louisiana. The data is from the [arcos api](https://wpinvestigative.github.io/arcos/). Basic packages we’ll use include [rleaflet](https://rstudio.github.io/leaflet/) and [DT: DataTables](https://rstudio.github.io/DT/). This is so we have a filterable and searchable table and map.
 
-I’ll be referring to different .Rmd files to work from as well as screenshots of the results. I’ll be highlighing code in this walkthrough but the code won’t really work in your console.
+I’ll be referring to different .Rmd files to work from as well as screenshots of the results. I’ll be highlighting code in this walk through but the code won’t really work in your console.
 
 You must click the *Knit > Knit to flex_dashboard* button to execute and generate the html file.
 
@@ -390,7 +390,7 @@ file.edit("scripts/crosstalk_5.Rmd")
 
 We’re going to build this in R Markdown.
 
-R Markdown is a way to integrate R code with markdown language that translates into readable style, so you can integrate R analysis in slideshows, pdfs, websites, and dashboards. There's a lot of [cool stuff](https://rmarkdown.rstudio.com/) you can do. It's often how I write out my analysis memos to share with other reporters and editors.
+R Markdown is a way to integrate R code with markdown language that translates into readable style, so you can integrate R analysis in slideshows, PDFs, websites, and dashboards. There's a lot of [cool stuff](https://rmarkdown.rstudio.com/) you can do. It's often how I write out my analysis memos to share with other reporters and editors.
 
 The progression of code will be in `crosstalk_1.Rmd` through `crosstalk_5.Rmd` that you'll have to run on your computer not through this exercise.
 

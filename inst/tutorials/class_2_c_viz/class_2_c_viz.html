@@ -342,7 +342,7 @@ annual_fires</code></pre>
 </ul>
 <p><strong>Data</strong></p>
 <ul>
-<li>A column in a dataset</li>
+<li>A column in a data set</li>
 </ul>
 <hr />
 <p>Here’s are the core components of the chart above:</p>
@@ -591,7 +591,7 @@ Put all facets in one row
 </tr>
 </table>
 <p>The table above shows all the different ways you can use facets– you can break it out by one extra variable or even two.</p>
-<p>We’ll use the annual disasters this time so we hve more than just the fires.</p>
+<p>We’ll use the annual disasters this time so we have more than just the fires.</p>
 <p>But we’ll filter it to hurricanes and fires and floods.</p>
 <p>And we can combine it with pipes before we use <strong>ggplot()</strong> it.</p>
 <p>Add the <code>facet_wrap()</code> line on the variable <strong>incidentType</strong> (like the first example in the table above).</p>
@@ -645,7 +645,7 @@ Additional arguments in a function are separated with a comma.</code></pre>
 </div>
 <div id="section-labels" class="section level2">
 <h2>Labels</h2>
-<p>Now we can add more customizations to the chart.</p>
+<p>Now we can add more customization to the chart.</p>
 <p>To make it really shine!</p>
 <table>
 <tr>
@@ -884,7 +884,9 @@ df <- read_csv("https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.c
 df_new <- df %>% 
   mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))
 
-county_pop <- read_csv("data/county_population.csv")
+
+#county_pop <- read_csv("data/county_population.csv")
+county_pop <- read_csv("https://www.andrewbatran.com/data/county_population.csv")
 
 joined_new <- left_join(df_new, county_pop, by="GEOID") %>% 
   mutate(year=year(incidentBeginDate))
@@ -935,7 +937,8 @@ learnr:::store_exercise_cache(structure(list(label = "glimpse", global_setup = s
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\") %>% ", 
 "  mutate(year=year(incidentBeginDate))", "", "annual_disasters <- joined_new %>% ", 
 "  count(incidentType, year, name=\"total\") ", "  ", "annual_fires <- annual_disasters  %>% ", 
@@ -988,7 +991,8 @@ learnr:::store_exercise_cache(structure(list(label = "annual_disasters", global_
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\") %>% ", 
 "  mutate(year=year(incidentBeginDate))", "", "annual_disasters <- joined_new %>% ", 
 "  count(incidentType, year, name=\"total\") ", "  ", "annual_fires <- annual_disasters  %>% ", 
@@ -1045,7 +1049,8 @@ learnr:::store_exercise_cache(structure(list(label = "fires", global_setup = str
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\") %>% ", 
 "  mutate(year=year(incidentBeginDate))", "", "annual_disasters <- joined_new %>% ", 
 "  count(incidentType, year, name=\"total\") ", "  ", "annual_fires <- annual_disasters  %>% ", 
@@ -1101,7 +1106,8 @@ learnr:::store_exercise_cache(structure(list(label = "first_chart", global_setup
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\") %>% ", 
 "  mutate(year=year(incidentBeginDate))", "", "annual_disasters <- joined_new %>% ", 
 "  count(incidentType, year, name=\"total\") ", "  ", "annual_fires <- annual_disasters  %>% ", 
@@ -1154,7 +1160,8 @@ learnr:::store_exercise_cache(structure(list(label = "first_chart_geoms", global
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\") %>% ", 
 "  mutate(year=year(incidentBeginDate))", "", "annual_disasters <- joined_new %>% ", 
 "  count(incidentType, year, name=\"total\") ", "  ", "annual_fires <- annual_disasters  %>% ", 
@@ -1207,7 +1214,8 @@ learnr:::store_exercise_cache(structure(list(label = "scented2", global_setup = 
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\") %>% ", 
 "  mutate(year=year(incidentBeginDate))", "", "annual_disasters <- joined_new %>% ", 
 "  count(incidentType, year, name=\"total\") ", "  ", "annual_fires <- annual_disasters  %>% ", 
@@ -1264,7 +1272,8 @@ learnr:::store_exercise_cache(structure(list(label = "facet_example1", global_se
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\") %>% ", 
 "  mutate(year=year(incidentBeginDate))", "", "annual_disasters <- joined_new %>% ", 
 "  count(incidentType, year, name=\"total\") ", "  ", "annual_fires <- annual_disasters  %>% ", 
@@ -1326,7 +1335,8 @@ learnr:::store_exercise_cache(structure(list(label = "facet_example2", global_se
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\") %>% ", 
 "  mutate(year=year(incidentBeginDate))", "", "annual_disasters <- joined_new %>% ", 
 "  count(incidentType, year, name=\"total\") ", "  ", "annual_fires <- annual_disasters  %>% ", 
@@ -1388,7 +1398,8 @@ learnr:::store_exercise_cache(structure(list(label = "labels_example", global_se
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\") %>% ", 
 "  mutate(year=year(incidentBeginDate))", "", "annual_disasters <- joined_new %>% ", 
 "  count(incidentType, year, name=\"total\") ", "  ", "annual_fires <- annual_disasters  %>% ", 
@@ -1454,7 +1465,8 @@ learnr:::store_exercise_cache(structure(list(label = "themes-example", global_se
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\") %>% ", 
 "  mutate(year=year(incidentBeginDate))", "", "annual_disasters <- joined_new %>% ", 
 "  count(incidentType, year, name=\"total\") ", "  ", "annual_fires <- annual_disasters  %>% ", 
@@ -1514,7 +1526,8 @@ learnr:::store_exercise_cache(structure(list(label = "themes_example2", global_s
 "#download.file(myurl, (tf1 <- tempfile(fileext = \".xlsx\")), mode = \"wb\")", 
 "", "#designations <- readxl::read_excel(tf1)", "df <- read_csv(\"https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv\")", 
 "", "df_new <- df %>% ", "  mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))", 
-"", "county_pop <- read_csv(\"data/county_population.csv\")", 
+"", "", "#county_pop <- read_csv(\"data/county_population.csv\")", 
+"county_pop <- read_csv(\"https://www.andrewbatran.com/data/county_population.csv\")", 
 "", "joined_new <- left_join(df_new, county_pop, by=\"GEOID\") %>% ", 
 "  mutate(year=year(incidentBeginDate))", "", "annual_disasters <- joined_new %>% ", 
 "  count(incidentType, year, name=\"total\") ", "  ", "annual_fires <- annual_disasters  %>% ", 
@@ -1572,7 +1585,7 @@ learnr:::store_exercise_cache(structure(list(label = "themes_example2", global_s
 <!--/html_preserve-->
 <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="execution_dependencies">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97]}},"value":[{"type":"character","attributes":{},"value":["assertthat","backports","base","bit","bit64","broom","bslib","cachem","cellranger","checkmate","cli","colorspace","compiler","crayon","curl","datasets","DBI","dbplyr","digest","dplyr","DT","ellipsis","evaluate","fansi","fastmap","flair","forcats","fs","gargle","generics","ggplot2","glue","googledrive","googlesheets4","gradethis","graphics","grDevices","grid","gtable","haven","highr","hms","htmltools","htmlwidgets","httpuv","httr","janitor","jquerylib","jsonlite","knitr","later","learnr","lifecycle","lubridate","magrittr","markdown","methods","mime","modelr","munsell","parallel","pillar","pkgconfig","promises","purrr","R6","Rcpp","readr","readxl","reprex","rlang","rmarkdown","rprojroot","rstudioapi","rvest","sass","scales","shiny","snakecase","stats","stringi","stringr","tibble","tidyr","tidyselect","tidyverse","tools","tzdb","utf8","utils","vctrs","vroom","withr","xfun","xml2","xtable","yaml"]},{"type":"character","attributes":{},"value":["0.2.1","1.4.1","4.2.1","4.0.4","4.0.5","1.0.0","0.4.0","1.0.6","1.1.0","2.1.0","3.3.0","2.0-3","4.2.1","1.5.1","4.3.2","4.2.1","1.1.3","2.2.1","0.6.29","1.0.9","0.23","0.3.2","0.16","1.0.3","1.1.0","0.0.2","0.5.1","1.5.2","1.2.0","0.1.3","3.3.6","1.6.2","2.0.0","1.0.0","0.2.10.9000","4.2.1","4.2.1","4.2.1","0.3.0","2.5.0","0.9","1.1.1","0.5.3","1.5.4","1.6.5","1.4.3","2.1.0","0.1.4","1.8.0","1.40","1.3.0","0.10.6.9000","1.0.1","1.8.0","2.0.3","1.1","4.2.1","0.12","0.1.8","0.5.0","4.2.1","1.8.1","2.0.3","1.2.0.1","0.3.4","2.5.1","1.0.9","2.1.2","1.4.0","2.0.1","1.0.5","2.16","2.0.3","0.14","1.0.2","0.4.2","1.2.0","1.7.2","0.11.0","4.2.1","1.7.8","1.4.1","3.1.8","1.2.0","1.1.2","1.3.2","4.2.1","0.3.0","1.2.2","4.2.1","0.4.1","1.5.7","2.5.0","0.32","1.3.3","1.8-4","2.3.5"]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97]}},"value":[{"type":"character","attributes":{},"value":["assertthat","backports","base","bit","bit64","broom","bslib","cachem","cellranger","checkmate","cli","colorspace","compiler","crayon","curl","datasets","DBI","dbplyr","digest","dplyr","DT","ellipsis","evaluate","fansi","fastmap","flair","forcats","fs","gargle","generics","ggplot2","glue","googledrive","googlesheets4","gradethis","graphics","grDevices","grid","gtable","haven","highr","hms","htmltools","htmlwidgets","httpuv","httr","janitor","jquerylib","jsonlite","knitr","later","learnr","lifecycle","lubridate","magrittr","markdown","methods","mime","modelr","munsell","parallel","pillar","pkgconfig","promises","purrr","R6","Rcpp","readr","readxl","reprex","rlang","rmarkdown","rprojroot","rstudioapi","rvest","sass","scales","shiny","snakecase","stats","stringi","stringr","tibble","tidyr","tidyselect","tidyverse","tools","tzdb","utf8","utils","vctrs","vroom","withr","xfun","xml2","xtable","yaml"]},{"type":"character","attributes":{},"value":["0.2.1","1.4.1","4.2.1","4.0.4","4.0.5","1.0.0","0.4.0","1.0.6","1.1.0","2.1.0","3.4.1","2.0-3","4.2.1","1.5.1","4.3.2","4.2.1","1.1.3","2.2.1","0.6.29","1.0.9","0.23","0.3.2","0.16","1.0.3","1.1.0","0.0.2","0.5.1","1.5.2","1.2.0","0.1.3","3.3.6","1.6.2","2.0.0","1.0.0","0.2.10.9000","4.2.1","4.2.1","4.2.1","0.3.0","2.5.0","0.9","1.1.2","0.5.3","1.5.4","1.6.6","1.4.4","2.1.0","0.1.4","1.8.0","1.40","1.3.0","0.10.6.9000","1.0.2","1.8.0","2.0.3","1.1","4.2.1","0.12","0.1.8","0.5.0","4.2.1","1.8.1","2.0.3","1.2.0.1","0.3.4","2.5.1","1.0.9","2.1.2","1.4.0","2.0.1","1.0.5","2.16","2.0.3","0.14","1.0.2","0.4.2","1.2.0","1.7.2","0.11.0","4.2.1","1.7.8","1.4.1","3.1.8","1.2.0","1.1.2","1.3.2","4.2.1","0.3.0","1.2.2","4.2.1","0.4.1","1.5.7","2.5.0","0.33","1.3.3","1.8-4","2.3.5"]}]}]}
 </script>
 <!--/html_preserve-->
 </div>

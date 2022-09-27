@@ -239,7 +239,7 @@ CSS ids are used to give a single element an identifiable name, much like how a 
 <p id="special">This is a unique tag.</p>
 ```
 
-There's a great tutorial on CSS selectors [here](https://flukeout.github.io/#) with 32 escalating exercises to help you narrow dow different elements of a website based on classes or ids.
+There's a great tutorial on CSS selectors [here](https://flukeout.github.io/#) with 32 escalating exercises to help you narrow down different elements of a website based on classes or ids.
 
 But we want to be a little bit more efficient because we're on deadline.
 
@@ -280,7 +280,7 @@ Scroll down to near the bottom of the product page are about 8 listed reviews. A
 
 **Note:** Here's a tip.
 
-The url to the reviews may look like (once you strip out all the `ref` tracking code:
+The URL to the reviews may look like (once you strip out all the `ref` tracking code:
 
 `https://www.amazon.com/48GB-Digital-Voice-Recorder-Dictaphone/product-reviews/B09XF2Z12G/`
 
@@ -429,7 +429,7 @@ So, the **read_html()** and **html_elements()** and **html_text()** functions ar
 There are others, though. 
 
 * `html_attr()` for grabbing links
-* `html_table()` to parse an html table into a dataframe
+* `html_table()` to parse an html table into a data frame
 * `html_form_submit()` if you want to set values in a form submission
 
 To check it all out, visit the [rvest site](https://rvest.tidyverse.org/reference/index.html).
@@ -525,7 +525,7 @@ some_reviews <- some_reviews %>%
          # Need to turn the dates into a date format instead of sentence format
          dates=str_replace(dates, ".* on ", ""),
          dates=mdy(dates),
-         # Let's get rid of extra spaces and \ns taht indicate line breaks in the html code
+         # Let's get rid of extra spaces and \ns that indicate line breaks in the html code
          review_text=str_trim(review_text))
 
 glimpse(some_reviews)
@@ -550,7 +550,7 @@ So we'll have to get creative.
 
 First, we need to figure out the structure of a URL when it goes to page 2.
 
-Click to the next page and notice how the url changes.
+Click to the next page and notice how the URL changes.
 
 If you play around with it, you can see that the basic thing the review page needs to move to the next page is appended to the link like `?ie=UTF8&reviewerType=all_reviews&pageNumber=2`.
 
@@ -699,7 +699,7 @@ all_reviews
 
 Sometimes you may not need to scrape a website if you can find the JSON a website loads to run.
 
-If you enable ["Inspect Element"](https://sbgi.net/tv-stations/) in your browser, ou can see all the pieces that a website needs to run when you reload it.
+If you enable ["Inspect Element"](https://sbgi.net/tv-stations/) in your browser, you can see all the pieces that a website needs to run when you reload it.
 
 For example, what if you wanted to get the locations of all Sinclair Broadcast Group television stations if you were writing a story about the consolidation of local news?
 

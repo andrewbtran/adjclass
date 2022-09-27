@@ -43,7 +43,9 @@ library(janitor)
 #designations <- readxl::read_excel(tf1)
 df <- read_csv("https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv")
 
-county_pop <- read_csv("data/county_population.csv")
+
+#county_pop <- read_csv("data/county_population.csv")
+county_pop <- read_csv("https://www.andrewbatran.com/data/county_population.csv")
 
 df_new <- df %>% 
   mutate(GEOID=str_c(fipsStateCode, fipsCountyCode))
@@ -139,7 +141,7 @@ quiz(caption = "Quiz 1",
     answer('GEOID in df and placeCode in county_pop'),
     answer('designatedArea in df and NAME in county_pop', correct=T),
     answer('variable in county_pop and id in df'),
-    answer('estimate incounty_pop and disasterNumber in county_pop'),
+    answer('estimate in county_pop and disasterNumber in county_pop'),
     random_answer_order= TRUE
   ))
 ```
@@ -404,7 +406,7 @@ grade_this_code()
 * **Categorical variables** are descriptive labels given to individual records, assigning them to different groups. The simplest categorical data is dichotomous, meaning that there are just two possible groups — in an election, for instance, people either voted, or they did not. More commonly, there are multiple categories. When analyzing traffic accidents, for example, you might consider the day of the week on which each incident occurred, giving seven possible categories.
 * **Continuous data** is richer, consisting of numbers that can have a range of values on a sliding scale. When working with weather data, for instance, continuous variables might include temperature and amount of rainfall.
 
-We also often need to consider date and time, which can be treated as continuous, like a sequence of years; or categorical, like the days of the week. A common task in data stories is to consider how a the values for a variable or variables have changed over time.
+We also often need to consider date and time, which can be treated as continuous, like a sequence of years; or categorical, like the days of the week. A common task in data stories is to consider how the values for a variable or variables have changed over time.
 
 ### Interviewing data
 
@@ -430,11 +432,11 @@ Arrange it high to low (on avg_pop) and slice out the top 5 rows.
 
 ```{r summarize_again, exercise=TRUE}
 joined_new %>% 
-  group_by(_____) %>% 
+  group_by(___________) %>% 
   summarize(declarations=___,
             avg_pop=____(estimate, na.rm=T),
             median_pop=______(estimate, na.rm=T)) %>% 
-  arrange(_____) %>% 
+  arrange(___________) %>% 
   slice(___)
 ```
 

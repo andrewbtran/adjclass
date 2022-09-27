@@ -91,7 +91,7 @@ And we'll also need to bring the data in.
 
 You can download it and import it locally, but if it's a csv, you can just link to it and R will download it for you in the function.
 
-Use the function from the **readr** package to import the csv from the url.
+Use the function from the **readr** package to import the csv from the URL.
 
 ```{r importing, warning=F, message=F, exercise=TRUE}
 library(tidyverse)
@@ -401,7 +401,7 @@ So readable and simple, right?
 
 Please look at the two chunks of code and see how they're different but do the same thing.
 
-Do this and the result `%>% goes into this and something happens to it `%>%` and then somethin else.
+Do this and the result `%>% goes into this and something happens to it `%>%` and then something else.
 
 This is the basis for all scripted data analysis. It's a grammar. 
 
@@ -415,7 +415,7 @@ Mac: Cmd + Shift + M
 Windows: Ctrl + Shift + M
 Why “M”? I think it’s because the pipe was first introduced in the magrittr package by Stefan Milton Bache.
 
-**I am going to use pipes interchangeably in this walkthrough now.**
+**I am going to use pipes interchangeably in this walk through now.**
 
 But first, can you redo this code below using pipes? We're counting up the states with the most declared disasters in the data set.
 
