@@ -134,7 +134,7 @@ Did this work for you? If you want, you could click on "export" in the Viewer ta
 
 * `leaflet()` initializes the leaflet work space
 * `addTiles()` by itself will bring in the default OpenStreetMap tiles
-  * Here’s a list of free leaflet tiles you can use
+  * Here’s [a list](https://leaflet-extras.github.io/leaflet-providers/preview/) of free leaflet tiles you can use
   * Note: OpenStreetMaps is a wonderful and free open-source service. Their only stipulation for using their tiles is to be sure to credit and link to them in the map.
 * `setView()` is pretty self-explanatory but is simpler to implement
 * `addMarkers()` with some specific parameters.
