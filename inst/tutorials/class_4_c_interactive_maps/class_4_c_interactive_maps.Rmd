@@ -63,8 +63,6 @@ You'll have two projects open: adjclass for these instructions and adj-mod-4-mai
 install.packages("usethis")
 usethis::use_course("https://github.com/andrewbtran/adj-mod-4/archive/master.zip")
 
-# This section is in scripts/02_leaflet_locator_map.R
-file.edit("scripts/02_leaflet_locator_map.R")
 ```
 
 Sometimes it’s necessary to zoom in or pan around a map for greater comprehension while exploring data spatially.
