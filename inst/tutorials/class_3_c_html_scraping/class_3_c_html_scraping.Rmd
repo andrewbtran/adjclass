@@ -95,6 +95,9 @@ some_reviews <- data.frame(ratings, dates, review_text)
 
 ## Intro
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OEj7JGKF1cU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 There's a lot of data out there and sometimes you can get it because it's been posted publicly. 
 
 The best data for a journalist is a one that hasn't been scrutinized already. One common route for obtaining obscure data is the kind that some government agency does not want you to have so you have to pry it from their fingers through a public information request.

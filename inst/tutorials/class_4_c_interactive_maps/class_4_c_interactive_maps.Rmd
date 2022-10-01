@@ -53,6 +53,8 @@ pharm_state_arranged <- pharm_state %>%
 
 ## Intro to leaflet
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hwNNoM8pLpg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 Let’s create a locator map like you would when searching for an address on Google Maps.
 
 The repo containing the data and scripts for this section is on Github. To follow along, simply run the lines of code below in R. This will install and open a adj-mod-4-main into a new R project.

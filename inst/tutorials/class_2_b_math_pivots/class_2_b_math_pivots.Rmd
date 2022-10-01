@@ -84,6 +84,8 @@ fires_wide <- joined_new %>%
 
 ## tidyr
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dh7BVpnHnlA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 You need to understand the basics of math to tell a story.
 
 Let's say you're looking at this data because some local disaster occurred and you want to answer the question:

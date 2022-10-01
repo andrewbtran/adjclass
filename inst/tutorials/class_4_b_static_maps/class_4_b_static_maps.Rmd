@@ -146,6 +146,9 @@ table {
 
 ## Intro to sf
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vKIZ27zOE9U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 Mapping is really fun to do in R. You don't need to pay crazy amounts of money to use ArcGIS. And while QGIS is excellent it has the drawbacks of most click-buttons-to-create programs: You can't write a script to process the data, transform it, and visualize it in multiple ways.
 
 We're going to use the **sf** package that will essentially let you treat maps like a geometry in ggplot2. It can be as simple as creating a bar chart or line chart.
@@ -178,6 +181,11 @@ system("unzip world_shape_file.zip")
 #  -- > You now have 4 files. One of these files is a .shp file! (TM_WORLD_BORDERS_SIMPL-0.3.shp)
 
 world <- st_read("TM_WORLD_BORDERS_SIMPL-0.3")
+
+# if the command above doesn't work, try this:
+# world <- st_read("TM_WORLD_BURDERS_SIMPL-0.3")
+
+# Sometimes the function recognizes the shape file inherent in the file name and sometimes it doesn't
 
 ```
 
@@ -531,6 +539,7 @@ fema_map %>%
   scale_fill_viridis(direction=-1) +
   theme_void() +
   labs(title="Hurricane declared disasters since 1954")
+
 ```
 
 
@@ -543,6 +552,7 @@ fema_map %>%
   scale_fill_viridis(direction=-1) +
   theme_void() +
   labs(title="Hurricane declared disasters since 1954")
+
 ```
 
 ```{r tigris11-hint}
@@ -895,13 +905,6 @@ save_plot("test.png", finalPlot, base_height = NULL, base_width = 12)
 save_plot("test.svg", finalPlot, base_height = NULL, base_width = 12)
 ```
 
-Or what if you want to save it as a shapefile for editing in QGIS or D3?
-
-```{r, eval=F}
-#as a shapefile?
-st_write(map, "map.geojson")
-st_write(map, "map.shp")
-```
 
 
 

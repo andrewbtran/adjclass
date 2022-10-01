@@ -57,6 +57,8 @@ joined_new <- left_join(df_new, county_pop, by="GEOID")
 
 ## Intro
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/FFPZjKn4R2A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 We've done some basic exploring of the FEMA disaster declaration data. 
 
 But there are only so many different ways to slice the data based on the variables in the original data set.

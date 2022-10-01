@@ -61,6 +61,8 @@ floods_match_count <- floods_match %>%
 
 ## Intro
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/I_THlrw-vHU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 In this lesson, we're going to start exploring data with the package **dplyr.**
 
 * It's designed to work with data frames, which is what journalists are used to

@@ -195,6 +195,9 @@ table {
 
 ## Descriptive statistics
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vFzXONpVO7E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 There are so many different statistical methods we could spend several months learning but only a handful that have been used often by journalists— though there are admirable efforts by some to use and explain more complicated techniques that raise the bar for data literacy. 
 
 Building on what we learned in module 3, let's work with some data of reviews I've scraped from Amazon: Scented candles.

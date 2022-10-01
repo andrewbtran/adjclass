@@ -84,6 +84,8 @@ table {
 
 ## APIs explained 
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/_Gc_4NryOhw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 An API stands for an Application Programming Interface and is an intermediary between a dataset and others.
 
 It's a way for people outside someone's system to query and ask for specific slices of data from the system without getting complete access to their system.
