@@ -45,6 +45,12 @@ library(gridGraphics)
 library(ggspatial)
 library(viridis)
 
+temp_shapefile <- tempfile()
+download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip", temp_shapefile)
+unzip(temp_shapefile)
+
+#sf_roads <- read_sf('tl_2017_06075_roads.shp')
+
 world <- st_read("TM_WORLD_BORDERS_SIMPL-0.3.shp")
 
 
@@ -180,10 +186,11 @@ download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.z
 system("unzip world_shape_file.zip")
 #  -- > You now have 4 files. One of these files is a .shp file! (TM_WORLD_BORDERS_SIMPL-0.3.shp)
 
-world <- st_read("TM_WORLD_BORDERS_SIMPL-0.3")
+world <- st_read("TM_WORLD_BURDERS_SIMPL-0.3.shp")
+
 
 # if the command above doesn't work, try this:
-# world <- st_read("TM_WORLD_BURDERS_SIMPL-0.3")
+world <- st_read("TM_WORLD_BORDERS_SIMPL-0.3")
 
 # Sometimes the function recognizes the shape file inherent in the file name and sometimes it doesn't
 
