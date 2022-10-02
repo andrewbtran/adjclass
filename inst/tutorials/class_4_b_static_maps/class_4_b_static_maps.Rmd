@@ -54,12 +54,15 @@ unzip(temp_shapefile)
 world <- st_read("TM_WORLD_BORDERS_SIMPL-0.3.shp")
 
 
-us_states <- states(cb = TRUE, resolution = "20m") %>%
-     shift_geometry()
+#us_states <- states(cb = TRUE, resolution = "20m") %>%
+#     shift_geometry()
+# some people are having trouble reaching the TIGRIS server so here's a temporary fix
+us_states <- readRDS("data/us_states.RDS")
 
-
-us_counties <- counties(cb = TRUE, resolution = "20m") %>%
-     shift_geometry()
+#us_counties <- counties(cb = TRUE, resolution = "20m") %>%
+#     shift_geometry()
+# some people are having trouble reaching the TIGRIS server so here's a temporary fix
+us_counties <- readRDS("data/us_counties.RDS")
 
 df <- read_csv("https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries.csv")
 df_new <- df %>% 
