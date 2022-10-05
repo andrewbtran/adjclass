@@ -914,7 +914,7 @@ I wanted to take this moment to emphasize how important it is to visualize your 
 
 Summarized data could look completely the same in a table or numeric form but when visualized, it could show completely different patterns.
 
-For example, this is an example of the Datasaurus data (created by [Alberto Cairo](http://albertocairo.com/)) with the same statistical properties when it comes to mean, median, standard deviation, and correlation figures. But the underlying data are all completely different.
+For example, this is an example of the Datasaurus data (created by [Alberto Cairo](https://albertocairo.com/)) with the same statistical properties when it comes to mean, median, standard deviation, and correlation figures. But the underlying data are all completely different.
 
 ```{r datasaurus-image, out.width = "700px", echo=F}
 knitr::include_graphics("https://damassets.autodesk.net/content/dam/autodesk/research/publications-assets/gifs/same-stats-different-graphs/DinoSequentialSmaller.gif")

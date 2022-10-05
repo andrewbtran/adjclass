@@ -278,7 +278,7 @@ table {
 <p>If you had the shapefiles locally, you could import it in using <code>st_read()</code> from the package <strong>sf</strong>.</p>
 <p>(You do not have to run the lines below if you’re working on this through the tutorial, but the lines of code will work on their own if you run it independently in console).</p>
 <div class="sourceCode" id="section-cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb1-1"><a href="#section-cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the shapefile. (note that I store it in a folder called DATA. You have to change that if needed.)</span></span>
-<span id="section-cb1-2"><a href="#section-cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">&quot;http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip&quot;</span> , <span class="at">destfile=</span><span class="st">&quot;world_shape_file.zip&quot;</span>)</span>
+<span id="section-cb1-2"><a href="#section-cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">&quot;https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip&quot;</span> , <span class="at">destfile=</span><span class="st">&quot;world_shape_file.zip&quot;</span>)</span>
 <span id="section-cb1-3"><a href="#section-cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># You now have it in your current working directory, have a look!</span></span>
 <span id="section-cb1-4"><a href="#section-cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="section-cb1-5"><a href="#section-cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Unzip this file. You can do it with R (as below), or clicking on the object you downloaded.</span></span>
@@ -933,7 +933,7 @@ library(ggspatial)
 library(viridis)
 
 temp_shapefile <- tempfile()
-download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip", temp_shapefile)
+download.file("https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip", temp_shapefile)
 unzip(temp_shapefile)
 
 #sf_roads <- read_sf('tl_2017_06075_roads.shp')
@@ -1042,7 +1042,7 @@ learnr:::store_exercise_cache(structure(list(label = "int_map", global_setup = s
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -1120,7 +1120,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris", global_setup = st
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -1200,7 +1200,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris2", global_setup = s
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -1278,7 +1278,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris4", global_setup = s
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -1356,7 +1356,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris5", global_setup = s
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -1434,7 +1434,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris6", global_setup = s
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -1512,7 +1512,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris7", global_setup = s
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -1594,7 +1594,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris8", global_setup = s
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -1672,7 +1672,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris9", global_setup = s
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -1752,7 +1752,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris10", global_setup = 
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -1832,7 +1832,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris11", global_setup = 
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -1915,7 +1915,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris11c", global_setup =
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -1999,7 +1999,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris12", global_setup = 
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -2083,7 +2083,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris14", global_setup = 
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -2163,7 +2163,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris15", global_setup = 
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -2253,7 +2253,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris16", global_setup = 
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 
@@ -2335,7 +2335,7 @@ learnr:::store_exercise_cache(structure(list(label = "tigris17", global_setup = 
 "", "library(tidyverse)", "library(learnr)", "library(gradethis)", 
 "library(lubridate)", "library(sf)", "library(tigris)", "library(cowplot)", 
 "library(biscale)", "library(gridGraphics)", "library(ggspatial)", 
-"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
+"library(viridis)", "", "temp_shapefile <- tempfile()", "download.file(\"https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip\", temp_shapefile)", 
 "unzip(temp_shapefile)", "", "#sf_roads <- read_sf('tl_2017_06075_roads.shp')", 
 "", "world <- st_read(\"TM_WORLD_BORDERS_SIMPL-0.3.shp\")", "", 
 "", "#us_states <- states(cb = TRUE, resolution = \"20m\") %>%", 

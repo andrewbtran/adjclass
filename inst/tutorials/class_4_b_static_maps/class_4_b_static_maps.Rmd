@@ -46,7 +46,7 @@ library(ggspatial)
 library(viridis)
 
 temp_shapefile <- tempfile()
-download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip", temp_shapefile)
+download.file("https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip", temp_shapefile)
 unzip(temp_shapefile)
 
 #sf_roads <- read_sf('tl_2017_06075_roads.shp')
@@ -182,7 +182,7 @@ If you had the shapefiles locally, you could import it in using `st_read()` from
 
 ```{r, eval=F}
 # Download the shapefile. (note that I store it in a folder called DATA. You have to change that if needed.)
-download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip" , destfile="world_shape_file.zip")
+download.file("https://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip" , destfile="world_shape_file.zip")
 # You now have it in your current working directory, have a look!
 
 # Unzip this file. You can do it with R (as below), or clicking on the object you downloaded.
